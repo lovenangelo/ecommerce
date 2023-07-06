@@ -1,4 +1,10 @@
-import { UserIcon, HeartIcon, ShoppingBagIcon, SearchIcon } from "lucide-react";
+import {
+  UserIcon,
+  HeartIcon,
+  ShoppingBagIcon,
+  SearchIcon,
+  MoveRightIcon,
+} from "lucide-react";
 
 const icons = {
   nav: {
@@ -7,6 +13,7 @@ const icons = {
     checkout: ShoppingBagIcon,
   },
   search: SearchIcon,
+  moveRight: MoveRightIcon,
 };
 
 export default icons;
