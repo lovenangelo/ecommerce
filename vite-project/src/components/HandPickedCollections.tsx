@@ -6,13 +6,18 @@ const HandPickedCollections = () => {
   const collections = images.collections.map((collection) => {
     return (
       <Card className="h-70 w-70 overflow-hidden">
-        <CardContent className={cn("w-full h-full p-0 relative")}>
+        <CardContent
+          className={cn("w-full h-full p-0 relative flex items-end ")}
+        >
           <img
             src={collection.image}
-            className="w-full h-full"
+            className="w-full h-full shadow-blue-500/50"
             alt={collection.title}
           />
-          <p className="absolute">{collection.title}</p>
+          <div className="absolute w-full h-full" />
+          <p className="absolute m-5 font-semibold text-2xl">
+            {collection.title}
+          </p>
         </CardContent>
       </Card>
     );

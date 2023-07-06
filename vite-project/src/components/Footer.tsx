@@ -7,7 +7,7 @@ const Footer = () => {
         <li className="font-bold mb-2">{item.title}</li>
         {item.links.map((link) => (
           <li className="text-sm text-[#B6B6B6]">
-            <a>{link}</a>
+            <a href="/">{link}</a>
           </li>
         ))}
       </ul>

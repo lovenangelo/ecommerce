@@ -20,7 +20,12 @@ const NewArrivals = () => {
         <CardContent className={cn("h-max")}>
           <img src={img.src} alt="bag" />
         </CardContent>
-        <CardFooter>$500</CardFooter>
+        <CardFooter className={cn("flex justify-between items-center")}>
+          <p>$500</p>
+          <button>
+            <icons.nav.favorites />
+          </button>
+        </CardFooter>
       </Card>
     );
   });
