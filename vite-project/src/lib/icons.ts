@@ -4,6 +4,7 @@ import {
   ShoppingBagIcon,
   SearchIcon,
   MoveRightIcon,
+  MoveDownIcon,
 } from "lucide-react";
 
 const icons = {
@@ -13,7 +14,8 @@ const icons = {
     checkout: ShoppingBagIcon,
   },
   search: SearchIcon,
-  moveRight: MoveRightIcon,
+  arrowRight: MoveRightIcon,
+  arrowDown: MoveDownIcon,
 };
 
 export default icons;
