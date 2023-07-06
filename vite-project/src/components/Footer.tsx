@@ -20,25 +20,25 @@ const Footer = () => {
         <div className="flex justify-center items-center space-x-2 mb-4">
           <a
             href="/"
-            className="w-10 h-10 rounded-full bg-[#639599] items-center justify-center flex"
+            className="w-10 h-10 rounded-full bg-[#639599]/60 items-center justify-center flex text-primary-foreground"
           >
             <icons.socialMedia.facebook />
           </a>
           <a
             href="/"
-            className="w-10 h-10 rounded-full bg-[#639599] items-center justify-center flex"
+            className="w-10 h-10 rounded-full bg-[#639599]/60 items-center justify-center flex text-primary-foreground"
           >
             <icons.socialMedia.instagram />
           </a>
           <a
             href="/"
-            className="w-10 h-10 rounded-full bg-[#639599] items-center justify-center flex"
+            className="w-10 h-10 rounded-full bg-[#639599]/60 items-center justify-center flex text-primary-foreground"
           >
             <icons.socialMedia.twitter />
           </a>
           <a
             href="/"
-            className="w-10 h-10 rounded-full bg-[#639599] items-center justify-center flex"
+            className="w-10 h-10 rounded-full bg-[#639599]/60 items-center justify-center flex text-primary-foreground"
           >
             <icons.socialMedia.youtube />
           </a>
