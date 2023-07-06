@@ -1,6 +1,6 @@
 const footer = [
   {
-    title: "Shope by Category",
+    title: "Shop by Category",
     links: [
       "Skincare",
       "Personal Care",
