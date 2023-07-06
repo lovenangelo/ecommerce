@@ -4,7 +4,7 @@ import icons from "@/lib/icons";
 import { cn } from "@/lib/utils";
 const Navbar = () => {
   return (
-    <nav className="flex justify-between h-20 w-full items-center p-5">
+    <nav className="container flex justify-between h-20 w-full items-center">
       <div className="flex">
         <a href="/">
           <img src={logo} alt="logo" className="h-max w-max mr-8" />

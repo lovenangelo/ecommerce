@@ -5,6 +5,11 @@ import {
   SearchIcon,
   MoveRightIcon,
   MoveDownIcon,
+  FacebookIcon,
+  InstagramIcon,
+  TwitterIcon,
+  YoutubeIcon,
+  MapPin,
 } from "lucide-react";
 
 const icons = {
@@ -16,6 +21,13 @@ const icons = {
   search: SearchIcon,
   arrowRight: MoveRightIcon,
   arrowDown: MoveDownIcon,
+  mapPin: MapPin,
+  socialMedia: {
+    facebook: FacebookIcon,
+    instagram: InstagramIcon,
+    twitter: TwitterIcon,
+    youtube: YoutubeIcon,
+  },
 };
 
 export default icons;

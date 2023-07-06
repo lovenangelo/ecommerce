@@ -8,15 +8,16 @@ import {
 } from "@/components/ui/card";
 import icons from "@/lib/icons";
 import images from "@/lib/images";
+import { cn } from "@/lib/utils";
 const NewArrivals = () => {
   const products = images.bags.map((img) => {
     return (
-      <Card className="grid">
-        <CardHeader>
+      <Card className="grid grid-cols-1 rows-auto">
+        <CardHeader className={cn("h-24")}>
           <CardTitle>{img.title}</CardTitle>
           <CardDescription>{img.description}</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className={cn("h-max")}>
           <img src={img.src} alt="bag" />
         </CardContent>
         <CardFooter>$500</CardFooter>
@@ -25,7 +26,7 @@ const NewArrivals = () => {
   });
 
   return (
-    <section className="container w-full px-5 mt-12 grid grid-cols-6 grid-row-2 gap-5 min-h-screen pt-4">
+    <section className="container w-full mt-12 grid grid-cols-6 grid-row-2 min-h-screen">
       <div className="flex justify-start items-start col-span-2">
         <div className="flex items-center justify-start">
           <icons.arrowDown height={90} width={90} />

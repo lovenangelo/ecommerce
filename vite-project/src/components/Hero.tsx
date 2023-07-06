@@ -5,9 +5,9 @@ import { cn } from "@/lib/utils";
 
 const Hero = () => {
   return (
-    <section className="h-96 w-full">
+    <section className="container h-96 w-full">
       <div className="flex justify-end relative">
-        <div className="z-20 absolute bg-[#DEDEDE]/60 w-96 h-96 rounded-r-md items-start justify-center flex flex-col p-8 space-y-4 ">
+        <div className="z-20 absolute bg-[#DEDEDE]/60 w-3/4 h-96 rounded-r-md items-start justify-center flex flex-col p-8 space-y-4">
           <h1 className="z-30 text-5xl font-bold text-[#17494D]">
             Shop in style!
           </h1>
@@ -20,7 +20,7 @@ const Hero = () => {
       </div>
       <img
         className="h-full w-full rounded-md object-cover"
-        src={images.heroBg2}
+        src={images.heroBg}
         alt="hero backround"
       />
     </section>
