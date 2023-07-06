@@ -4,11 +4,11 @@ import Navbar from "./shared/Navbar";
 
 function App() {
   return (
-    <>
+    <div className="container w-full h-full">
       <Navbar />
       <Hero />
       <NewArrivals />
-    </>
+    </div>
   );
 }
 
