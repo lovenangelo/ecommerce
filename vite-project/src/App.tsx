@@ -3,7 +3,7 @@ import Footer from "./components/Footer";
 import HandPickedCollections from "./components/HandPickedCollections";
 import Hero from "./components/Hero";
 import NewArrivals from "./components/NewArrivals";
-import Navbar from "./shared/Navbar";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
