@@ -23,8 +23,8 @@ function App() {
         <NewArrivals />
         <HandPickedCollections />
         <Brands />
+        <Footer />
       </Route>
-      <Footer />
     </>
   );
 }

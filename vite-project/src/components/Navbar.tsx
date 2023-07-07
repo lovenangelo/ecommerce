@@ -1,6 +1,6 @@
 import logo from "@/assets/images/logo.png";
 import { Input } from "@/components/ui/input";
-import icons from "@/lib/icons";
+import Icons from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import {
   Select,
@@ -15,7 +15,11 @@ import { Button } from "./ui/button";
 import { Link } from "wouter";
 
 const Navbar = () => {
-  const loginButton = <Button className={cn("w-full")}>Login</Button>;
+  const loginButton = (
+    <Button variant={"ghost"} className={cn("w-full justify-start")}>
+      Login
+    </Button>
+  );
   return (
     <nav className="container flex justify-between h-20 w-full items-center">
       <div className="flex">
@@ -32,7 +36,7 @@ const Navbar = () => {
       </div>
       <div className="flex justify-end items-center md:space-x-5 space-x-2">
         <div className="flex items-center border shadow-sm px-2 rounded bg-[#F1F1F1] md:w-96 w-full">
-          <icons.search height={20} width={20} className="h-12" />
+          <Icons.search height={20} width={20} className="h-12" />
           <Input
             className={cn(
               "w-full border-0 shadow-none focus-visible:ring-0 bg-transparent"
@@ -41,22 +45,17 @@ const Navbar = () => {
           />
         </div>
         <div className="hidden md:flex">
+          <Button variant={"ghost"}>
+            <Icons.nav.favorites />
+          </Button>
           <Select>
             <SelectTrigger
-              className={cn("border-0 shadow-none rounded-none focus:ring-0")}
+              className={cn(
+                "border-0 shadow-none rounded-md focus:ring-0 hover:bg-accent hover:text-accent-foreground"
+              )}
             >
               <SelectPrimitive.Icon asChild>
-                <icons.nav.favorites />
-              </SelectPrimitive.Icon>
-            </SelectTrigger>
-            <SelectContent>{loginButton}</SelectContent>
-          </Select>
-          <Select>
-            <SelectTrigger
-              className={cn("border-0 shadow-none rounded-none focus:ring-0")}
-            >
-              <SelectPrimitive.Icon asChild>
-                <icons.nav.profile />
+                <Icons.nav.profile />
               </SelectPrimitive.Icon>
             </SelectTrigger>
             <SelectContent>
@@ -65,20 +64,26 @@ const Navbar = () => {
           </Select>
           <Select>
             <SelectTrigger
-              className={cn("border-0 shadow-none rounded-none focus:ring-0")}
+              className={cn(
+                "border-0 shadow-none rounded-md focus:ring-0 hover:bg-accent hover:text-accent-foreground"
+              )}
             >
               <SelectPrimitive.Icon asChild>
-                <icons.nav.checkout />
+                <Icons.nav.checkout />
               </SelectPrimitive.Icon>
             </SelectTrigger>
-            <SelectContent>{loginButton}</SelectContent>
+            <SelectContent>
+              <Button className="w-full justify-start" variant={"ghost"}>
+                Cart
+              </Button>
+            </SelectContent>
           </Select>
         </div>
         <div className="inline-block md:hidden">
           <Select>
             <SelectTrigger className={cn("border-0")}>
               <SelectPrimitive.Icon asChild>
-                <icons.nav.menu />
+                <Icons.nav.menu />
               </SelectPrimitive.Icon>
             </SelectTrigger>
             <SelectContent>

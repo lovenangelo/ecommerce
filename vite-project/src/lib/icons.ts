@@ -11,9 +11,12 @@ import {
   YoutubeIcon,
   MapPin,
   MenuIcon,
+  GithubIcon,
 } from "lucide-react";
 
-const icons = {
+import googleIcon from "@/assets/images/svg/icons8-google.svg";
+
+const Icons = {
   nav: {
     favorites: HeartIcon,
     profile: UserIcon,
@@ -29,7 +32,9 @@ const icons = {
     instagram: InstagramIcon,
     twitter: TwitterIcon,
     youtube: YoutubeIcon,
+    github: GithubIcon,
+    google: googleIcon,
   },
 };
 
-export default icons;
+export default Icons;

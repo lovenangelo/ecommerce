@@ -1,5 +1,5 @@
 import footer, { footerAddress, footerYear } from "@/lib/footer";
-import icons from "@/lib/icons";
+import Icons from "@/lib/icons";
 const Footer = () => {
   const footerLinks = footer.map((item) => {
     return (
@@ -22,29 +22,29 @@ const Footer = () => {
             href="/"
             className="w-10 h-10 rounded-full bg-[#639599]/60 items-center justify-center flex text-primary-foreground"
           >
-            <icons.socialMedia.facebook />
+            <Icons.socialMedia.facebook />
           </a>
           <a
             href="/"
             className="w-10 h-10 rounded-full bg-[#639599]/60 items-center justify-center flex text-primary-foreground"
           >
-            <icons.socialMedia.instagram />
+            <Icons.socialMedia.instagram />
           </a>
           <a
             href="/"
             className="w-10 h-10 rounded-full bg-[#639599]/60 items-center justify-center flex text-primary-foreground"
           >
-            <icons.socialMedia.twitter />
+            <Icons.socialMedia.twitter />
           </a>
           <a
             href="/"
             className="w-10 h-10 rounded-full bg-[#639599]/60 items-center justify-center flex text-primary-foreground"
           >
-            <icons.socialMedia.youtube />
+            <Icons.socialMedia.youtube />
           </a>
         </div>
         <div className="flex space-x-2">
-          <icons.mapPin className="text-primary-foreground" />
+          <Icons.mapPin className="text-primary-foreground" />
           <span className=" text-primary-foreground">{footerAddress}</span>
         </div>
         <p className="text-[#B6B6B6]">{footerYear}</p>
