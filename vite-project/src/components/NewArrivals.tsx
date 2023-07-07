@@ -12,10 +12,10 @@ import { cn } from "@/lib/utils";
 const NewArrivals = () => {
   const products = images.bags.map((img) => {
     return (
-      <Card className="grid grid-cols-1 rows-auto">
-        <CardHeader className={cn("h-24")}>
+      <Card className="grid grid-cols-1 rows-auto h-full w-full">
+        <CardHeader className={cn("h-24 w-full ")}>
           <CardTitle>{img.title}</CardTitle>
-          <CardDescription className={cn("text-ellipsis")}>
+          <CardDescription className={cn("truncate")}>
             {img.description}
           </CardDescription>
         </CardHeader>
