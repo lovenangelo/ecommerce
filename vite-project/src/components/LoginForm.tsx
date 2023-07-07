@@ -20,10 +20,12 @@ const LoginForm = () => {
       <div className="flex justify-between w-full items-center mt-8">
         <div className="flex items-center space-x-2">
           <Switch id="keep-me-signed-in" />
-          <Label htmlFor="keep-me-signed-in">Keep me signed in</Label>
+          <Label className=" text-xs md:text-xs" htmlFor="keep-me-signed-in">
+            Keep me signed in
+          </Label>
         </div>
         <div>
-          <Button variant={"ghost"} className="text-sm">
+          <Button variant={"ghost"} className="text-xs">
             Forgot password?
           </Button>
         </div>

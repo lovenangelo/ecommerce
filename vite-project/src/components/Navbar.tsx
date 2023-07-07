@@ -17,7 +17,7 @@ import { Link } from "wouter";
 const Navbar = () => {
   const loginButton = (
     <Button variant={"ghost"} className={cn("w-full justify-start")}>
-      Login
+      <Link href="/auth">Login</Link>
     </Button>
   );
   return (
@@ -58,9 +58,7 @@ const Navbar = () => {
                 <Icons.nav.profile />
               </SelectPrimitive.Icon>
             </SelectTrigger>
-            <SelectContent>
-              <Link href="/auth">{loginButton}</Link>
-            </SelectContent>
+            <SelectContent>{loginButton}</SelectContent>
           </Select>
           <Select>
             <SelectTrigger
