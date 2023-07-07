@@ -3,13 +3,16 @@ import { Input } from "@/components/ui/input";
 import icons from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectSeparator,
+} from "@/components/ui/select";
+import * as SelectPrimitive from "@radix-ui/react-select";
+
+import nav from "@/lib/nav";
+import { Button } from "./ui/button";
 
 const Navbar = () => {
   return (
@@ -19,21 +22,11 @@ const Navbar = () => {
           <img src={logo} alt="logo" className="h-max w-max md:mr-8 mr-4" />
         </a>
         <ul className="list-none space-x-5 hidden md:flex">
-          <li>
-            <a href="/">Handbags</a>
-          </li>
-          <li>
-            <a href="/">Watches</a>
-          </li>
-          <li>
-            <a href="/">Skincare</a>
-          </li>
-          <li>
-            <a href="/">Jewellery</a>
-          </li>
-          <li>
-            <a href="/">Apparels</a>
-          </li>
+          {nav.links.map((link) => (
+            <li>
+              <a href={link.href}>{link.name}</a>
+            </li>
+          ))}
         </ul>
       </div>
       <div className="flex justify-end items-center md:space-x-5 space-x-2">
@@ -58,18 +51,20 @@ const Navbar = () => {
           </a>
         </div>
         <div className="inline-block md:hidden">
-          <NavigationMenu className={cn("p-0 m-0")}>
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger className={cn("appearance-none p-0")}>
-                  <icons.nav.menu />
-                </NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <NavigationMenuLink>Link</NavigationMenuLink>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
+          <Select>
+            <SelectTrigger className={cn("border-0")}>
+              <SelectPrimitive.Icon asChild>
+                <icons.nav.menu />
+              </SelectPrimitive.Icon>
+            </SelectTrigger>
+            <SelectContent>
+              {nav.links.map((link) => (
+                <SelectItem value="">{link.name}</SelectItem>
+              ))}
+              <SelectSeparator />
+              <Button className={cn("w-full")}>Login</Button>
+            </SelectContent>
+          </Select>
         </div>
       </div>
     </nav>

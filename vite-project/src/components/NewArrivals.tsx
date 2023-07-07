@@ -34,8 +34,8 @@ const NewArrivals = () => {
 
   return (
     <section className="container w-full mt-8 md:mt-12 grid grid-cols-1 rows-auto md:grid-cols-6 md:grid-row-2 min-h-screen">
-      <div className="flex justify-start items-start col-span-2">
-        <div className="flex items-center justify-start">
+      <div className="flex justify-start items-start col-span-2 h-max">
+        <div className="flex items-center justify-start h-max">
           <icons.arrowDown className="h-36 w-36 md:h-24 md:w-24" />
           <h1 className="font-bold text-5xl">New Arrivals</h1>
         </div>
