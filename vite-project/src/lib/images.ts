@@ -2,7 +2,7 @@ import bag1 from "@/assets/images/bags/bag-1.jpg";
 import bag2 from "@/assets/images/bags/bag-2.jpg";
 import bag3 from "@/assets/images/bags/bag-3.jpg";
 import bag4 from "@/assets/images/bags/bag-4.jpg";
-import heroBg from "@/assets/images/hero-bg.jpg";
+import heroBg from "@/assets/images/bg/hero-bg.jpg";
 import handbags from "@/assets/images/collections/handbags.png";
 import personalCare from "@/assets/images/collections/personal-care.png";
 import sunGlasses from "@/assets/images/collections/sun-glasses.png";
@@ -13,9 +13,9 @@ import chanel from "@/assets/images/brands/chanel.png";
 import hm from "@/assets/images/brands/h&m.png";
 import dg from "@/assets/images/brands/d&g.png";
 import zara from "@/assets/images/brands/zara.png";
-import makeupBg from "@/assets/images/makeup-bg.jpg";
-import skincareBg from "@/assets/images/skincare-bg.jpg";
-import creamBg from "@/assets/images/cream-bg.jpg";
+import makeupBg from "@/assets/images/bg/makeup-bg.jpg";
+import skincareBg from "@/assets/images/bg/skincare-bg.jpg";
+import creamBg from "@/assets/images/bg/cream-bg.jpg";
 const images = {
   skincareBg,
   creamBg,
