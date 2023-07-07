@@ -15,7 +15,7 @@ const HandPickedCollections = () => {
             alt={collection.title}
           />
           <div className="absolute w-full h-full" />
-          <p className="absolute m-5 font-semibold text-2xl">
+          <p className="absolute m-3 md:m-5 font-semibold md:text-2xl text-sm ">
             {collection.title}
           </p>
         </CardContent>
@@ -27,7 +27,9 @@ const HandPickedCollections = () => {
       <h1 className="font-semibold text-2xl text-primary-foreground">
         Handpicked Collections
       </h1>
-      <div className="flex justify-between">{collections}</div>
+      <div className="md:flex justify-between grid grid-cols-2 gap-5">
+        {collections}
+      </div>
     </section>
   );
 };

@@ -10,6 +10,7 @@ import {
   TwitterIcon,
   YoutubeIcon,
   MapPin,
+  MenuIcon,
 } from "lucide-react";
 
 const icons = {
@@ -17,6 +18,7 @@ const icons = {
     favorites: HeartIcon,
     profile: UserIcon,
     checkout: ShoppingBagIcon,
+    menu: MenuIcon,
   },
   search: SearchIcon,
   arrowRight: MoveRightIcon,

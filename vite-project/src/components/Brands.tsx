@@ -11,9 +11,11 @@ const Brands = () => {
     );
   });
   return (
-    <section className="container py-5 space-y-12 mt-12">
-      <h1 className="font-bold text-2xl ">Shop by Brands</h1>
-      <div className="flex justify-between">{logos}</div>
+    <section className="container py-5 space-y-8 md:space-y-12 mt-8">
+      <h1 className="font-bold text-2xl">Shop by Brands</h1>
+      <div className="grid grid-cols-3 gap-2 row-auto md:flex md:justify-between">
+        {logos}
+      </div>
       <div className="grid grid-cols-2 auto-rows-auto gap-5 relative">
         <div className="flex col-span-2 justify-start items-center">
           <img
@@ -21,14 +23,13 @@ const Brands = () => {
             className="w-full rounded-md"
             alt="makeup background"
           />
-          <div className="absolute ml-5 text-[#97451F] space-y-4">
-            <h1 className="text-2xl">LIFESTYLE</h1>
-            <h2 className="text-5xl font-semibold w-3/4">
+          <div className="absolute ml-5 text-[#97451F] space-y-2 md:space-y-4">
+            <h1 className="text:md md:text-2xl">LIFESTYLE</h1>
+            <h2 className="text-xl md:text-5xl font-semibold w-3/4">
               Makeup Accessories from Top Brands
             </h2>
           </div>
         </div>
-
         <div className="flex justify-end items-center">
           <img
             src={images.creamBg}
@@ -36,17 +37,19 @@ const Brands = () => {
             alt="cream background"
           />
           <div className="absolute text-[#A53F64]">
-            <h2 className="text-5xl mr-5 font-semibold">Skincare Essentials</h2>
+            <h2 className="text-md md:text-5xl  mr-2 md:mr-5 font-semibold">
+              Skincare Essentials
+            </h2>
           </div>
         </div>
-        <div className="flex items-center justify-end">
+        <div className="flex items-center justify-end relative">
           <img
             src={images.skincareBg}
             className="rounded-md w-full h-full"
             alt="skin care background"
           />
           <div className="absolute">
-            <h1 className="text-5xl text-[#1B4B66] mr-5 font-semibold">
+            <h1 className="text-md md:text-5xl text-[#1B4B66] mr-2 md:mr-5 font-semibold">
               Facepacks & Peels
             </h1>
           </div>
