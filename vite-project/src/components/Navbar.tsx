@@ -10,11 +10,12 @@ import {
   SelectSeparator,
 } from "@/components/ui/select";
 import * as SelectPrimitive from "@radix-ui/react-select";
-
 import nav from "@/lib/nav";
 import { Button } from "./ui/button";
+import { Link } from "wouter";
 
 const Navbar = () => {
+  const loginButton = <Button className={cn("w-full")}>Login</Button>;
   return (
     <nav className="container flex justify-between h-20 w-full items-center">
       <div className="flex">
@@ -39,16 +40,39 @@ const Navbar = () => {
             placeholder="Search for products or brands..."
           />
         </div>
-        <div className="space-x-5 hidden md:flex">
-          <a href="/">
-            <icons.nav.favorites />
-          </a>
-          <a href="/">
-            <icons.nav.profile />
-          </a>
-          <a href="/">
-            <icons.nav.checkout />
-          </a>
+        <div className="hidden md:flex">
+          <Select>
+            <SelectTrigger
+              className={cn("border-0 shadow-none rounded-none focus:ring-0")}
+            >
+              <SelectPrimitive.Icon asChild>
+                <icons.nav.favorites />
+              </SelectPrimitive.Icon>
+            </SelectTrigger>
+            <SelectContent>{loginButton}</SelectContent>
+          </Select>
+          <Select>
+            <SelectTrigger
+              className={cn("border-0 shadow-none rounded-none focus:ring-0")}
+            >
+              <SelectPrimitive.Icon asChild>
+                <icons.nav.profile />
+              </SelectPrimitive.Icon>
+            </SelectTrigger>
+            <SelectContent>
+              <Link href="/auth">{loginButton}</Link>
+            </SelectContent>
+          </Select>
+          <Select>
+            <SelectTrigger
+              className={cn("border-0 shadow-none rounded-none focus:ring-0")}
+            >
+              <SelectPrimitive.Icon asChild>
+                <icons.nav.checkout />
+              </SelectPrimitive.Icon>
+            </SelectTrigger>
+            <SelectContent>{loginButton}</SelectContent>
+          </Select>
         </div>
         <div className="inline-block md:hidden">
           <Select>
@@ -62,7 +86,7 @@ const Navbar = () => {
                 <SelectItem value="">{link.name}</SelectItem>
               ))}
               <SelectSeparator />
-              <Button className={cn("w-full")}>Login</Button>
+              {loginButton}
             </SelectContent>
           </Select>
         </div>
