@@ -21,7 +21,7 @@ import { setUser } from "@/redux/slices/userSlice";
 import { Redirect } from "wouter";
 
 const LoginForm = () => {
-  const user = useAppSelector((state) => state.user);
+  const user = useAppSelector((state) => state.user.value);
 
   const dispatch = useAppDispatch();
 
@@ -67,7 +67,7 @@ const LoginForm = () => {
     setIsLoading(false);
   };
 
-  if (user.value !== null) {
+  if (user !== null) {
     return <Redirect to="/" />;
   }
 

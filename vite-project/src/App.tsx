@@ -11,9 +11,9 @@ import { useAppSelector } from "./redux/hooks";
 import Home from "./components/AuthenticatedComponents/Home";
 
 function App() {
-  const user = useAppSelector((state) => state.user);
+  const user = useAppSelector((state) => state.user.value);
   axios.defaults.withCredentials = true;
-  console.log("user:" + user.value?.name);
+  console.log("user:" + user);
 
   return (
     <>
@@ -26,7 +26,7 @@ function App() {
 
       {/* Guest */}
       <Route path="/">
-        {user.value == null && (
+        {!user && (
           <>
             <Hero />
             <NewArrivals />
@@ -36,7 +36,7 @@ function App() {
           </>
         )}
         {/* Authenticated routes */}
-        {user.value !== null && <Home />}
+        {user && <Home />}
       </Route>
     </>
   );
