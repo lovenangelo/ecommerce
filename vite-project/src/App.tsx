@@ -4,7 +4,7 @@ import HandPickedCollections from "./components/HandPickedCollections";
 import Hero from "./components/Hero";
 import NewArrivals from "./components/NewArrivals";
 import Navbar from "./components/Navbar";
-import Authentication from "./components/Authentication";
+import Authentication from "./components/AuthenticationWrapper";
 import { Route } from "wouter";
 
 function App() {

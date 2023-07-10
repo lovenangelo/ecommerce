@@ -6,7 +6,7 @@ import RegistrationForm from "./RegistrationForm";
 const Authentication = () => {
   const [authType, setAuthType] = useState<"LOGIN" | "REGISTER">("LOGIN");
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-1 h-[calc(100vh-80px)] w-full">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-1 h-screen w-full">
       <img
         src={authImage}
         alt="wardrobe"
@@ -19,25 +19,7 @@ const Authentication = () => {
           </h1>
           {authType == "LOGIN" && <LoginForm />}
           {authType == "REGISTER" && <RegistrationForm />}
-          <div className="flex justify-center items-center w-full space-x-4 mt-8">
-            <hr className="w-full" />
-            <p className="text-xs whitespace-nowrap">
-              Or, login with your email
-            </p>
-            <hr className="w-full" />
-          </div>
-        </div>
-        <div className="px-12 w-full md:w-96 mt-4">
-          <Button variant={"outline"} className="w-full m-0">
-            <img
-              width="24"
-              height="24"
-              src="https://img.icons8.com/color/48/google-logo.png"
-              alt="google-logo"
-            />
-            <span className="pl-4">Sign in with Google</span>
-          </Button>
-
+          {/* <OAuthLogin /> */}
           <div className="flex justify-center items-center space-x-1 mt-4">
             <p className="text-sm">
               {authType == "LOGIN"
