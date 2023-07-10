@@ -16,7 +16,11 @@ import axiosClient from "@/lib/axios";
 import { Label } from "./ui/label";
 import { useState } from "react";
 import axios from "axios";
+import { useAppDispatch } from "@/redux/hooks";
+import { setUser } from "@/redux/slices/userSlice";
 const LoginForm = () => {
+  const dispatch = useAppDispatch();
+
   const [isLoading, setIsLoading] = useState(false);
 
   const loginFormSchema = z.object({
@@ -44,6 +48,17 @@ const LoginForm = () => {
       await axiosClient.get("/sanctum/csrf-cookie");
       await axiosClient.post("/login", data);
       console.log("successfully logged in");
+      const {
+        user,
+      }: {
+        user: {
+          name: string;
+          email: string;
+        };
+      } = await axiosClient.get("/api/user");
+      console.log(user);
+
+      dispatch(setUser(user));
     } catch (error) {
       console.log(error);
       if (axios.isAxiosError(error)) {

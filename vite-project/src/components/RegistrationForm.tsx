@@ -25,13 +25,15 @@ const RegistrationForm = () => {
         .string()
         .min(1, "Password is required")
         .min(8, "Password must have more than 8 characters"),
-      confirmPassword: z.string().min(1, "Password confirmation is required"),
+      password_confirmation: z
+        .string()
+        .min(1, "Password confirmation is required"),
       terms: z.boolean().refine((value) => value === true, {
         message: "The terms must be accepted",
       }),
     })
-    .refine((data) => data.password === data.confirmPassword, {
-      path: ["confirmPassword"],
+    .refine((data) => data.password === data.password_confirmation, {
+      path: ["password_confirmation"],
       message: "Passwords do not match",
     });
 
@@ -43,7 +45,7 @@ const RegistrationForm = () => {
       name: "",
       email: "",
       password: "",
-      confirmPassword: "",
+      password_confirmation: "",
       terms: false,
     },
   });
@@ -51,6 +53,7 @@ const RegistrationForm = () => {
   const onSubmit: SubmitHandler<RegsitrationFormSchemaType> = async (data) => {
     try {
       setIsLoading(true);
+      console.log(data);
       await axiosClient.post("/register", data);
       console.log("successfully registered");
     } catch (error) {
@@ -112,7 +115,7 @@ const RegistrationForm = () => {
         />
         <FormField
           control={form.control}
-          name="confirmPassword"
+          name="password_confirmation"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Confirm password</FormLabel>
