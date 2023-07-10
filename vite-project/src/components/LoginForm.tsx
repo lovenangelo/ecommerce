@@ -15,6 +15,7 @@ import {
 import axiosClient from "@/lib/axios";
 import { Label } from "./ui/label";
 import { useState } from "react";
+import axios from "axios";
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -45,6 +46,13 @@ const LoginForm = () => {
       console.log("successfully logged in");
     } catch (error) {
       console.log(error);
+      if (axios.isAxiosError(error)) {
+        console.log(error.response?.data.message);
+        const message: string = error.response?.data.message;
+        form.setError("email", { type: "422", message: message });
+      } else {
+        console.log(error);
+      }
     }
     setIsLoading(false);
   };
