@@ -3,9 +3,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 const HandPickedCollections = () => {
-  const collections = images.collections.map((collection) => {
+  const collections = images.collections.map((collection, index) => {
     return (
-      <Card className="h-70 w-70 overflow-hidden">
+      <Card className="h-70 w-70 overflow-hidden" key={index}>
         <CardContent
           className={cn("w-full h-full p-0 relative flex items-end ")}
         >

@@ -47,17 +47,9 @@ const LoginForm = () => {
       await axiosClient.post("/login", data);
 
       console.log("successfully logged in");
-      const {
-        user,
-      }: {
-        user: {
-          name: string;
-          email: string;
-        };
-      } = await axiosClient.get("api/user");
-      console.log(user);
-
-      dispatch(setUser(user));
+      const res = await axiosClient.get("api/user");
+      console.log(res);
+      dispatch(setUser({ name: res.data.name, email: res.data.email }));
     } catch (error) {
       console.log(error);
       if (axios.isAxiosError(error)) {

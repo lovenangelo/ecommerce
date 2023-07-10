@@ -13,7 +13,7 @@ import Home from "./components/AuthenticatedComponents/Home";
 function App() {
   const user = useAppSelector((state) => state.user);
   axios.defaults.withCredentials = true;
-  console.log("user:" + user.value);
+  console.log("user:" + user.value?.name);
 
   return (
     <>
@@ -26,7 +26,7 @@ function App() {
 
       {/* Guest */}
       <Route path="/">
-        {!user.value && (
+        {user.value == null && (
           <>
             <Hero />
             <NewArrivals />

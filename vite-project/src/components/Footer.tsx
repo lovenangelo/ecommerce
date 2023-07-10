@@ -1,12 +1,12 @@
 import footer, { footerAddress, footerYear } from "@/lib/footer";
 import Icons from "@/lib/icons";
 const Footer = () => {
-  const footerLinks = footer.map((item) => {
+  const footerLinks = footer.map((item, index) => {
     return (
-      <ul className="list-none text-primary-foreground">
+      <ul className="list-none text-primary-foreground" key={index}>
         <li className="font-bold mb-2">{item.title}</li>
-        {item.links.map((link) => (
-          <li className="text-sm text-[#B6B6B6]">
+        {item.links.map((link, index) => (
+          <li className="text-sm text-[#B6B6B6]" key={index}>
             <a href="/">{link}</a>
           </li>
         ))}

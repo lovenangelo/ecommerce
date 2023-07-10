@@ -10,9 +10,9 @@ import icons from "@/lib/icons";
 import images from "@/lib/images";
 import { cn } from "@/lib/utils";
 const NewArrivals = () => {
-  const products = images.bags.map((img) => {
+  const products = images.bags.map((img, index) => {
     return (
-      <Card className="grid grid-cols-1 rows-auto h-full w-full">
+      <Card className="grid grid-cols-1 rows-auto h-full w-full" key={index}>
         <CardHeader className={cn("h-24 w-full ")}>
           <CardTitle>{img.title}</CardTitle>
           <CardDescription className={cn("truncate")}>

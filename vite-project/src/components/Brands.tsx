@@ -1,9 +1,9 @@
 import images from "@/lib/images";
 
 const Brands = () => {
-  const logos = images.brands.map((brand) => {
+  const logos = images.brands.map((brand, index) => {
     return (
-      <a href="/">
+      <a href="/" key={index}>
         <div className="flex justify-center items-center rounded-md bg-[#F4F4F4] h-24 w-24 p-5">
           <img src={brand} alt={brand} />
         </div>
