@@ -16,9 +16,13 @@ import axiosClient from "@/lib/axios";
 import { Label } from "./ui/label";
 import { useState } from "react";
 import axios from "axios";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setUser } from "@/redux/slices/userSlice";
+import { Redirect } from "wouter";
+
 const LoginForm = () => {
+  const user = useAppSelector((state) => state.user);
+
   const dispatch = useAppDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -62,6 +66,10 @@ const LoginForm = () => {
     }
     setIsLoading(false);
   };
+
+  if (user.value !== null) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <Form {...form}>
