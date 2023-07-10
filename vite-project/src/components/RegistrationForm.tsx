@@ -13,7 +13,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import axiosClient from "@/lib/axios";
+import { useState } from "react";
 const RegistrationForm = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const registrationFormSchema = z
     .object({
       name: z.string().min(1, "Name is required").max(100),
@@ -45,8 +48,18 @@ const RegistrationForm = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<RegsitrationFormSchemaType> = (data) =>
+  const onSubmit: SubmitHandler<RegsitrationFormSchemaType> = async (data) => {
     alert(JSON.stringify(data));
+
+    try {
+      setIsLoading(true);
+      await axiosClient.post("/register", data);
+      alert("success");
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+  };
 
   return (
     <Form {...form}>
@@ -58,7 +71,7 @@ const RegistrationForm = () => {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="John Doe" {...field} />
+                <Input disabled={isLoading} placeholder="John Doe" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -71,7 +84,11 @@ const RegistrationForm = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="jd@gmail.com" {...field} />
+                <Input
+                  disabled={isLoading}
+                  placeholder="jd@gmail.com"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -85,6 +102,7 @@ const RegistrationForm = () => {
               <FormLabel>Password</FormLabel>
               <FormControl>
                 <Input
+                  disabled={isLoading}
                   type="password"
                   placeholder="Enter a secure password"
                   {...field}
@@ -101,7 +119,12 @@ const RegistrationForm = () => {
             <FormItem>
               <FormLabel>Confirm password</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="" {...field} />
+                <Input
+                  disabled={isLoading}
+                  type="password"
+                  placeholder=""
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -121,6 +144,7 @@ const RegistrationForm = () => {
                   </Label>
                   <FormControl>
                     <Switch
+                      disabled={isLoading}
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
@@ -132,7 +156,7 @@ const RegistrationForm = () => {
           )}
         />
         <div className="space-y-4 w-full">
-          <Button className="w-full" type="submit">
+          <Button className="w-full" disabled={isLoading} type="submit">
             Sign Up
           </Button>
         </div>
