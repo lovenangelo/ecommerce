@@ -6,8 +6,11 @@ import NewArrivals from "./components/NewArrivals";
 import Navbar from "./components/Navbar";
 import Authentication from "./components/AuthenticationWrapper";
 import { Route } from "wouter";
+import axios from "axios";
 
 function App() {
+  axios.defaults.withCredentials = true;
+
   return (
     <>
       <Navbar />

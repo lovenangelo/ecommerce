@@ -27,8 +27,8 @@ const Navbar = () => {
           <img src={logo} alt="logo" className="h-max w-max md:mr-8 mr-4" />
         </a>
         <ul className="list-none space-x-5 hidden md:flex">
-          {nav.links.map((link) => (
-            <li>
+          {nav.links.map((link, index) => (
+            <li key={index}>
               <a href={link.href}>{link.name}</a>
             </li>
           ))}
@@ -85,8 +85,10 @@ const Navbar = () => {
               </SelectPrimitive.Icon>
             </SelectTrigger>
             <SelectContent>
-              {nav.links.map((link) => (
-                <SelectItem value="">{link.name}</SelectItem>
+              {nav.links.map((link, index) => (
+                <SelectItem key={index} value="">
+                  {link.name}
+                </SelectItem>
               ))}
               <SelectSeparator />
               {loginButton}

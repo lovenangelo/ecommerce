@@ -12,8 +12,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import axiosClient from "@/lib/axios";
 import { Label } from "./ui/label";
+import { useState } from "react";
 const LoginForm = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const loginFormSchema = z.object({
     email: z.string().email("Invalid email").min(1, "Email is required"),
     password: z.string().min(1, "Password is required"),
@@ -31,8 +35,19 @@ const LoginForm = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<LoginFormSchemaType> = (data) =>
-    alert(JSON.stringify(data));
+  const onSubmit: SubmitHandler<LoginFormSchemaType> = async (data) => {
+    console.log(data);
+
+    try {
+      setIsLoading(true);
+      await axiosClient.get("/sanctum/csrf-cookie");
+      await axiosClient.post("/login", data);
+      console.log("successfully logged in");
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+  };
 
   return (
     <Form {...form}>
@@ -47,7 +62,7 @@ const LoginForm = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input disabled={isLoading} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -60,14 +75,16 @@ const LoginForm = () => {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password" {...field} />
+                <Input disabled={isLoading} type="password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button className="w-full">Login</Button>
+        <Button disabled={isLoading} className="w-full">
+          Login
+        </Button>
         <div className="flex justify-between w-full items-center mt-8">
           <FormField
             control={form.control}
@@ -76,9 +93,6 @@ const LoginForm = () => {
               <FormItem>
                 <div>
                   <div className="flex items-center w-full justify-center space-x-2">
-                    <Label className="text-xs" htmlFor="keep_me_signed_in">
-                      Keep me signed in
-                    </Label>
                     <div className="flex items-center space-x-2">
                       <FormControl>
                         <Switch
@@ -86,6 +100,9 @@ const LoginForm = () => {
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>{" "}
+                      <Label className="text-xs" htmlFor="keep_me_signed_in">
+                        Keep me signed in
+                      </Label>
                       <Button variant={"ghost"} className="text-xs">
                         Forgot password?
                       </Button>

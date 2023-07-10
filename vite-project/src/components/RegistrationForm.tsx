@@ -49,12 +49,10 @@ const RegistrationForm = () => {
   });
 
   const onSubmit: SubmitHandler<RegsitrationFormSchemaType> = async (data) => {
-    alert(JSON.stringify(data));
-
     try {
       setIsLoading(true);
       await axiosClient.post("/register", data);
-      alert("success");
+      console.log("successfully registered");
     } catch (error) {
       console.log(error);
     }
