@@ -26,7 +26,7 @@ function App() {
 
       {/* Guest */}
       <Route path="/">
-        {!user && (
+        {!user.value && (
           <>
             <Hero />
             <NewArrivals />
@@ -36,7 +36,7 @@ function App() {
           </>
         )}
         {/* Authenticated routes */}
-        {user && <Home />}
+        {user.value !== null && <Home />}
       </Route>
     </>
   );
