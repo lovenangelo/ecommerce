@@ -6,7 +6,8 @@ import NewArrivals from "./components/Home/NewArrivals";
 import Navbar from "./components/Navbar";
 import Authentication from "./components/Authentication/AuthenticationWrapper";
 import { Route } from "wouter";
-import Profile from "@/components/Profile";
+import Profile from "@/components/Profile/Index";
+import Handbag from "@/components/Products/Handbags/Index";
 
 function App() {
   return (
@@ -21,6 +22,12 @@ function App() {
       {/* Profile */}
       <Route path="/profile">
         <Profile />
+      </Route>
+
+      {/* Products */}
+      {/* Handbags */}
+      <Route path="/handbags">
+        <Handbag />
       </Route>
 
       <Route path="/">

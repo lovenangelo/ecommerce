@@ -13,6 +13,8 @@ import {
   MenuIcon,
   GithubIcon,
   ChevronRightIcon,
+  PlusIcon,
+  MinusIcon,
 } from "lucide-react";
 
 import googleIcon from "@/assets/images/svg/icons8-google.svg";
@@ -24,6 +26,8 @@ const Icons = {
     checkout: ShoppingBagIcon,
     menu: MenuIcon,
   },
+  minusIcon: MinusIcon,
+  plusIcon: PlusIcon,
   search: SearchIcon,
   arrowRight: MoveRightIcon,
   arrowDown: MoveDownIcon,

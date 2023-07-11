@@ -30,7 +30,10 @@ const PersonalInformationForm = () => {
 
   const onSubmit: SubmitHandler<PersonalInformationSchemaType> = async (
     data
-  ) => {};
+  ) => {
+    setIsLoading(true);
+    console.log(data);
+  };
 
   const form = useForm<z.infer<typeof personalInformationSchema>>({
     resolver: zodResolver(personalInformationSchema),
@@ -55,14 +58,43 @@ const PersonalInformationForm = () => {
         </div>
       </div>
       <Form {...form}>
-        <div className="w-1/2 mt-8 space-y-4 overflow-y-auto">
-          <div className="flex space-x-4">
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="w-1/2 mt-8 space-y-4 overflow-y-auto">
+            <div className="flex space-x-4">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>First Name</FormLabel>
+                    <FormControl>
+                      <Input disabled={isLoading} {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Last Name</FormLabel>
+                    <FormControl>
+                      <Input disabled={isLoading} {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
             <FormField
               control={form.control}
               name="email"
               render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>First Name</FormLabel>
+                <FormItem className="w-full col-span-auto">
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input disabled={isLoading} {...field} />
                   </FormControl>
@@ -74,8 +106,21 @@ const PersonalInformationForm = () => {
               control={form.control}
               name="email"
               render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Last Name</FormLabel>
+                <FormItem className="w-60 col-span-1 ">
+                  <FormLabel>Mobile Number</FormLabel>
+                  <FormControl>
+                    <Input disabled={isLoading} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="w-60 col-span-1 ">
+                  <FormLabel>Date of birth</FormLabel>
                   <FormControl>
                     <Input disabled={isLoading} {...field} />
                   </FormControl>
@@ -84,51 +129,11 @@ const PersonalInformationForm = () => {
               )}
             />
           </div>
-
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem className="w-full col-span-auto">
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input disabled={isLoading} {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem className="w-60 col-span-1 ">
-                <FormLabel>Mobile Number</FormLabel>
-                <FormControl>
-                  <Input disabled={isLoading} {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem className="w-60 col-span-1 ">
-                <FormLabel>Date of birth</FormLabel>
-                <FormControl>
-                  <Input disabled={isLoading} {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <ChangePasswordForm form={form} isLoading={isLoading} />
-        <div className="flex justify-end mt-4">
-          <Button className="flex">Save Changes</Button>
-        </div>
+          <ChangePasswordForm form={form} isLoading={isLoading} />
+          <div className="flex justify-end mt-4">
+            <Button className="flex">Save Changes</Button>
+          </div>
+        </form>
       </Form>
     </>
   );

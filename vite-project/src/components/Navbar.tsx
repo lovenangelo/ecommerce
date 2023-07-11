@@ -67,13 +67,17 @@ const Navbar = () => {
   return (
     <nav className="container flex justify-between h-20 w-full items-center">
       <div className="flex">
-        <a className="h-max w-max md:h-full md:w-full" href="/">
-          <img src={logo} alt="logo" className="h-max w-max md:mr-8 mr-4" />
-        </a>
+        <Link className="h-max w-max md:h-full md:w-full" href="/">
+          <img
+            src={logo}
+            alt="logo"
+            className="h-max w-max md:mr-8 mr-4 hover:cursor-pointer"
+          />
+        </Link>
         <ul className="list-none space-x-5 hidden md:flex">
           {nav.links.map((link, index) => (
             <li key={index}>
-              <a href={link.href}>{link.name}</a>
+              <Link href={link.href}>{link.name}</Link>
             </li>
           ))}
         </ul>

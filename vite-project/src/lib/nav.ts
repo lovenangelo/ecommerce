@@ -1,6 +1,6 @@
 const nav = {
   links: [
-    { name: "Handbags", href: "/" },
+    { name: "Handbags", href: "/handbags" },
     { name: "Watches", href: "/" },
     { name: "Skincare", href: "/" },
     { name: "Jewellery", href: "/" },
