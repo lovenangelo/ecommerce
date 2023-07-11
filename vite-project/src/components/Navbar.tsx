@@ -24,6 +24,7 @@ const Navbar = () => {
   const name = user?.name.split(" ");
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  console.log(name);
 
   const signoutHandler = async () => {
     try {
@@ -103,7 +104,7 @@ const Navbar = () => {
                   <Avatar>
                     <AvatarImage src="/" />
                     <AvatarFallback className="font-semibold">
-                      {name![0][0] + name![1][0]}
+                      {name![0][0].toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                 ) : (

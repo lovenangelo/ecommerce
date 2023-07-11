@@ -5,7 +5,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "../ui/input";
+import { Input } from "../../ui/input";
 import { UseFormReturn } from "react-hook-form";
 
 const ChangePasswordForm = ({

@@ -4,8 +4,9 @@ import { Redirect } from "wouter";
 import { cn } from "@/lib/utils";
 import Icons from "@/lib/icons";
 import { useState } from "react";
-import PersonalInformationForm from "./PersonalInformationForm";
-import MyOrders from "./MyOrders";
+import PersonalInformationForm from "./components/PersonalInformationForm";
+import MyOrders from "./components/MyOrders";
+import MyWishlist from "./components/MyWishlist";
 
 type ProfileTabs = "PERSONAL-INFORMATION" | "MY-ORDERS" | "MY-WISHLIST";
 
@@ -53,6 +54,7 @@ const Index = () => {
               "w-full justify-between rounded-none",
               "active:border-l-2"
             )}
+            onClick={() => setTab("MY-WISHLIST")}
           >
             <p>My Wishlist</p>
             <Icons.chevronRight />
@@ -66,6 +68,11 @@ const Index = () => {
         {tab == "MY-ORDERS" && (
           <div className="col-span-3 w-full">
             <MyOrders />
+          </div>
+        )}
+        {tab == "MY-WISHLIST" && (
+          <div className="col-span-3 w-full">
+            <MyWishlist />
           </div>
         )}
       </div>
