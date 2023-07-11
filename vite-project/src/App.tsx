@@ -6,14 +6,9 @@ import NewArrivals from "./components/Home/NewArrivals";
 import Navbar from "./components/Navbar";
 import Authentication from "./components/Authentication/AuthenticationWrapper";
 import { Route } from "wouter";
-import axios from "axios";
-import { useAppSelector } from "./redux/hooks";
+import Profile from "@/components/Profile";
 
 function App() {
-  const user = useAppSelector((state) => state.user.value);
-  axios.defaults.withCredentials = true;
-  console.log("user:" + user);
-
   return (
     <>
       <Navbar />
@@ -23,7 +18,11 @@ function App() {
         <Authentication />
       </Route>
 
-      {/* Authenticated routes */}
+      {/* Profile */}
+      <Route path="/profile">
+        <Profile />
+      </Route>
+
       <Route path="/">
         <>
           <Hero />

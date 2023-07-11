@@ -17,20 +17,24 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import axiosClient from "@/lib/axios";
 import { removeUser } from "@/redux/slices/userSlice";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useState } from "react";
 
 const Navbar = () => {
   const user = useAppSelector((state) => state.user.value);
   const name = user?.name.split(" ");
   const dispatch = useAppDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   const signoutHandler = async () => {
     try {
+      setIsLoading(true);
       await axiosClient.get("/sanctum/csrf-cookie");
       await axiosClient.post("/logout");
       dispatch(removeUser());
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
 
   const loginButton = (
@@ -42,13 +46,14 @@ const Navbar = () => {
   const authenticated = (
     <>
       <Button
+        disabled={isLoading}
         variant={"ghost"}
         className={cn("w-full justify-start")}
-        onClick={signoutHandler}
       >
-        Profile
+        <Link href="/profile">Profile</Link>
       </Button>
       <Button
+        disabled={isLoading}
         variant={"ghost"}
         className={cn("w-full justify-start")}
         onClick={signoutHandler}
