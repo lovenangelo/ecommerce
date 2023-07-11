@@ -26,12 +26,13 @@ const Index = () => {
                 <p className="font-semibold">Sort By</p>
                 <Select>
                   <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Theme" />
+                    <SelectValue placeholder="Popularity" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="light">Light</SelectItem>
-                    <SelectItem value="dark">Dark</SelectItem>
-                    <SelectItem value="system">System</SelectItem>
+                    <SelectItem value="price">Price</SelectItem>
+                    <SelectItem value="newest">Newest</SelectItem>
+                    <SelectItem value="rating">Rating</SelectItem>
+                    <SelectItem value="popularity">Popularity</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
