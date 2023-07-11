@@ -12,6 +12,7 @@ import {
   MapPin,
   MenuIcon,
   GithubIcon,
+  ChevronRightIcon,
 } from "lucide-react";
 
 import googleIcon from "@/assets/images/svg/icons8-google.svg";
@@ -27,6 +28,7 @@ const Icons = {
   arrowRight: MoveRightIcon,
   arrowDown: MoveDownIcon,
   mapPin: MapPin,
+  chevronRight: ChevronRightIcon,
   socialMedia: {
     facebook: FacebookIcon,
     instagram: InstagramIcon,
