@@ -5,8 +5,9 @@ import { cn } from "@/lib/utils";
 import Icons from "@/lib/icons";
 import { useState } from "react";
 import PersonalInformationForm from "./PersonalInformationForm";
+import MyOrders from "./MyOrders";
 
-type ProfileTabs = "PERSONAL-INFORMATION" | "MY ORDERS" | "MY WISHLIST";
+type ProfileTabs = "PERSONAL-INFORMATION" | "MY-ORDERS" | "MY-WISHLIST";
 
 const Index = () => {
   const user = useAppSelector((state) => state.user.value);
@@ -23,13 +24,14 @@ const Index = () => {
         Personal Information
       </h1>
       <div className="grid grid-cols-4 gap-5 mt-2">
-        <div className="col-span-1 bg-gray-50 py-5 px-2">
+        <div className="col-span-1 bg-gray-50 py-5 px-2 w-60">
           <Button
             variant={"ghost"}
             className={cn(
               "w-full justify-between rounded-none",
               "active:border-l-2"
             )}
+            onClick={() => setTab("PERSONAL-INFORMATION")}
           >
             <p>Personal Information</p>
             <Icons.chevronRight />
@@ -40,6 +42,7 @@ const Index = () => {
               "w-full justify-between rounded-none",
               "active:border-l-2"
             )}
+            onClick={() => setTab("MY-ORDERS")}
           >
             <p>My Orders</p>
             <Icons.chevronRight />
@@ -56,8 +59,13 @@ const Index = () => {
           </Button>
         </div>
         {tab == "PERSONAL-INFORMATION" && (
-          <div className="col-span-3">
+          <div className="col-span-3 w-full">
             <PersonalInformationForm />
+          </div>
+        )}
+        {tab == "MY-ORDERS" && (
+          <div className="col-span-3 w-full">
+            <MyOrders />
           </div>
         )}
       </div>
