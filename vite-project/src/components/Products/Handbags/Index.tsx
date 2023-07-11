@@ -39,6 +39,7 @@ const Index = () => {
             </div>
 
             <ItemCard
+              id="testid"
               title="Grande"
               description="Blossom Pouc"
               ratings={{ review_count: 43, stars: 4 }}
@@ -47,6 +48,7 @@ const Index = () => {
               img={images.bags[0].src}
             />
             <ItemCard
+              id="testid"
               title="Grande"
               description="Blossom Pouc"
               ratings={{ review_count: 43, stars: 4 }}
@@ -55,6 +57,7 @@ const Index = () => {
               img={images.bags[0].src}
             />
             <ItemCard
+              id="testid"
               title="Grande"
               description="Blossom Pouc"
               ratings={{ review_count: 43, stars: 4 }}
@@ -63,6 +66,7 @@ const Index = () => {
               img={images.bags[0].src}
             />
             <ItemCard
+              id="testid"
               title="Grande"
               description="Blossom Pouc"
               ratings={{ review_count: 43, stars: 4 }}
@@ -71,6 +75,7 @@ const Index = () => {
               img={images.bags[0].src}
             />
             <ItemCard
+              id="testid"
               title="Grande"
               description="Blossom Pouc"
               ratings={{ review_count: 43, stars: 4 }}
@@ -79,6 +84,7 @@ const Index = () => {
               img={images.bags[0].src}
             />
             <ItemCard
+              id="testid"
               title="Grande"
               description="Blossom Pouc"
               ratings={{ review_count: 43, stars: 4 }}
@@ -88,6 +94,7 @@ const Index = () => {
             />
 
             <ItemCard
+              id="testid"
               title="Grande"
               description="Blossom Pouc"
               ratings={{ review_count: 43, stars: 4 }}
@@ -96,6 +103,7 @@ const Index = () => {
               img={images.bags[0].src}
             />
             <ItemCard
+              id="testid"
               title="Grande"
               description="Blossom Pouc"
               ratings={{ review_count: 43, stars: 4 }}
@@ -104,6 +112,7 @@ const Index = () => {
               img={images.bags[0].src}
             />
             <ItemCard
+              id="testid"
               title="Grande"
               description="Blossom Pouc"
               ratings={{ review_count: 43, stars: 4 }}

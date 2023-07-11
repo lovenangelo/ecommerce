@@ -9,6 +9,7 @@ import { Route } from "wouter";
 import Profile from "@/components/Profile/Index";
 import Handbag from "@/components/Products/Handbags/Index";
 import Watches from "@/components/Products/Watches/Index";
+import Product from "./components/Products/Handbags/Product";
 
 function App() {
   return (
@@ -29,6 +30,10 @@ function App() {
       {/* Handbags */}
       <Route path="/handbags">
         <Handbag />
+      </Route>
+
+      <Route path="/profile/:id">
+        {(params) => <Product id={params.id} />}
       </Route>
 
       {/* Watches */}
