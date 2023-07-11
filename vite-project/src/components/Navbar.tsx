@@ -16,6 +16,7 @@ import { Link } from "wouter";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import axiosClient from "@/lib/axios";
 import { removeUser } from "@/redux/slices/userSlice";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Navbar = () => {
   const user = useAppSelector((state) => state.user.value);
@@ -94,9 +95,12 @@ const Navbar = () => {
             >
               <SelectPrimitive.Icon asChild>
                 {user ? (
-                  <div className="w-max h-max p-2 rounded-full text-md font-bold border">
-                    {name![0][0] + name![1][0]}
-                  </div>
+                  <Avatar>
+                    <AvatarImage src="/" />
+                    <AvatarFallback className="font-semibold">
+                      {name![0][0] + name![1][0]}
+                    </AvatarFallback>
+                  </Avatar>
                 ) : (
                   <Icons.nav.profile />
                 )}
