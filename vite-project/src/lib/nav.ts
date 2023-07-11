@@ -1,10 +1,10 @@
 const nav = {
   links: [
     { name: "Handbags", href: "/handbags" },
-    { name: "Watches", href: "/" },
-    { name: "Skincare", href: "/" },
-    { name: "Jewellery", href: "/" },
-    { name: "Apparels", href: "/" },
+    { name: "Watches", href: "/watches" },
+    { name: "Skincare", href: "/skincare" },
+    { name: "Jewellery", href: "/jewellery" },
+    { name: "Apparels", href: "/apparels" },
   ],
 };
 

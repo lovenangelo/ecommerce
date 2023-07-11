@@ -8,6 +8,7 @@ import Authentication from "./components/Authentication/AuthenticationWrapper";
 import { Route } from "wouter";
 import Profile from "@/components/Profile/Index";
 import Handbag from "@/components/Products/Handbags/Index";
+import Watches from "@/components/Products/Watches/Index";
 
 function App() {
   return (
@@ -28,6 +29,11 @@ function App() {
       {/* Handbags */}
       <Route path="/handbags">
         <Handbag />
+      </Route>
+
+      {/* Watches */}
+      <Route path="/watches">
+        <Watches />
       </Route>
 
       <Route path="/">
