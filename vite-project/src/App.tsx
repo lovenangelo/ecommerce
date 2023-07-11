@@ -25,16 +25,13 @@ function App() {
 
       {/* Authenticated routes */}
       <Route path="/">
-        {user && (
-          <>
-            <Hero />
-            <NewArrivals />
-            <HandPickedCollections />
-            <Brands />
-            <Footer />
-          </>
-        )}
-        {/* Guest */}
+        <>
+          <Hero />
+          <NewArrivals />
+          <HandPickedCollections />
+          <Brands />
+          <Footer />
+        </>
       </Route>
     </>
   );

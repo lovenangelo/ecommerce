@@ -19,13 +19,16 @@ import { removeUser } from "@/redux/slices/userSlice";
 
 const Navbar = () => {
   const user = useAppSelector((state) => state.user.value);
+  const name = user?.name.split(" ");
   const dispatch = useAppDispatch();
+
   const signoutHandler = async () => {
     try {
+      await axiosClient.get("/sanctum/csrf-cookie");
       await axiosClient.post("/logout");
+      dispatch(removeUser());
     } catch (error) {
       console.log(error);
-      dispatch(removeUser());
     }
   };
 
@@ -85,11 +88,18 @@ const Navbar = () => {
           <Select>
             <SelectTrigger
               className={cn(
-                "border-0 shadow-none rounded-md focus:ring-0 hover:bg-accent hover:text-accent-foreground"
+                "border-0 shadow-none rounded-md focus:ring-0 hover:bg-accent hover:text-accent-foreground",
+                user && "rounded-full w-max h-max mx-3 p-0"
               )}
             >
               <SelectPrimitive.Icon asChild>
-                <Icons.nav.profile />
+                {user ? (
+                  <div className="w-max h-max p-2 rounded-full text-md font-bold border">
+                    {name![0][0] + name![1][0]}
+                  </div>
+                ) : (
+                  <Icons.nav.profile />
+                )}
               </SelectPrimitive.Icon>
             </SelectTrigger>
             <SelectContent>{!user ? loginButton : authenticated}</SelectContent>
