@@ -13,13 +13,47 @@ import * as SelectPrimitive from "@radix-ui/react-select";
 import nav from "@/lib/nav";
 import { Button } from "./ui/button";
 import { Link } from "wouter";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import axiosClient from "@/lib/axios";
+import { removeUser } from "@/redux/slices/userSlice";
 
 const Navbar = () => {
+  const user = useAppSelector((state) => state.user.value);
+  const dispatch = useAppDispatch();
+  const signoutHandler = async () => {
+    try {
+      await axiosClient.post("/logout");
+    } catch (error) {
+      console.log(error);
+      dispatch(removeUser());
+    }
+  };
+
   const loginButton = (
     <Button variant={"ghost"} className={cn("w-full justify-start")}>
       <Link href="/auth">Login</Link>
     </Button>
   );
+
+  const authenticated = (
+    <>
+      <Button
+        variant={"ghost"}
+        className={cn("w-full justify-start")}
+        onClick={signoutHandler}
+      >
+        Profile
+      </Button>
+      <Button
+        variant={"ghost"}
+        className={cn("w-full justify-start")}
+        onClick={signoutHandler}
+      >
+        Logout
+      </Button>
+    </>
+  );
+
   return (
     <nav className="container flex justify-between h-20 w-full items-center">
       <div className="flex">
@@ -58,7 +92,7 @@ const Navbar = () => {
                 <Icons.nav.profile />
               </SelectPrimitive.Icon>
             </SelectTrigger>
-            <SelectContent>{loginButton}</SelectContent>
+            <SelectContent>{!user ? loginButton : authenticated}</SelectContent>
           </Select>
           <Select>
             <SelectTrigger

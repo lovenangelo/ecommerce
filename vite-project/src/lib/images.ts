@@ -16,11 +16,14 @@ import zara from "@/assets/images/brands/zara.png";
 import makeupBg from "@/assets/images/bg/makeup-bg.jpg";
 import skincareBg from "@/assets/images/bg/skincare-bg.jpg";
 import creamBg from "@/assets/images/bg/cream-bg.jpg";
+import heroPromo from "@/assets/images/bg/hero-promo.jpg";
+
 const images = {
   skincareBg,
   creamBg,
   makeupBg,
   heroBg,
+  heroPromo,
   bags: [
     {
       src: bag1,

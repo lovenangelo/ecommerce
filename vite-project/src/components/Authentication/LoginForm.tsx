@@ -1,6 +1,6 @@
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Switch } from "./ui/switch";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Switch } from "../ui/switch";
 import * as z from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,16 +13,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import axiosClient from "@/lib/axios";
-import { Label } from "./ui/label";
+import { Label } from "../ui/label";
 import { useState } from "react";
 import axios from "axios";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import { setUser } from "@/redux/slices/userSlice";
-import { Redirect } from "wouter";
 
 const LoginForm = () => {
-  const user = useAppSelector((state) => state.user.value);
-
   const dispatch = useAppDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -66,10 +63,6 @@ const LoginForm = () => {
     }
     setIsLoading(false);
   };
-
-  if (user !== null) {
-    return <Redirect to="/" />;
-  }
 
   return (
     <Form {...form}>

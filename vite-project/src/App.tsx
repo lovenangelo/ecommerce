@@ -1,14 +1,13 @@
-import Brands from "./components/Brands";
-import Footer from "./components/Footer";
-import HandPickedCollections from "./components/HandPickedCollections";
-import Hero from "./components/Hero";
-import NewArrivals from "./components/NewArrivals";
+import Brands from "./components/AuthenticatedComponents/Brands";
+import Footer from "./components/AuthenticatedComponents/Footer";
+import HandPickedCollections from "./components/AuthenticatedComponents/HandPickedCollections";
+import Hero from "./components/AuthenticatedComponents/Hero";
+import NewArrivals from "./components/AuthenticatedComponents/NewArrivals";
 import Navbar from "./components/Navbar";
-import Authentication from "./components/AuthenticationWrapper";
+import Authentication from "./components/Authentication/AuthenticationWrapper";
 import { Route } from "wouter";
 import axios from "axios";
 import { useAppSelector } from "./redux/hooks";
-import Home from "./components/AuthenticatedComponents/Home";
 
 function App() {
   const user = useAppSelector((state) => state.user.value);
@@ -24,9 +23,9 @@ function App() {
         <Authentication />
       </Route>
 
-      {/* Guest */}
+      {/* Authenticated routes */}
       <Route path="/">
-        {!user && (
+        {user && (
           <>
             <Hero />
             <NewArrivals />
@@ -35,8 +34,7 @@ function App() {
             <Footer />
           </>
         )}
-        {/* Authenticated routes */}
-        {user && <Home />}
+        {/* Guest */}
       </Route>
     </>
   );

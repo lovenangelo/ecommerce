@@ -1,10 +1,19 @@
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import authImage from "@/assets/images/bg/auth-bg.jpg";
 import LoginForm from "./LoginForm";
 import { useState } from "react";
 import RegistrationForm from "./RegistrationForm";
+import { Redirect } from "wouter";
+import { useAppSelector } from "@/redux/hooks";
+
 const Authentication = () => {
+  const user = useAppSelector((state) => state.user.value);
+
   const [authType, setAuthType] = useState<"LOGIN" | "REGISTER">("LOGIN");
+
+  if (user !== null) {
+    return <Redirect to="/" />;
+  }
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-1 h-screen w-full">
       <img
