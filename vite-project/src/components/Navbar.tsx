@@ -31,10 +31,10 @@ const Navbar = () => {
       setIsLoading(true);
       await axiosClient.get("/sanctum/csrf-cookie");
       await axiosClient.post("/logout");
-      dispatch(removeUser());
     } catch (error) {
       console.log(error);
     }
+    dispatch(removeUser());
     setIsLoading(false);
   };
 
