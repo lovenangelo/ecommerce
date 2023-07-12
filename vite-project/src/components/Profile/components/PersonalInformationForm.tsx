@@ -14,6 +14,15 @@ import { Input } from "../../ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import { Button } from "../../ui/button";
 import ChangePasswordForm from "./ChangePasswordForm";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import ProfilePhotoUpload from "../ProfilePhotoUpload";
 
 const PersonalInformationForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -53,7 +62,15 @@ const PersonalInformationForm = () => {
           <AvatarFallback className="font-semibold text-2xl">LA</AvatarFallback>
         </Avatar>
         <div className="space-x-2">
-          <Button>Upload</Button>
+          <Dialog>
+            <DialogTrigger>
+              <Button>Upload</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <ProfilePhotoUpload />
+            </DialogContent>
+          </Dialog>
+
           <Button variant={"destructive"}>Delete</Button>
         </div>
       </div>
