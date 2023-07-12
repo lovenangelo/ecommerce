@@ -1,18 +1,17 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import Icons from "@/lib/icons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import images from "@/lib/images";
 import Coupon from "./Coupon";
 const Product = ({ id }: { id: string }) => {
   return (
-    <div className="container min-h-screen mt-8 mb-24">
+    <div className="container h-[calc(100vh-80px)]">
       <div className="grid grid-cols-2 rows-auto w-full h-full">
-        <div className="h-max w-full">
+        <div className="h-full w-full p-8">
           <img
             src={images.bags[0].src}
             alt="bag"
-            className="object-cover h-3/4 w-full"
+            className="object-cover h-full w-full"
           />
         </div>
 
