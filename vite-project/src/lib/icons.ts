@@ -13,6 +13,7 @@ import {
   MenuIcon,
   GithubIcon,
   ChevronRightIcon,
+  ChevronDownIcon,
   PlusIcon,
   MinusIcon,
   StarIcon,
@@ -35,6 +36,7 @@ const Icons = {
   arrowDown: MoveDownIcon,
   mapPin: MapPin,
   chevronRight: ChevronRightIcon,
+  chevronDownIcon: ChevronDownIcon,
   socialMedia: {
     facebook: FacebookIcon,
     instagram: InstagramIcon,

@@ -118,23 +118,13 @@ const Navbar = () => {
             </SelectTrigger>
             <SelectContent>{!user ? loginButton : authenticated}</SelectContent>
           </Select>
-          <Select>
-            <SelectTrigger
-              className={cn(
-                "border-0 shadow-none rounded-md focus:ring-0 hover:bg-accent hover:text-accent-foreground"
-              )}
-            >
-              <SelectPrimitive.Icon asChild>
-                <Icons.nav.checkout />
-              </SelectPrimitive.Icon>
-            </SelectTrigger>
-            <SelectContent>
-              <Button className="w-full justify-start" variant={"ghost"}>
-                Cart
-              </Button>
-            </SelectContent>
-          </Select>
+          <Button variant={"ghost"}>
+            <Link to="/cart">
+              <Icons.nav.checkout />
+            </Link>
+          </Button>
         </div>
+        {/* MOBILE VIEW */}
         <div className="inline-block md:hidden">
           <Select>
             <SelectTrigger className={cn("border-0")}>

@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import Icons from "@/lib/icons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import images from "@/lib/images";
+import Coupon from "./Coupon";
 const Product = ({ id }: { id: string }) => {
   return (
     <div className="container min-h-screen mt-8 mb-24">
@@ -43,13 +44,7 @@ const Product = ({ id }: { id: string }) => {
                 Check estimated delivery date/pickup option.
               </p>
             </div>
-            <div className="flex border-2">
-              <Input
-                className="border-0 shadow-none focus-visible:ring-0"
-                placeholder="Apply Valid Pincode"
-              />
-              <Button variant={"ghost"}>CHECK</Button>
-            </div>
+            <Coupon />
           </div>
           <div className="flex space-x-2">
             <p className="font-bold">Quantity:</p>

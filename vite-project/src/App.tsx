@@ -9,7 +9,8 @@ import { Route } from "wouter";
 import Profile from "@/components/Profile/Index";
 import Handbag from "@/components/Products/Handbags/Index";
 import Watches from "@/components/Products/Watches/Index";
-import Product from "./components/Products/Handbags/Product";
+import Product from "./components/Products/Product";
+import Cart from "@/components/Cart/Index";
 
 function App() {
   return (
@@ -24,6 +25,11 @@ function App() {
       {/* Profile */}
       <Route path="/profile">
         <Profile />
+      </Route>
+
+      {/* Cart  */}
+      <Route path="/cart">
+        <Cart />
       </Route>
 
       {/* Products */}
