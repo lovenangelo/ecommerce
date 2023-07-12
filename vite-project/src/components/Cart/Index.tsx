@@ -21,10 +21,10 @@ import { Link } from "wouter";
 import CartItem from "./CartItem";
 const Index = () => {
   return (
-    <div className="container h-[calc(100vh-80px)]">
-      <h1 className="font-bold text-3xl">My Cart</h1>
-      <div className="grid grid-cols-3 my-4 ">
-        <div className="col-span-2 w-full h-3/4 row-auto overflow-auto">
+    <div className="container">
+      <h1 className="font-bold text-xl mt-4">My Cart</h1>
+      <div className="grid grid-cols-3 mt-4 gap-8">
+        <div className="col-span-2 w-full h-screen row-auto overflow-auto rounded-lg border">
           <Table className="bg-gray-100">
             <TableHeader>
               <TableRow>
@@ -141,7 +141,7 @@ const Index = () => {
             </TableBody>
           </Table>
         </div>
-        <div className="col-span-1 h-max bg-gray-50 p-5">
+        <div className="col-span-1 h-full bg-gray-100 rounded-lg p-5 border">
           <h1 className="mb-4 font-bold text-lg">Order Summary</h1>
           <div className="grid grid-cols-2 row-auto gap-2">
             <p>Sub Total</p>
