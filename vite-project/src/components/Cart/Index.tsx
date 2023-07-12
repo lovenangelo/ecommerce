@@ -17,13 +17,15 @@ import images from "@/lib/images";
 import { Button } from "../ui/button";
 import Icons from "@/lib/icons";
 import Coupon from "../Products/Coupon";
+import { Link } from "wouter";
+import CartItem from "./CartItem";
 const Index = () => {
   return (
     <div className="container h-[calc(100vh-80px)]">
       <h1 className="font-bold text-3xl">My Cart</h1>
-      <div className="grid grid-cols-3  mt-4 ">
+      <div className="grid grid-cols-3 my-4 ">
         <div className="col-span-2 w-full h-3/4 row-auto overflow-auto">
-          <Table>
+          <Table className="bg-gray-100">
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[100px]">Product Name</TableHead>
@@ -122,20 +124,7 @@ const Index = () => {
               </TableRow>{" "}
               <TableRow>
                 <TableCell className="font-medium w-96">
-                  <div className="grid grid-cols-2 row-auto gap-2">
-                    <div className="row-span-3 w-full h-full">
-                      <img
-                        className="object-cover"
-                        src={images.bags[0].src}
-                        alt="product image"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <h1 className="font-bold">Coach</h1>
-                      <p>Leather Coach Bag</p>
-                      <p>Qty- 1</p>
-                    </div>
-                  </div>
+                  <CartItem />
                 </TableCell>
                 <TableCell className="align-top">$54.59</TableCell>
                 <TableCell className="align-top">1</TableCell>
@@ -175,7 +164,9 @@ const Index = () => {
           </Collapsible>
           <hr className="my-8" />
           <div className="flex items-center my-8 space-x-4">
-            <Button>Place Order</Button>
+            <Link to="/checkout">
+              <Button>Place Order</Button>
+            </Link>
             <Button variant={"outline"}>Continue Shopping</Button>
           </div>
         </div>

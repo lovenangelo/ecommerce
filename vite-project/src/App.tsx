@@ -11,7 +11,7 @@ import Handbag from "@/components/Products/Handbags/Index";
 import Watches from "@/components/Products/Watches/Index";
 import Product from "./components/Products/Product";
 import Cart from "@/components/Cart/Index";
-
+import Checkout from "@/components/Cart/Checkout/Index";
 function App() {
   return (
     <>
@@ -32,6 +32,10 @@ function App() {
         <Cart />
       </Route>
 
+      {/* Checkout  */}
+      <Route path="/checkout">
+        <Checkout />
+      </Route>
       {/* Products */}
       {/* Handbags */}
       <Route path="/handbags">
