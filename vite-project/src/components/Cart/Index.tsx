@@ -19,10 +19,10 @@ import Icons from "@/lib/icons";
 import Coupon from "../Products/Coupon";
 const Index = () => {
   return (
-    <div className="min-h-screen container">
-      <h1>My Cart</h1>
-      <div className="grid grid-cols-3 mt-8 gap-5">
-        <div className="col-span-2">
+    <div className="container h-[calc(100vh-80px)]">
+      <h1 className="font-bold text-3xl">My Cart</h1>
+      <div className="grid grid-cols-3  mt-4 ">
+        <div className="col-span-2 w-full h-3/4 row-auto overflow-auto">
           <Table>
             <TableHeader>
               <TableRow>
@@ -34,10 +34,112 @@ const Index = () => {
             </TableHeader>
             <TableBody>
               <TableRow>
-                <TableCell className="font-medium">INV001</TableCell>
-                <TableCell>$54.59</TableCell>
-                <TableCell>1</TableCell>
-                <TableCell className="text-right">$54.69</TableCell>
+                <TableCell className="font-medium w-96">
+                  <div className="grid grid-cols-2 row-auto gap-2">
+                    <div className="row-span-3 w-full h-full">
+                      <img
+                        className="object-cover"
+                        src={images.bags[0].src}
+                        alt="product image"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <h1 className="font-bold">Coach</h1>
+                      <p>Leather Coach Bag</p>
+                      <p>Qty- 1</p>
+                    </div>
+                  </div>
+                </TableCell>
+                <TableCell className="align-top">$54.59</TableCell>
+                <TableCell className="align-top">1</TableCell>
+                <TableCell className="align-top">$54.69</TableCell>
+                <div className="flex">
+                  <Button variant="ghost" className="text-blue-700">
+                    Move to Wishlist
+                  </Button>
+                  <Button variant="ghost" className="text-red-700">
+                    Remove
+                  </Button>
+                </div>
+              </TableRow>{" "}
+              <TableRow>
+                <TableCell className="font-medium w-96">
+                  <div className="grid grid-cols-2 row-auto gap-2">
+                    <div className="row-span-3 w-full h-full">
+                      <img
+                        className="object-cover"
+                        src={images.bags[0].src}
+                        alt="product image"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <h1 className="font-bold">Coach</h1>
+                      <p>Leather Coach Bag</p>
+                      <p>Qty- 1</p>
+                    </div>
+                  </div>
+                </TableCell>
+                <TableCell className="align-top">$54.59</TableCell>
+                <TableCell className="align-top">1</TableCell>
+                <TableCell className="align-top">$54.69</TableCell>
+                <div className="flex">
+                  <Button variant="ghost" className="text-blue-700">
+                    Move to Wishlist
+                  </Button>
+                  <Button variant="ghost" className="text-red-700">
+                    Remove
+                  </Button>
+                </div>
+              </TableRow>{" "}
+              <TableRow>
+                <TableCell className="font-medium w-96">
+                  <div className="grid grid-cols-2 row-auto gap-2">
+                    <div className="row-span-3 w-full h-full">
+                      <img
+                        className="object-cover"
+                        src={images.bags[0].src}
+                        alt="product image"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <h1 className="font-bold">Coach</h1>
+                      <p>Leather Coach Bag</p>
+                      <p>Qty- 1</p>
+                    </div>
+                  </div>
+                </TableCell>
+                <TableCell className="align-top">$54.59</TableCell>
+                <TableCell className="align-top">1</TableCell>
+                <TableCell className="align-top">$54.69</TableCell>
+                <div className="flex">
+                  <Button variant="ghost" className="text-blue-700">
+                    Move to Wishlist
+                  </Button>
+                  <Button variant="ghost" className="text-red-700">
+                    Remove
+                  </Button>
+                </div>
+              </TableRow>{" "}
+              <TableRow>
+                <TableCell className="font-medium w-96">
+                  <div className="grid grid-cols-2 row-auto gap-2">
+                    <div className="row-span-3 w-full h-full">
+                      <img
+                        className="object-cover"
+                        src={images.bags[0].src}
+                        alt="product image"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <h1 className="font-bold">Coach</h1>
+                      <p>Leather Coach Bag</p>
+                      <p>Qty- 1</p>
+                    </div>
+                  </div>
+                </TableCell>
+                <TableCell className="align-top">$54.59</TableCell>
+                <TableCell className="align-top">1</TableCell>
+                <TableCell className="align-top">$54.69</TableCell>
                 <div className="flex">
                   <Button variant="ghost" className="text-blue-700">
                     Move to Wishlist
@@ -50,7 +152,7 @@ const Index = () => {
             </TableBody>
           </Table>
         </div>
-        <div className="col-span-1 bg-gray-50 p-5">
+        <div className="col-span-1 h-max bg-gray-50 p-5">
           <h1 className="mb-4 font-bold text-lg">Order Summary</h1>
           <div className="grid grid-cols-2 row-auto gap-2">
             <p>Sub Total</p>
@@ -62,21 +164,22 @@ const Index = () => {
             <p className="font-semibold">Grand Total</p>
             <p>$106.29</p>
           </div>
-          <div className="flex items-center mt-8 space-x-4">
+          <Collapsible className="mt-8">
+            <CollapsibleTrigger className="flex space-x-2">
+              <p>Apply Coupon Code</p>
+              <Icons.chevronDownIcon />
+            </CollapsibleTrigger>
+            <CollapsibleContent className="py-5">
+              <Coupon />
+            </CollapsibleContent>
+          </Collapsible>
+          <hr className="my-8" />
+          <div className="flex items-center my-8 space-x-4">
             <Button>Place Order</Button>
             <Button variant={"outline"}>Continue Shopping</Button>
           </div>
         </div>
       </div>
-      <Collapsible>
-        <CollapsibleTrigger className="flex">
-          <p>Apply Coupon Code</p>
-          <Icons.chevronDownIcon />
-        </CollapsibleTrigger>
-        <CollapsibleContent className="py-5">
-          <Coupon />
-        </CollapsibleContent>
-      </Collapsible>
     </div>
   );
 };

@@ -14,7 +14,7 @@ const Footer = () => {
     );
   });
   return (
-    <footer className="container md:flex md:justify-between h-max bg-[#1B4B66] mt-8 py-5 space-y-8">
+    <footer className="px-5 md:flex md:justify-between h-max bg-[#1B4B66] mt-8 py-5 space-y-8">
       <div className="grid grid-cols-3 gap-12">{footerLinks}</div>
       <div className="flex flex-col items-end space-y-2">
         <div className="flex justify-center items-center space-x-2 mb-4">
