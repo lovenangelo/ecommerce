@@ -5,7 +5,7 @@ import images from "@/lib/images";
 import Coupon from "./Coupon";
 const Product = ({ id }: { id: string }) => {
   return (
-    <div className="container h-[calc(100vh-80px)]">
+    <div className="container">
       <div className="grid grid-cols-2 rows-auto w-full h-full">
         <div className="h-full w-full p-8">
           <img
