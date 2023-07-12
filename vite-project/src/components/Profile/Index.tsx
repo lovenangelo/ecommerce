@@ -20,7 +20,7 @@ const Index = () => {
   }
 
   return (
-    <div className="container py-4">
+    <div className="container py-4 min-h-screen">
       <h1 className="text-2xl font-bold text-[#17494D]">
         Personal Information
       </h1>

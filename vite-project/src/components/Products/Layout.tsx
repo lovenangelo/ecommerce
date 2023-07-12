@@ -6,7 +6,6 @@ const Layout = ({ children }: { children: ReactNode }) => {
     <div>
       <HeroPromo />
       {children}
-      <Footer />
     </div>
   );
 };

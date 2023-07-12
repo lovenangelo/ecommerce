@@ -5,38 +5,47 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import images from "@/lib/images";
 const Product = ({ id }: { id: string }) => {
   return (
-    <div className="container min-h-screen">
-      <div className="grid grid-cols-2 w-full h-full">
-        <img src={images.bags[0].src} alt="bag" className="object-cover" />
-        <div className="p-5 space-y-5">
+    <div className="container min-h-screen mt-8 mb-24">
+      <div className="grid grid-cols-2 rows-auto w-full h-full">
+        <div className="h-max w-full">
+          <img
+            src={images.bags[0].src}
+            alt="bag"
+            className="object-cover h-3/4 w-full"
+          />
+        </div>
+
+        <div className="p-5 space-y-8 h-max">
           <div>
             <h1 className="text-2xl font-bold">Coach</h1>
             <p>Leather Coach Bag with adjustable straps</p>
           </div>
           <div className="flex items-end space-x-2">
             <span className="flex">
-              <Icons.starIcon fill="#FFFF00" stroke="#FFFF00" />
-              <Icons.starIcon fill="#FFFF00" stroke="#FFFF00" />
-              <Icons.starIcon fill="#FFFF00" stroke="#FFFF00" />
-              <Icons.starIcon fill="#FFFF00" stroke="#FFFF00" />
-              <Icons.starIcon fill="#FFFF00" stroke="#FFFF00" />
+              <Icons.starIcon fill="#FF8C4B" stroke="#FF8C4B" />
+              <Icons.starIcon fill="#FF8C4B" stroke="#FF8C4B" />
+              <Icons.starIcon fill="#FF8C4B" stroke="#FF8C4B" />
+              <Icons.starIcon fill="#FF8C4B" stroke="#FF8C4B" />
+              <Icons.starIcon fill="#B6B6B6" stroke="#B6B6B6" />
             </span>
-            <p>(250) Ratings</p>
+            <p className="text-[#B6B6B6]">(250) Ratings</p>
           </div>
-          <div className="flex items-end space-x-4">
+          <div className="flex items-end space-x-4 mt-16">
             <h2 className="text-4xl font-bold">$54.69</h2>
-            <h2 className="text-2xl font-bold">$78.66</h2>
-            <h2>50% OFF</h2>
+            <s className="text-4xl text-[#B6B6B6] font-bold stroke">$78.66</s>
+            <h2 className="text-red-500">50% OFF</h2>
           </div>
           <hr />
           <div className="flex items-center space-x-4">
             <div>
               <h3 className="font-bold">Delivery Details</h3>
-              <p>Check estimated delivery date/pickup option.</p>
+              <p className="text-[#626262]">
+                Check estimated delivery date/pickup option.
+              </p>
             </div>
             <div className="flex border-2">
               <Input
-                className="border-0 shadow-none"
+                className="border-0 shadow-none focus-visible:ring-0"
                 placeholder="Apply Valid Pincode"
               />
               <Button variant={"ghost"}>CHECK</Button>
@@ -52,30 +61,43 @@ const Product = ({ id }: { id: string }) => {
           </div>
           <div className="flex items-center space-x-2">
             <Button>Add to bag</Button>
-            <Button>Add To Wishlist</Button>
+            <Button variant={"outline"}>Add To Wishlist</Button>
           </div>
+          <hr />
+          <Tabs defaultValue="product-description" className="w-full my-8">
+            <TabsList>
+              <TabsTrigger value="product-description">
+                Product Description
+              </TabsTrigger>
+              <TabsTrigger value="related-products">
+                Related Products
+              </TabsTrigger>
+              <TabsTrigger value="ratings-and-reviews">
+                Ratings and Reviews
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="product-description">
+              Leo mauris, faucibus vulputate adipiscing elementum tristique
+              dictumst augue pellentesque. Justo, sed nunc, pretium turpis
+              scelerisque. Enim urna etiam morbi vestibulum ac dictumst. Ac ut
+              elementum molestie sit felis imperdiet.
+            </TabsContent>
+            <TabsContent value="related-products">
+              Dolor augue mattis duis semper gravida enim eu imperdiet sit. Et
+              pharetra platea pretium nec feugiat tincidunt quam leo tristique.
+              Nulla enim consectetur sit et tempus, faucibus leo ac cras. Purus
+              ut non eu mus volutpat.
+            </TabsContent>
+            <TabsContent value="ratings-and-reviews">
+              Eget est vel sagittis amet sit eu eu ullamcorper tellus. Leo
+              mauris, faucibus vulputate adipiscing elementum tristique dictumst
+              augue pellentesque. Justo, sed nunc, pretium turpis scelerisque.
+              Enim urna etiam morbi vestibulum ac dictumst. Ac ut elementum
+              molestie sit felis imperdiet.
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
-      <Tabs defaultValue="product-description" className="w-full mt-8">
-        <TabsList>
-          <TabsTrigger value="product-description">
-            Product Description
-          </TabsTrigger>
-          <TabsTrigger value="related-products">Related Products</TabsTrigger>
-          <TabsTrigger value="ratings-and-reviews">
-            Ratings and Reviews
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value="product-description">
-          Make changes to your account here.
-        </TabsContent>
-        <TabsContent value="related-products">
-          Change your password here.
-        </TabsContent>
-        <TabsContent value="ratings-and-reviews">
-          Change your password here.
-        </TabsContent>
-      </Tabs>
     </div>
   );
 };
