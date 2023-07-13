@@ -61,18 +61,12 @@ const PersonalInformationForm = () => {
           <AvatarImage src="/" />
           <AvatarFallback className="font-semibold text-2xl">LA</AvatarFallback>
         </Avatar>
-        <div className="space-x-2">
-          <Dialog>
-            <DialogTrigger>
-              <Button>Upload</Button>
-            </DialogTrigger>
-            <DialogContent>
-              <ProfilePhotoUpload />
-            </DialogContent>
-          </Dialog>
-
-          <Button variant={"destructive"}>Delete</Button>
-        </div>
+        <Dialog>
+          <DialogTrigger className="bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
+            Upload
+          </DialogTrigger>
+          <ProfilePhotoUpload />
+        </Dialog>
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>

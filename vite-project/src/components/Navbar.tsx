@@ -29,19 +29,21 @@ const Navbar = () => {
   const signoutHandler = async () => {
     try {
       setIsLoading(true);
+      dispatch(removeUser());
       await axiosClient.get("/sanctum/csrf-cookie");
       await axiosClient.post("/logout");
     } catch (error) {
       console.log(error);
     }
-    dispatch(removeUser());
     setIsLoading(false);
   };
 
   const loginButton = (
-    <Button variant={"ghost"} className={cn("w-full justify-start")}>
-      <Link href="/auth">Login</Link>
-    </Button>
+    <Link href="/auth">
+      <Button variant={"ghost"} className={cn("w-full justify-start")}>
+        Login
+      </Button>
+    </Link>
   );
 
   const authenticated = (

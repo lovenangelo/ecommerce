@@ -18,6 +18,7 @@ import {
   MinusIcon,
   StarIcon,
   CreditCardIcon,
+  Loader2,
 } from "lucide-react";
 
 import googleIcon from "@/assets/images/svg/icons8-google.svg";
@@ -29,6 +30,7 @@ const Icons = {
     checkout: ShoppingBagIcon,
     menu: MenuIcon,
   },
+  spinner: Loader2,
   creditCard: CreditCardIcon,
   starIcon: StarIcon,
   minusIcon: MinusIcon,
