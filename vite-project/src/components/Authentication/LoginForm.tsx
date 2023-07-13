@@ -50,7 +50,13 @@ const LoginForm = () => {
       console.log("successfully logged in");
       const res = await axiosClient.get("api/user");
       console.log(res);
-      dispatch(setUser({ name: res.data.name, email: res.data.email }));
+      dispatch(
+        setUser({
+          name: res.data.name,
+          email: res.data.email,
+          avatar: res.data.avatar,
+        })
+      );
     } catch (error) {
       console.log(error);
       if (axios.isAxiosError(error)) {
