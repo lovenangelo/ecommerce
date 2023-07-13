@@ -66,7 +66,7 @@ const Navbar = () => {
 
   return (
     <nav className="container flex justify-between h-20 w-full items-center">
-      <div className="flex">
+      <div className="flex items-center">
         <Link className="h-max w-max md:h-full md:w-full" href="/">
           <img
             src={logo}
@@ -81,6 +81,7 @@ const Navbar = () => {
             </li>
           ))}
         </ul>
+        <Button className="ml-4 bg-[#17494D]">Sell</Button>
       </div>
       <div className="flex justify-end items-center md:space-x-5 space-x-2">
         <div className="flex items-center border shadow-sm px-2 rounded bg-[#F1F1F1] md:w-96 w-full">
