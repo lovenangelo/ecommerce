@@ -9,10 +9,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useState } from "react";
-import { Link } from "wouter";
+import { Link, Redirect } from "wouter";
 import { Button } from "@/components/ui/button";
+import { useAppSelector } from "@/redux/hooks";
 type PaymentMethod = "CREDIT-CARD" | "COD";
 const Index = () => {
+  const user = useAppSelector((state) => state.user.value);
+  if (user == null) {
+    return <Redirect to="/auth" />;
+  }
   const [paymentMethod, setPaymentMethod] =
     useState<PaymentMethod>("CREDIT-CARD");
   return (

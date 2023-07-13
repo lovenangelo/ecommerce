@@ -59,7 +59,9 @@ const PersonalInformationForm = () => {
             className="object-cover"
             src={user?.avatar ? `http://localhost:8000/${user.avatar}` : "/"}
           />
-          <AvatarFallback className="font-semibold text-2xl">LA</AvatarFallback>
+          <AvatarFallback className="font-semibold text-2xl">
+            {user ? user.name![0][0].toUpperCase() : ""}
+          </AvatarFallback>
         </Avatar>
         <Dialog>
           <DialogTrigger className="bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">

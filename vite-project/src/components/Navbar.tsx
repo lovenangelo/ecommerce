@@ -81,7 +81,12 @@ const Navbar = () => {
             </li>
           ))}
         </ul>
-        <Button className="ml-4 bg-[#17494D]">Sell</Button>
+        <Link
+          to="/sell"
+          className="h-9 px-4 py-2 ml-8 bg-primary text-primary-foreground shadow hover:bg-primary/90ml-4 bg-[#17494D] inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 "
+        >
+          Sell
+        </Link>
       </div>
       <div className="flex justify-end items-center md:space-x-5 space-x-2">
         <div className="flex items-center border shadow-sm px-2 rounded bg-[#F1F1F1] md:w-96 w-full">

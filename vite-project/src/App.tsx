@@ -13,6 +13,7 @@ import Product from "./components/Products/Product";
 import Cart from "@/components/Cart/Index";
 import Checkout from "@/components/Cart/Checkout/Index";
 import { useLocation } from "wouter";
+import Sell from "@/components/Sell/Index";
 function App() {
   const [location] = useLocation();
   return (
@@ -22,6 +23,11 @@ function App() {
       {/* Authentication */}
       <Route path="/auth">
         <Authentication />
+      </Route>
+
+      {/* Sell */}
+      <Route path="/sell">
+        <Sell />
       </Route>
 
       {/* Profile */}
@@ -61,7 +67,9 @@ function App() {
           <Brands />
         </>
       </Route>
-      {location != "/auth" && <Footer />}
+
+      {/* {location !== "/auth" && <Footer />} */}
+      <Footer />
     </>
   );
 }
