@@ -15,7 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import { Button } from "../../ui/button";
 import ChangePasswordForm from "./ChangePasswordForm";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import ProfilePhotoUpload from "../ProfilePhotoUpload";
+import ProfilePhotoUpload from "./ProfilePhotoUpload";
 import { useAppSelector } from "@/redux/hooks";
 
 const PersonalInformationForm = () => {

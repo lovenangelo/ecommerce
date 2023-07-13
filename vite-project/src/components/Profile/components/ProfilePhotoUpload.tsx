@@ -6,12 +6,11 @@ import Icons from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import axiosClient from "@/lib/axios";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import { updateAvatar } from "@/redux/slices/userSlice";
 
 export default function PhotoUploadDialog() {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user);
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -64,18 +63,19 @@ export default function PhotoUploadDialog() {
         <DialogHeader>
           <h2 className="text-xl font-bold mb-4">Change Profile Picture</h2>
         </DialogHeader>
-
-        <div className="flex justify-center mb-6">
-          <Avatar className="mt-4 w-20 h-20">
-            <AvatarImage
-              src={selectedFile ? URL.createObjectURL(selectedFile) : "/"}
-              className="object-cover"
-            />
-            <AvatarFallback className="font-semibold text-2xl">
-              LA
-            </AvatarFallback>
-          </Avatar>
-        </div>
+        {selectedFile && (
+          <div className="flex justify-center mb-6">
+            <Avatar className="mt-4 w-20 h-20">
+              <AvatarImage
+                src={URL.createObjectURL(selectedFile)}
+                className="object-cover"
+              />
+              <AvatarFallback className="font-semibold text-2xl">
+                LA
+              </AvatarFallback>
+            </Avatar>
+          </div>
+        )}
         <div
           className={cn(
             "border-dashed border-2 border-gray-400 rounded-lg p-4 mb-4 text-center",
