@@ -46,10 +46,7 @@ const LoginForm = () => {
       setIsLoading(true);
       await axiosClient.get("/sanctum/csrf-cookie");
       await axiosClient.post("/login", data);
-
-      console.log("successfully logged in");
       const res = await axiosClient.get("api/user");
-      console.log(res);
       dispatch(
         setUser({
           name: res.data.name,

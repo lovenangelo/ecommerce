@@ -15,7 +15,10 @@ import {
 } from "@/components/ui/form";
 import axiosClient from "@/lib/axios";
 import { useState } from "react";
+import { useAppDispatch } from "@/redux/hooks";
+import { setUser } from "@/redux/slices/userSlice";
 const RegistrationForm = () => {
+  const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const registrationFormSchema = z
     .object({
@@ -55,6 +58,14 @@ const RegistrationForm = () => {
       setIsLoading(true);
       console.log(data);
       await axiosClient.post("/register", data);
+      const res = await axiosClient.get("api/user");
+      dispatch(
+        setUser({
+          name: res.data.name,
+          email: res.data.email,
+          avatar: res.data.avatar,
+        })
+      );
       console.log("successfully registered");
     } catch (error) {
       console.log(error);
