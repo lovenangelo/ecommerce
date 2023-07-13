@@ -27,9 +27,9 @@ const Navbar = () => {
   console.log(name);
 
   const signoutHandler = async () => {
+    dispatch(removeUser());
     try {
       setIsLoading(true);
-      dispatch(removeUser());
       await axiosClient.get("/sanctum/csrf-cookie");
       await axiosClient.post("/logout");
     } catch (error) {
@@ -39,11 +39,9 @@ const Navbar = () => {
   };
 
   const loginButton = (
-    <Link href="/auth">
-      <Button variant={"ghost"} className={cn("w-full justify-start")}>
-        Login
-      </Button>
-    </Link>
+    <Button variant={"ghost"} className={cn("w-full justify-start")}>
+      <Link href="/auth">Login</Link>
+    </Button>
   );
 
   const authenticated = (
@@ -108,7 +106,10 @@ const Navbar = () => {
               <SelectPrimitive.Icon asChild>
                 {user ? (
                   <Avatar>
-                    <AvatarImage src="/" />
+                    <AvatarImage
+                      className="object-cover"
+                      src={`http://localhost:8000/${user.avatar}`}
+                    />
                     <AvatarFallback className="font-semibold">
                       {name![0][0].toUpperCase()}
                     </AvatarFallback>

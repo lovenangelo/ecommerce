@@ -5,8 +5,14 @@ import { DialogContent, DialogHeader } from "@/components/ui/dialog";
 import Icons from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import axiosClient from "@/lib/axios";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { updateAvatar } from "@/redux/slices/userSlice";
 
 export default function PhotoUploadDialog() {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user);
+
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
@@ -31,7 +37,26 @@ export default function PhotoUploadDialog() {
     if (selectedFile !== null) setSelectedFile(file || null);
   };
 
-  const handleUpload = async () => {};
+  const handleUpload = async () => {
+    setIsLoading(true);
+    if (selectedFile !== null) {
+      try {
+        const res = await axiosClient.post(
+          "/api/upload-avatar",
+          { avatar: selectedFile },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        dispatch(updateAvatar(res.data));
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    setIsLoading(false);
+  };
 
   return (
     <DialogContent className={cn("w-36 md:w-96 h-max")}>

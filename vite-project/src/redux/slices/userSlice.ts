@@ -5,6 +5,7 @@ import type { RootState } from "../store";
 type User = {
   name: string;
   email: string;
+  avatar: string | null;
 } | null;
 
 // Define a type for the slice state
@@ -28,10 +29,15 @@ export const userSlice = createSlice({
     removeUser: (state) => {
       state.value = null;
     },
+    updateAvatar: (state, action: PayloadAction<string>) => {
+      console.log(action.payload);
+
+      if (state.value) state.value.avatar = action.payload;
+    },
   },
 });
 
-export const { setUser, removeUser } = userSlice.actions;
+export const { setUser, removeUser, updateAvatar } = userSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCount = (state: RootState) => state.user.value;

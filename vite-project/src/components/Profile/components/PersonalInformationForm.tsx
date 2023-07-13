@@ -14,17 +14,14 @@ import { Input } from "../../ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import { Button } from "../../ui/button";
 import ChangePasswordForm from "./ChangePasswordForm";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import ProfilePhotoUpload from "../ProfilePhotoUpload";
+import { useAppSelector } from "@/redux/hooks";
 
 const PersonalInformationForm = () => {
+  const user = useAppSelector((state) => state.user.value);
+  console.log(user);
+
   const [isLoading, setIsLoading] = useState(false);
 
   const personalInformationSchema = z.object({
@@ -58,7 +55,10 @@ const PersonalInformationForm = () => {
       <hr />
       <div className="flex items-center space-x-4">
         <Avatar className="mt-4 w-20 h-20">
-          <AvatarImage src="/" />
+          <AvatarImage
+            className="object-cover"
+            src={user?.avatar ? `http://localhost:8000/${user.avatar}` : "/"}
+          />
           <AvatarFallback className="font-semibold text-2xl">LA</AvatarFallback>
         </Avatar>
         <Dialog>
