@@ -12,10 +12,8 @@ import Watches from "@/components/Products/Watches/Index";
 import Product from "./components/Products/Product";
 import Cart from "@/components/Cart/Index";
 import Checkout from "@/components/Cart/Checkout/Index";
-import { useLocation } from "wouter";
 import Sell from "@/components/Sell/Index";
 function App() {
-  const [location] = useLocation();
   return (
     <>
       <Navbar />
@@ -68,7 +66,6 @@ function App() {
         </>
       </Route>
 
-      {/* {location !== "/auth" && <Footer />} */}
       <Footer />
     </>
   );

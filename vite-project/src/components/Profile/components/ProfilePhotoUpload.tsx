@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import axiosClient from "@/lib/axios";
 import { useAppDispatch } from "@/redux/hooks";
-import { updateAvatar } from "@/redux/slices/userSlice";
+import { removeUser, updateAvatar } from "@/redux/slices/userSlice";
 
 export default function PhotoUploadDialog() {
   const dispatch = useAppDispatch();
@@ -52,6 +52,7 @@ export default function PhotoUploadDialog() {
         dispatch(updateAvatar(res.data));
       } catch (error) {
         console.log(error);
+        dispatch(removeUser());
       }
     }
     setIsLoading(false);
