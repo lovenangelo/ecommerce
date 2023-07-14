@@ -22,7 +22,7 @@ import {
 import * as z from "zod";
 import { Textarea } from "@/components/ui/textarea";
 import productsApi from "@/lib/api/products";
-
+import { useEffect } from "react";
 const formSchema = z.object({
   name: z.string().min(2, "Name is too short").max(50, "Name is too long"),
   image: z.instanceof(File),
@@ -50,8 +50,17 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { toast } from "../ui/use-toast";
 
 const Index = () => {
+  useEffect(() => {
+    toast({
+      title: "Login to your account",
+      description: "You need to log in to post a product.",
+    });
+    return () => {};
+  }, []);
+
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,10 +81,6 @@ const Index = () => {
       quantity: 1,
     },
   });
-  const user = useAppSelector((state) => state.user.value);
-  if (user == null) {
-    return <Redirect to="/auth" />;
-  }
 
   type FormSchemaType = z.infer<typeof formSchema>;
 
@@ -88,10 +93,13 @@ const Index = () => {
 
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
     setSubmitted(true);
-    console.log(submitted, selectedFile);
     addProduct(data);
-    console.log(data);
   };
+
+  const user = useAppSelector((state) => state.user.value);
+  if (user == null) {
+    return <Redirect to="/auth" />;
+  }
 
   return (
     <div
