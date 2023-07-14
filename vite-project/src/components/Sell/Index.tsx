@@ -53,11 +53,13 @@ import { cn } from "@/lib/utils";
 import { toast } from "../ui/use-toast";
 
 const Index = () => {
+  const user = useAppSelector((state) => state.user.value);
   useEffect(() => {
-    toast({
-      title: "Login to your account",
-      description: "You need to log in to post a product.",
-    });
+    if (!user)
+      toast({
+        title: "Login to your account",
+        description: "You need to log in to post a product.",
+      });
     return () => {};
   }, []);
 
@@ -96,7 +98,6 @@ const Index = () => {
     addProduct(data);
   };
 
-  const user = useAppSelector((state) => state.user.value);
   if (user == null) {
     return <Redirect to="/auth" />;
   }
