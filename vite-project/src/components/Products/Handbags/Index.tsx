@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Collapsibles from "./Collapsibles";
-
+import Pagination from "../Pagination";
 const Index = () => {
   return (
     <Layout>
@@ -120,6 +120,13 @@ const Index = () => {
               promo={"50% OFF"}
               img={images.bags[0].src}
             />
+            <div className="col-span-3 w-full">
+              <Pagination
+                pages={10}
+                currentPage={1}
+                setCurrentPage={() => {}}
+              />
+            </div>
           </div>
         </div>
       </div>
