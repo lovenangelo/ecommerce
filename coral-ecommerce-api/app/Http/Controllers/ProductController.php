@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductImage;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -23,6 +24,7 @@ class ProductController extends Controller
    */
   public function store(Request $request)
   {
+    $user_id = $request->user()->id;
     try {
       $validated = $request->validate(
         [
@@ -33,9 +35,12 @@ class ProductController extends Controller
           'category' => 'required|string'
         ]
       );
+      $validated['user_id'] = $user_id;
       $product = Product::create($validated);
       $product->save();
-      return response()->json(['message' => 'New prod created successfully'], 201);
+      $path = $request->file('image')->store("products/{$validated['category']}");
+      ProductImage::create(['product_id' => $product->id, 'url' => $path]);
+      return response()->json(['message' => 'New product created successfully'], 201);
     } catch (ValidationException $e) {
       return response()->json(['errors' => $e->errors()], 422);
     }

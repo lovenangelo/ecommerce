@@ -25,4 +25,6 @@ Route::middleware(['auth:sanctum'])->post(
   [AvatarController::class, 'upload']
 );
 
-Route::middleware(['auth:sanctum'])->post('/post-product', [ProductController::class, 'store']);
+
+// Products routes
+Route::middleware(['auth:sanctum'])->post('/add-product', [ProductController::class, 'store']);
