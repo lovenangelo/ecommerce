@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +15,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return ['Laravel' => app()->version()];
+  return ['Laravel' => app()->version()];
 });
 
-require __DIR__.'/auth.php';
+Route::get('/products/{category}', [ProductController::class, 'index']);
+
+require __DIR__ . '/auth.php';

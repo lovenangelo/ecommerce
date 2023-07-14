@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AvatarController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,3 +24,5 @@ Route::middleware(['auth:sanctum'])->post(
   '/upload-avatar',
   [AvatarController::class, 'upload']
 );
+
+Route::middleware(['auth:sanctum'])->post('/post-product', [ProductController::class, 'store']);
