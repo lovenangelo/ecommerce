@@ -21,6 +21,7 @@ import {
 } from "../ui/form";
 import * as z from "zod";
 import { Textarea } from "@/components/ui/textarea";
+import productsApi from "@/lib/api/products";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is too short").max(50, "Name is too long"),
@@ -28,7 +29,7 @@ const formSchema = z.object({
   description: z
     .string()
     .min(25, "Description is too short")
-    .max(200, "Description is too long"),
+    .max(1000, "Description is too long"),
   category: z.enum([
     "handbags",
     "watches",
@@ -55,6 +56,8 @@ const Index = () => {
   const [submitted, setSubmitted] = useState(false);
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
+    console.log(file);
+
     setSelectedFile(file || null);
   };
 
@@ -76,21 +79,32 @@ const Index = () => {
 
   type FormSchemaType = z.infer<typeof formSchema>;
 
+  const addProduct = async (data: FormSchemaType) => {
+    if (selectedFile) {
+      const product = { ...data, image: selectedFile };
+      await productsApi.addNewProduct(product);
+    }
+  };
+
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
     setSubmitted(true);
     console.log(submitted, selectedFile);
-
+    addProduct(data);
     console.log(data);
   };
 
   return (
-    <div className="flex flex-col bg-gradient-to-r from-[#9dc4b8] to-[#17494D] items-center py-16">
+    <div
+      className={cn(
+        "flex flex-col items-center py-16 bg-gradient-to-r from-[#9dc4b8] to-[#17494D]"
+      )}
+    >
       <Form {...form}>
         <form
-          className="bg-white p-8 rounded space-y-4"
+          className="bg-white p-8 rounded space-y-4 grid grid-cols-2 gap-4 auto-rows"
           onSubmit={form.handleSubmit(onSubmit)}
         >
-          <div className="space-y-2">
+          <div className="space-y-4 col-span-2">
             <h1 className="font-bold text-2xl">Add a new product</h1>
             <hr />
           </div>
@@ -147,74 +161,76 @@ const Index = () => {
               <FormItem>
                 <FormLabel>Product Description</FormLabel>
                 <FormControl>
-                  <Textarea {...field} />
+                  <Textarea className="h-48" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="category"
-            render={() => (
-              <FormItem>
-                <FormLabel>Product Category</FormLabel>
-                <FormControl>
-                  <Select name="category" defaultValue="handbags">
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Category</SelectLabel>
-                        <SelectItem value="handbags">Handbags</SelectItem>
-                        <SelectItem value="watches">Watches</SelectItem>
-                        <SelectItem value="skincare">Skincare</SelectItem>
-                        <SelectItem value="jewellery">Jewellery</SelectItem>
-                        <SelectItem value="apparels">Apparels</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="price"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Price</FormLabel>
-                <FormControl>
-                  <Input type="number" id="product-price" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="quantity"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Quantity</FormLabel>
-                <FormControl>
-                  <Input type="number" id="product-price" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div>
+          <div className="space-y-5">
+            <FormField
+              control={form.control}
+              name="category"
+              render={() => (
+                <FormItem>
+                  <FormLabel>Product Category</FormLabel>
+                  <FormControl>
+                    <Select name="category" defaultValue="handbags">
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Category</SelectLabel>
+                          <SelectItem value="handbags">Handbags</SelectItem>
+                          <SelectItem value="watches">Watches</SelectItem>
+                          <SelectItem value="skincare">Skincare</SelectItem>
+                          <SelectItem value="jewellery">Jewellery</SelectItem>
+                          <SelectItem value="apparels">Apparels</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Price</FormLabel>
+                  <FormControl>
+                    <Input type="number" id="product-price" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="quantity"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Quantity</FormLabel>
+                  <FormControl>
+                    <Input type="number" id="product-price" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="col-span-2">
             <Button
-              className="w-96 mt-8"
+              className="w-full mt-8"
               onClick={() => {
                 setSubmitted(true);
               }}
               type="submit"
             >
-              Post
+              Add Product
             </Button>
           </div>
         </form>

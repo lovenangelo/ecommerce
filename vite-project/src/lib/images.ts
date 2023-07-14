@@ -17,8 +17,10 @@ import makeupBg from "@/assets/images/bg/makeup-bg.jpg";
 import skincareBg from "@/assets/images/bg/skincare-bg.jpg";
 import creamBg from "@/assets/images/bg/cream-bg.jpg";
 import heroPromo from "@/assets/images/bg/hero-promo.jpg";
+import sellBg from "@/assets/images/bg/sell-page-bg.jpg";
 
 const images = {
+  sellBg,
   skincareBg,
   creamBg,
   makeupBg,
