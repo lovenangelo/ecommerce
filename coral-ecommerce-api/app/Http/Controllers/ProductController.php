@@ -50,11 +50,11 @@ class ProductController extends Controller
   /**
    * Display the specified resource.
    */
-  public function show($id)
+  public function show($category, $id)
   {
     try {
-      $product = Product::findOrFail($id);
-      return response($product);
+      $product = Product::where(['category' => $category, 'id' => $id])->with('image')->first();
+      return response()->json($product);
     } catch (Exception $e) {
       return response()->json(['message' => 'Product could not be found', 404]);
     }

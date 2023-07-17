@@ -30,4 +30,4 @@ Route::middleware(['auth:sanctum'])->post(
 // Products routes
 Route::middleware(['auth:sanctum'])->post('/products/create', [ProductController::class, 'store']);
 Route::middleware(['auth:sanctum'])->get('/products/{category}', [ProductController::class, 'index']);
-Route::middleware(['auth:sanctum'])->get('/products/images/{id}', [ProductImageController::class, 'show']);
+Route::middleware(['auth:sanctum'])->get('/products/{category}/{id}', [ProductController::class, 'show']);

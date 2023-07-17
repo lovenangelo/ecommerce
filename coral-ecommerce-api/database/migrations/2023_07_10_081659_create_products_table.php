@@ -19,6 +19,11 @@ return new class extends Migration
       $table->string('category');
       $table->decimal('price');
       $table->integer('quantity');
+      $table->string('sizes');
+      $table->string('colors');
+      $table->string('subtitle');
+      $table->string('delivery_options');
+      $table->string('brand');
       $table->timestamps();
     });
   }

@@ -11,7 +11,7 @@ class Product extends Model
   use HasFactory;
 
   protected $fillable = [
-    'user_id', 'name', 'description', 'category', 'price', 'quantity'
+    'user_id', 'name', 'description', 'category', 'price', 'quantity', 'sizes', 'colors', 'subtitle', 'delivery_options', 'brand'
   ];
 
   public function image(): HasOne
