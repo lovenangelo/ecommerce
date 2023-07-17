@@ -13,6 +13,11 @@ type Product = {
   name: string;
   price: string;
   quantity: number;
+  subtitle: string;
+  sizes: string;
+  colors: string;
+  delivery_options: string;
+  brand: string;
   image: {
     url: string;
   };
@@ -52,29 +57,40 @@ const SingleProduct = ({ id, category }: { id: string; category: string }) => {
         </div>
 
         <div className="p-5 space-y-8 h-max">
-          <div>
+          <div className="space-y-2">
             <h1 className="text-2xl font-bold">{data?.name}</h1>
-            <p>Leather Coach Bag with adjustable straps</p>
+            <p>{data?.subtitle}</p>
           </div>
-          <Ratings starCount={4} reviewCount={24} />
-          <div className="flex items-end space-x-4 mt-16">
-            <h2 className="text-4xl font-bold">${data?.price}</h2>
-            {data?.promo && (
+          <div className="grid grid-cols-2 h-max row-auto gap-4">
+            <div className="space-y-4">
+              <Ratings starCount={4} reviewCount={24} />
+              <div className="flex items-end space-x-4">
+                <h2 className="text-4xl font-bold">${data?.price}</h2>
+                {/* {data?.promo && (
               <>
                 <s className="text-4xl text-[#B6B6B6] font-bold stroke">
                   $78.66
                 </s>
                 <h2 className="text-red-500">50% OFF</h2>
               </>
-            )}
+            )} */}
+              </div>
+            </div>{" "}
+            <div className="space-y-22 text-sm space-y-2 text-[#626262]">
+              <p>Stocks: {data?.quantity}</p>
+              <p>Available colors: {data?.colors}</p>
+              <p>Available sizes: {data?.sizes}</p>
+            </div>
           </div>
+
           <hr />
           <div className="flex items-center space-x-4">
-            <div>
+            <div className="space-y-2">
               <h3 className="font-bold">Delivery Details</h3>
               <p className="text-[#626262]">
                 Check estimated delivery date/pickup option.
               </p>
+              <p>Payment options: {data?.delivery_options}</p>
             </div>
             <Coupon />
           </div>

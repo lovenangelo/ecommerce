@@ -122,6 +122,8 @@ const Index = () => {
     if (selectedFile) {
       setIsLoading(true);
       const product = { ...prepare, image: selectedFile };
+      console.log(product);
+
       await productsApi
         .addNewProduct(product)
         .then((res) => {
@@ -130,8 +132,8 @@ const Index = () => {
             title: "Successfuly posted a new product",
             description: new Date().toString(),
           });
-          setSelectedFile(null);
-          form.reset();
+          // setSelectedFile(null);
+          // form.reset();
           setIsLoading(false);
         })
         .catch((e) =>
