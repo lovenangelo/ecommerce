@@ -15,7 +15,8 @@ class ProductController extends Controller
    */
   public function index($category)
   {
-    $products = Product::where('category', $category)->paginate(9);
+    $products = Product::where('category', $category)->with('image')->paginate(9);
+    clock($products);
     return $products;
   }
 

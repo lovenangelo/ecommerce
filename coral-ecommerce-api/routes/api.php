@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AvatarController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductImageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,4 +28,6 @@ Route::middleware(['auth:sanctum'])->post(
 
 
 // Products routes
-Route::middleware(['auth:sanctum'])->post('/add-product', [ProductController::class, 'store']);
+Route::middleware(['auth:sanctum'])->post('/products/create', [ProductController::class, 'store']);
+Route::middleware(['auth:sanctum'])->get('/products/{category}', [ProductController::class, 'index']);
+Route::middleware(['auth:sanctum'])->get('/products/images/{id}', [ProductImageController::class, 'show']);
