@@ -188,6 +188,7 @@ const Index = () => {
                   </FormLabel>
                   <FormControl>
                     <Input
+                      disabled={isLoading}
                       id="image"
                       name="image"
                       type="file"
@@ -216,7 +217,7 @@ const Index = () => {
                 <FormItem>
                   <FormLabel>Product Name</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input disabled={isLoading} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -229,7 +230,11 @@ const Index = () => {
                 <FormItem>
                   <FormLabel>Product Description</FormLabel>
                   <FormControl>
-                    <Textarea className="h-48" {...field} />
+                    <Textarea
+                      disabled={isLoading}
+                      className="h-48"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -245,7 +250,11 @@ const Index = () => {
                 <FormItem>
                   <FormLabel>Product Category</FormLabel>
                   <FormControl>
-                    <Select name="category" defaultValue="handbags">
+                    <Select
+                      disabled={isLoading}
+                      name="category"
+                      defaultValue="handbags"
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select a category" />
                       </SelectTrigger>
@@ -272,7 +281,7 @@ const Index = () => {
                 <FormItem>
                   <FormLabel>Brand</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input disabled={isLoading} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -285,7 +294,12 @@ const Index = () => {
                 <FormItem>
                   <FormLabel>Price</FormLabel>
                   <FormControl>
-                    <Input type="number" id="product-price" {...field} />
+                    <Input
+                      disabled={isLoading}
+                      type="number"
+                      id="product-price"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -298,7 +312,12 @@ const Index = () => {
                 <FormItem>
                   <FormLabel>Quantity</FormLabel>
                   <FormControl>
-                    <Input type="number" id="product-price" {...field} />
+                    <Input
+                      disabled={isLoading}
+                      type="number"
+                      id="product-price"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -313,7 +332,7 @@ const Index = () => {
                 <FormItem>
                   <FormLabel>Describe your product in one sentence.</FormLabel>
                   <FormControl>
-                    <Textarea {...field} />
+                    <Textarea disabled={isLoading} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -339,6 +358,7 @@ const Index = () => {
                             <div className="flex flex-row items-start space-x-3 space-y-0">
                               <FormControl>
                                 <Checkbox
+                                  disabled={isLoading}
                                   checked={field.value?.includes(item.id)}
                                   onCheckedChange={(checked) => {
                                     return checked
@@ -386,6 +406,7 @@ const Index = () => {
                           <div className="flex flex-row items-start space-x-3 space-y-0">
                             <FormControl>
                               <Checkbox
+                                disabled={isLoading}
                                 checked={field.value?.includes(item)}
                                 onCheckedChange={(checked) => {
                                   return checked
@@ -429,6 +450,7 @@ const Index = () => {
                           <div className="flex flex-row items-start space-x-3 space-y-0">
                             <FormControl>
                               <Checkbox
+                                disabled={isLoading}
                                 checked={field.value?.includes(item.id)}
                                 onCheckedChange={(checked) => {
                                   return checked
