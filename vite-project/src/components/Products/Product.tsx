@@ -3,6 +3,7 @@ import Icons from "@/lib/icons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import images from "@/lib/images";
 import Coupon from "./Coupon";
+import Ratings from "./Ratings";
 const Product = ({ id }: { id: string }) => {
   return (
     <div className="container">
@@ -20,16 +21,7 @@ const Product = ({ id }: { id: string }) => {
             <h1 className="text-2xl font-bold">Coach</h1>
             <p>Leather Coach Bag with adjustable straps</p>
           </div>
-          <div className="flex items-end space-x-2">
-            <span className="flex">
-              <Icons.starIcon fill="#FF8C4B" stroke="#FF8C4B" />
-              <Icons.starIcon fill="#FF8C4B" stroke="#FF8C4B" />
-              <Icons.starIcon fill="#FF8C4B" stroke="#FF8C4B" />
-              <Icons.starIcon fill="#FF8C4B" stroke="#FF8C4B" />
-              <Icons.starIcon fill="#B6B6B6" stroke="#B6B6B6" />
-            </span>
-            <p className="text-[#B6B6B6]">(250) Ratings</p>
-          </div>
+          <Ratings starCount={4} reviewCount={24} />
           <div className="flex items-end space-x-4 mt-16">
             <h2 className="text-4xl font-bold">$54.69</h2>
             <s className="text-4xl text-[#B6B6B6] font-bold stroke">$78.66</s>

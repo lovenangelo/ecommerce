@@ -9,6 +9,7 @@ import {
 import Icons from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { Link } from "wouter";
+import Ratings from "./Ratings";
 
 type Item = {
   id: number;
@@ -17,7 +18,7 @@ type Item = {
   ratings: {
     review_count: number;
     stars: number;
-  };
+  } | null;
   price: string;
   promo: string | null;
   img: string;
@@ -44,8 +45,14 @@ const ItemCard = ({
         <CardContent className={cn("h-60 w-full")}>
           <img className="object-cover w-full h-full" src={img} alt="bag" />
         </CardContent>
-        <CardFooter className={cn("flex justify-between items-center")}>
-          <p>${price}</p>
+        <CardFooter className={cn("flex justify-between items-start")}>
+          <div>
+            <p className="font-semibold">
+              ${price} <s className="text-sm">${parseInt(price) * 2}</s>{" "}
+              <span className="text-red-500 font-bold">{promo}</span>
+              <Ratings starCount={4} reviewCount={24} />
+            </p>
+          </div>
           <button>
             <Icons.nav.favorites />
           </button>

@@ -54,7 +54,7 @@ const Index = () => {
           id={item.id}
           title={item.name}
           description={item.description}
-          ratings={{ review_count: 43, stars: 4 }}
+          ratings={null}
           price={item.price}
           promo={"50% OFF"}
           img={`http://localhost:8000/${item.image.url}`}
