@@ -51,7 +51,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { toast } from "../ui/use-toast";
-
+import Icons from "@/lib/icons";
 const Index = () => {
   const user = useAppSelector((state) => state.user.value);
   useEffect(() => {
@@ -64,6 +64,8 @@ const Index = () => {
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
     console.log(file);
@@ -87,14 +89,36 @@ const Index = () => {
 
   const addProduct = async (data: FormSchemaType) => {
     if (selectedFile) {
+      setIsLoading(true);
       const product = { ...data, image: selectedFile };
-      await productsApi.addNewProduct(product);
+      await productsApi
+        .addNewProduct(product)
+        .then((res) => {
+          console.log(res);
+          toast({
+            title: "Successfuly posted a new product",
+            description: new Date().toString(),
+          });
+          setSelectedFile(null);
+          form.reset();
+          setIsLoading(false);
+        })
+        .catch((e) =>
+          toast({
+            title: "Oops! Item cannot be posted.",
+            description: e,
+          })
+        );
+
+      setIsLoading(false);
     }
   };
 
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
     setSubmitted(true);
-    addProduct(data);
+    if (selectedFile) {
+      addProduct(data);
+    }
   };
 
   if (user == null) {
@@ -237,8 +261,14 @@ const Index = () => {
                 setSubmitted(true);
               }}
               type="submit"
+              disabled={isLoading}
             >
-              Add Product
+              Add Product{" "}
+              {isLoading && (
+                <span className="ml-2">
+                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                </span>
+              )}
             </Button>
           </div>
         </form>

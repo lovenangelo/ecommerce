@@ -9,7 +9,7 @@ import { Route } from "wouter";
 import Profile from "@/components/Profile/Index";
 import Handbag from "@/components/Products/Handbags/Index";
 import Watches from "@/components/Products/Watches/Index";
-import Product from "./components/Products/Product";
+import Product from "./components/Products/ProductItem";
 import Cart from "@/components/Cart/Index";
 import Checkout from "@/components/Cart/Checkout/Index";
 import Sell from "@/components/Sell/Index";

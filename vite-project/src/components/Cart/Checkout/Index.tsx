@@ -15,11 +15,13 @@ import { useAppSelector } from "@/redux/hooks";
 type PaymentMethod = "CREDIT-CARD" | "COD";
 const Index = () => {
   const user = useAppSelector((state) => state.user.value);
+  const [paymentMethod, setPaymentMethod] =
+    useState<PaymentMethod>("CREDIT-CARD");
+
   if (user == null) {
     return <Redirect to="/auth" />;
   }
-  const [paymentMethod, setPaymentMethod] =
-    useState<PaymentMethod>("CREDIT-CARD");
+
   return (
     <div className="container">
       <h1 className="font-bold text-xl">Checkout</h1>
