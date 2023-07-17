@@ -9,7 +9,7 @@ import { Route } from "wouter";
 import Profile from "@/components/Profile/Index";
 import Handbag from "@/components/Products/Handbags/Index";
 import Watches from "@/components/Products/Watches/Index";
-import Product from "./components/Products/ProductItem";
+import SingleProduct from "./components/Products/SingleProduct";
 import Cart from "@/components/Cart/Index";
 import Checkout from "@/components/Cart/Checkout/Index";
 import Sell from "@/components/Sell/Index";
@@ -48,8 +48,10 @@ function App() {
         <Handbag />
       </Route>
 
-      <Route path="/profile/:id">
-        {(params) => <Product id={params.id} />}
+      <Route path="/profile/:category/:id">
+        {(params) => (
+          <SingleProduct category={params.category} id={params.id} />
+        )}
       </Route>
 
       {/* Watches */}

@@ -17,18 +17,15 @@ const addNewProduct = async (data: ProductsType) => {
 const getProducts = async (category: string) =>
   await axiosClient.get(`/api/products/${category}`);
 
-// const getProductItem = async () => {};
-
-const getProductImage = async ($id: number) =>
-  await axiosClient.get(`/products/images/${$id}`);
+const getProductItem = async (id: string, category: string) =>
+  await axiosClient.get(`api/products/${category}/${id}`);
 
 const productsApi = {
   addNewProduct,
   // deleteProduct,
   // updateProduct,
   getProducts,
-  // getProductItem,
-  getProductImage,
+  getProductItem,
 };
 
 export default productsApi;

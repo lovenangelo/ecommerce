@@ -1,6 +1,5 @@
 import ItemCard from "../ItemCard";
 import Layout from "../Layout";
-import images from "@/lib/images";
 import {
   Select,
   SelectContent,
@@ -14,9 +13,7 @@ import productsApi from "@/lib/api/products";
 import { useQuery } from "react-query";
 
 const Index = () => {
-  const getHandbags = async () => {
-    return await productsApi.getProducts("handbags");
-  };
+  const getHandbags = async () => await productsApi.getProducts("handbags");
 
   const handbags = useQuery("get-handbags", getHandbags, {
     enabled: true,
@@ -58,6 +55,7 @@ const Index = () => {
           price={item.price}
           promo={"50% OFF"}
           img={`http://localhost:8000/${item.image.url}`}
+          category="handbags"
         />
       </div>
     )

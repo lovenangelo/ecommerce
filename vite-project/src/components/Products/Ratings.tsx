@@ -11,9 +11,9 @@ const Ratings = ({
 
   const stars = starArray.map((star, index) => {
     if (index < starCount) {
-      return <Icons.starIcon key={star} fill="#FF8C4B" stroke="#FF8C4B" />;
+      return <Icons.starIcon key={index} fill="#FF8C4B" stroke="#FF8C4B" />;
     }
-    return <Icons.starIcon key={star} stroke="#FF8C4B" />;
+    return <Icons.starIcon key={index} stroke="#FF8C4B" />;
   });
 
   return (
