@@ -4,22 +4,13 @@ import PaginationButton from "./PaginationButton";
 interface PaginationProps {
   pages: number;
   currentPage: number;
-  setCurrentPage: (page: number) => void;
 }
 
-const Pagination: React.FC<PaginationProps> = ({
-  pages,
-  currentPage,
-  setCurrentPage,
-}) => {
+const Pagination: React.FC<PaginationProps> = ({ pages, currentPage }) => {
   const pageNumbers = Array.from({ length: pages }, (_, i) => i + 1);
 
-  const handleClick = (page: number) => {
-    setCurrentPage(page);
-  };
-
-  const numberedButtons = pageNumbers.map((number) => (
-    <li>
+  const numberedButtons = pageNumbers.map((number, index) => (
+    <li key={index}>
       <PaginationButton display={number} />
     </li>
   ));

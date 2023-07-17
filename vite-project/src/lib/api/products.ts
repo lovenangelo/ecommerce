@@ -2,7 +2,7 @@ import axiosClient from "../axios";
 
 const addNewProduct = async (data: ProductsType) => {
   await axiosClient
-    .post("/api/add-product", data, {
+    .post("/api/products/create", data, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -12,17 +12,23 @@ const addNewProduct = async (data: ProductsType) => {
       console.log(err);
     });
 };
-const deleteProduct = async () => {};
-const updateProduct = async () => {};
-const getProducts = async () => {};
-const getItem = async () => {};
+// const deleteProduct = async () => {};
+// const updateProduct = async () => {};
+const getProducts = async (category: string) =>
+  await axiosClient.get(`/api/products/${category}`);
+
+// const getProductItem = async () => {};
+
+const getProductImage = async ($id: number) =>
+  await axiosClient.get(`/products/images/${$id}`);
 
 const productsApi = {
   addNewProduct,
-  deleteProduct,
-  updateProduct,
+  // deleteProduct,
+  // updateProduct,
   getProducts,
-  getItem,
+  // getProductItem,
+  getProductImage,
 };
 
 export default productsApi;

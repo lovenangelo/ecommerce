@@ -60,8 +60,7 @@ const Index = () => {
         title: "Login to your account",
         description: "You need to log in to post a product.",
       });
-    return () => {};
-  }, []);
+  }, [user]);
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [submitted, setSubmitted] = useState(false);

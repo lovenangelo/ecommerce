@@ -10,7 +10,61 @@ import {
 } from "@/components/ui/select";
 import Collapsibles from "./Collapsibles";
 import Pagination from "../Pagination";
+import productsApi from "@/lib/api/products";
+import { useQuery } from "react-query";
+
 const Index = () => {
+  const getHandbags = async () => {
+    return await productsApi.getProducts("handbags");
+  };
+
+  const handbags = useQuery("get-handbags", getHandbags, {
+    enabled: true,
+    retry: 2,
+    onSuccess: (res) => {
+      console.log(res);
+    },
+    onError: (e) => {
+      console.log(e);
+    },
+  });
+
+  console.log(handbags);
+
+  const items = handbags.data?.data.data.map(
+    (
+      item: {
+        category: string;
+        created_at: string;
+        description: string;
+        id: number;
+        name: string;
+        user_id: number;
+        updated_at: string;
+        price: string;
+        quantity: number;
+        image: {
+          url: string;
+        };
+      },
+      index: number
+    ) => (
+      <div key={index}>
+        <ItemCard
+          id={item.id}
+          title={item.name}
+          description={item.description}
+          ratings={{ review_count: 43, stars: 4 }}
+          price={item.price}
+          promo={"50% OFF"}
+          img={`http://localhost:8000/${item.image.url}`}
+        />
+      </div>
+    )
+  );
+
+  if (handbags.isLoading) return <>Loading</>;
+
   return (
     <Layout>
       <div className="container mt-8">
@@ -37,95 +91,9 @@ const Index = () => {
                 </Select>
               </div>
             </div>
-
-            <ItemCard
-              id="testid"
-              title="Grande"
-              description="Blossom Pouc"
-              ratings={{ review_count: 43, stars: 4 }}
-              price={39.49}
-              promo={"50% OFF"}
-              img={images.bags[0].src}
-            />
-            <ItemCard
-              id="testid"
-              title="Grande"
-              description="Blossom Pouc"
-              ratings={{ review_count: 43, stars: 4 }}
-              price={39.49}
-              promo={"50% OFF"}
-              img={images.bags[0].src}
-            />
-            <ItemCard
-              id="testid"
-              title="Grande"
-              description="Blossom Pouc"
-              ratings={{ review_count: 43, stars: 4 }}
-              price={39.49}
-              promo={"50% OFF"}
-              img={images.bags[0].src}
-            />
-            <ItemCard
-              id="testid"
-              title="Grande"
-              description="Blossom Pouc"
-              ratings={{ review_count: 43, stars: 4 }}
-              price={39.49}
-              promo={"50% OFF"}
-              img={images.bags[0].src}
-            />
-            <ItemCard
-              id="testid"
-              title="Grande"
-              description="Blossom Pouc"
-              ratings={{ review_count: 43, stars: 4 }}
-              price={39.49}
-              promo={"50% OFF"}
-              img={images.bags[0].src}
-            />
-            <ItemCard
-              id="testid"
-              title="Grande"
-              description="Blossom Pouc"
-              ratings={{ review_count: 43, stars: 4 }}
-              price={39.49}
-              promo={"50% OFF"}
-              img={images.bags[0].src}
-            />
-
-            <ItemCard
-              id="testid"
-              title="Grande"
-              description="Blossom Pouc"
-              ratings={{ review_count: 43, stars: 4 }}
-              price={39.49}
-              promo={"50% OFF"}
-              img={images.bags[0].src}
-            />
-            <ItemCard
-              id="testid"
-              title="Grande"
-              description="Blossom Pouc"
-              ratings={{ review_count: 43, stars: 4 }}
-              price={39.49}
-              promo={"50% OFF"}
-              img={images.bags[0].src}
-            />
-            <ItemCard
-              id="testid"
-              title="Grande"
-              description="Blossom Pouc"
-              ratings={{ review_count: 43, stars: 4 }}
-              price={39.49}
-              promo={"50% OFF"}
-              img={images.bags[0].src}
-            />
+            {items}
             <div className="col-span-3 w-full">
-              <Pagination
-                pages={10}
-                currentPage={1}
-                setCurrentPage={() => {}}
-              />
+              <Pagination pages={10} currentPage={1} />
             </div>
           </div>
         </div>

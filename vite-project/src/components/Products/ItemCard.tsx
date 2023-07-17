@@ -11,14 +11,14 @@ import { cn } from "@/lib/utils";
 import { Link } from "wouter";
 
 type Item = {
-  id: string;
+  id: number;
   title: string;
   description: string;
   ratings: {
     review_count: number;
     stars: number;
   };
-  price: number;
+  price: string;
   promo: string | null;
   img: string;
 };
@@ -41,8 +41,8 @@ const ItemCard = ({
             {description}
           </CardDescription>
         </CardHeader>
-        <CardContent className={cn("h-max")}>
-          <img src={img} alt="bag" />
+        <CardContent className={cn("h-60 w-full")}>
+          <img className="object-cover w-full h-full" src={img} alt="bag" />
         </CardContent>
         <CardFooter className={cn("flex justify-between items-center")}>
           <p>${price}</p>
