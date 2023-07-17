@@ -31,9 +31,14 @@ class ProductController extends Controller
         [
           'name' => 'required|string',
           'description' => 'required|string',
-          'price' => 'required|integer',
+          'price' => 'required|numeric',
           'quantity' => 'required|integer',
-          'category' => 'required|string'
+          'category' => 'required|string',
+          'sizes' => 'required|string',
+          'colors' => 'required|string',
+          'delivery_options' => 'required|string',
+          'subtitle' => 'required|string',
+          'brand' => 'required|string',
         ]
       );
       $validated['user_id'] = $user_id;
