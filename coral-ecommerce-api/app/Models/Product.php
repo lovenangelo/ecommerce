@@ -18,4 +18,14 @@ class Product extends Model
   {
     return $this->HasOne(ProductImage::class);
   }
+
+  public function promo(): HasOne
+  {
+    return $this->HasOne(Promo::class);
+  }
+
+  public function review(): HasOne
+  {
+    return $this->HasOne(Review::class);
+  }
 }
