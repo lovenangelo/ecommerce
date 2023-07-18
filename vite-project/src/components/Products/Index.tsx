@@ -21,12 +21,6 @@ const Index = () => {
   const handbags = useQuery("get-handbags", getHandbags, {
     enabled: true,
     retry: 2,
-    onSuccess: (res) => {
-      console.log(res);
-    },
-    onError: (e) => {
-      console.log(e);
-    },
   });
 
   const items = handbags.data?.data.data.map(
@@ -62,7 +56,6 @@ const Index = () => {
     )
   );
   console.log(filters);
-
   return (
     <Layout>
       <div className="container mt-8">
@@ -73,7 +66,11 @@ const Index = () => {
           </div>
           <div className="col-span-3 grid grid-flow-row grid-cols-3 gap-5">
             <div className="col-span-3 flex items-center justify-between">
-              <p className="font-bold">Showing 1-40 of 145 items</p>
+              <p className="font-bold">
+                Showing {handbags.data?.data.current_page}-
+                {handbags.data?.data.last_page} of {handbags.data?.data.total}
+                items
+              </p>
               <div className="flex items-center space-x-4">
                 <p className="font-semibold">Sort By</p>
                 <Select>

@@ -5,11 +5,11 @@ import {
 } from "@/components/ui/collapsible";
 import { Checkbox } from "@/components/ui/checkbox";
 import Icons from "@/lib/icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import filters from "@/lib/filters";
 import { cn } from "@/lib/utils";
 import { Slider } from "@/components/ui/slider";
-
+import debounce from "lodash.debounce";
 const Collapsibles = ({
   setFilters,
   filterValue,
@@ -27,15 +27,6 @@ const Collapsibles = ({
   const [brandsFilter, setBrandsFilter] = useState<string[]>([]);
 
   console.log(sizesFilter, colorsFilter, brandsFilter);
-
-  useEffect(() => {
-    setFilters({
-      ...filterValue,
-      sizes: sizesFilter,
-      brands: brandsFilter,
-      colors: colorsFilter,
-    });
-  }, [sizesFilter, brandsFilter, colorsFilter]);
 
   const collapsibleContent = (
     data: string[],

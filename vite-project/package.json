@@ -44,6 +44,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@types/lodash.debounce": "^4.0.7",
     "@types/node": "^20.3.3",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",

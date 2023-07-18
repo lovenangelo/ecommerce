@@ -5,6 +5,7 @@ import Coupon from "./Coupon";
 import Ratings from "./Ratings";
 import productsApi from "@/lib/api/products";
 import { useQuery } from "react-query";
+import SingleProductSkeleton from "./Loaders/SingleProductSkeleton";
 
 type Product = {
   category: string;
@@ -41,10 +42,7 @@ const SingleProduct = ({ id, category }: { id: string; category: string }) => {
     },
   });
 
-  if (isLoading) return <h1>Loading...</h1>;
-
-  console.log(data);
-
+  if (isLoading) return <SingleProductSkeleton />;
   return (
     <div className="container">
       <div className="grid grid-cols-2 rows-auto w-full h-full">
