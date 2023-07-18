@@ -7,17 +7,40 @@ use App\Models\ProductImage;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ProductController extends Controller
 {
   /**
    * Display a listing of the resource.
    */
-  public function index($category)
+  public function index()
   {
-    $products = Product::where('category', $category)->with('image')->paginate(9);
-    clock($products);
-    return $products;
+    $params = request()->all();
+    $filters = $params['filters'];
+    $query = Product::query();
+    if (isset($filters['category'])) {
+      $query->where('category', $filters['category']);
+    }
+    if (isset($filters['sizes'])) {
+      $sizes = $filters['sizes'];
+      $query->whereIn('sizes', $sizes);
+    }
+    if (isset($filters['colors'])) {
+      $colors = $filters['colors'];
+      $query->whereIn('colors', $colors);
+    }
+    if (isset($filters['brand'])) {
+      $brand = $filters['brand'];
+      $query->whereIn('brand', $brand);
+    }
+    if (isset($filters['price'])) {
+      $minPrice = $filters['price'];
+      $query->where('price', '>=', $minPrice);
+    }
+
+    $products = $query->with('image')->paginate(9);
+    return response()->json($products);
   }
 
   /**
@@ -90,5 +113,19 @@ class ProductController extends Controller
     } catch (Exception $e) {
       return response()->json(['message' => 'Product could not be deleted', 500]);
     }
+  }
+
+  /**
+   * Filter 
+   */
+  public function filter(Request $request, $category)
+  {
+  }
+
+  /**
+   * Filter 
+   */
+  public function sort(Request $request, $category)
+  {
   }
 }

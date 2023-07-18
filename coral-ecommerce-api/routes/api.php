@@ -17,17 +17,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-  return $request->user();
+
+Route::middleware(['auth:sanctum'])->group(function () {
+
+  // User
+  Route::get('/user', function (Request $request) {
+    return $request->user();
+  });
+
+  // Avatar
+  Route::post(
+    '/upload-avatar',
+    [AvatarController::class, 'upload']
+  );
+
+  // Products routes
+  Route::post('/products/create', [ProductController::class, 'store']);
+  Route::get('/products', [ProductController::class, 'index']);
+  Route::get('/products/{category}/{id}', [ProductController::class, 'show']);
 });
-
-Route::middleware(['auth:sanctum'])->post(
-  '/upload-avatar',
-  [AvatarController::class, 'upload']
-);
-
-
-// Products routes
-Route::middleware(['auth:sanctum'])->post('/products/create', [ProductController::class, 'store']);
-Route::middleware(['auth:sanctum'])->get('/products/{category}', [ProductController::class, 'index']);
-Route::middleware(['auth:sanctum'])->get('/products/{category}/{id}', [ProductController::class, 'show']);
