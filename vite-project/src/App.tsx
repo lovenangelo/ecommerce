@@ -7,7 +7,7 @@ import Navbar from "./components/Navbar";
 import Authentication from "./components/Authentication/AuthenticationWrapper";
 import { Route } from "wouter";
 import Profile from "@/components/Profile/Index";
-import Handbag from "@/components/Products/Handbags/Index";
+import Handbag from "@/components/Products/Index";
 import Watches from "@/components/Products/Watches/Index";
 import SingleProduct from "./components/Products/SingleProduct";
 import Cart from "@/components/Cart/Index";
@@ -44,7 +44,7 @@ function App() {
       </Route>
       {/* Products */}
       {/* Handbags */}
-      <Route path="/handbags">
+      <Route path="/products">
         <Handbag />
       </Route>
 

@@ -19,7 +19,7 @@ const Ratings = ({
   return (
     <div className="flex items-end space-x-2 mt-2">
       <span className="flex">{stars}</span>
-      <p className="text-[#B6B6B6]">{reviewCount} Ratings</p>
+      <span className="text-[#B6B6B6]">{reviewCount} Ratings</span>
     </div>
   );
 };

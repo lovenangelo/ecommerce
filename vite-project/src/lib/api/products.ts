@@ -12,10 +12,11 @@ const addNewProduct = async (data: ProductsType) => {
       console.log(err);
     });
 };
-// const deleteProduct = async () => {};
-// const updateProduct = async () => {};
-const getProducts = async (category: string) =>
-  await axiosClient.get(`/api/products/${category}`);
+
+const getProducts = async (filters: object) =>
+  await axiosClient.get(`/api/products`, {
+    params: { filters: filters },
+  });
 
 const getProductItem = async (id: string, category: string) =>
   await axiosClient.get(`api/products/${category}/${id}`);

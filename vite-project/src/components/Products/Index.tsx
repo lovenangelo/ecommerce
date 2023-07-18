@@ -1,5 +1,5 @@
-import ItemCard from "../ItemCard";
-import Layout from "../Layout";
+import ItemCard from "./ItemCard";
+import Layout from "./Layout";
 import {
   Select,
   SelectContent,
@@ -8,13 +8,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Collapsibles from "./Collapsibles";
-import Pagination from "../Pagination";
+import Pagination from "./Pagination";
 import productsApi from "@/lib/api/products";
 import { useQuery } from "react-query";
-
+import { useState } from "react";
+import CardSkeleton from "./Loaders/CardSkeleton";
 const Index = () => {
-  const getHandbags = async () => await productsApi.getProducts("handbags");
+  const [filters, setFilters] = useState<object>({ category: "handbags" });
+  console.log(filters);
 
+  const getHandbags = async () => await productsApi.getProducts(filters);
   const handbags = useQuery("get-handbags", getHandbags, {
     enabled: true,
     retry: 2,
@@ -25,8 +28,6 @@ const Index = () => {
       console.log(e);
     },
   });
-
-  console.log(handbags);
 
   const items = handbags.data?.data.data.map(
     (
@@ -60,8 +61,7 @@ const Index = () => {
       </div>
     )
   );
-
-  if (handbags.isLoading) return <>Loading</>;
+  console.log(filters);
 
   return (
     <Layout>
@@ -69,7 +69,7 @@ const Index = () => {
         <div className="grid grid-cols-4">
           <div className="col-span-1 space-y-2 pr-4">
             <h1 className="text-4xl font-bold mb-8">Handbags</h1>
-            <Collapsibles />
+            <Collapsibles setFilters={setFilters} filterValue={filters} />
           </div>
           <div className="col-span-3 grid grid-flow-row grid-cols-3 gap-5">
             <div className="col-span-3 flex items-center justify-between">
@@ -89,7 +89,15 @@ const Index = () => {
                 </Select>
               </div>
             </div>
-            {items}
+            {handbags.isLoading ? (
+              <CardSkeleton />
+            ) : items.length !== 0 ? (
+              items
+            ) : (
+              <div className="flex w-full justify-center col-span-4">
+                <h1>No results</h1>
+              </div>
+            )}
             <div className="col-span-3 w-full">
               <Pagination pages={10} currentPage={1} />
             </div>

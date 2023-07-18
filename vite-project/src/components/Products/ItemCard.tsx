@@ -36,7 +36,7 @@ const ItemCard = ({
   category,
 }: Item) => {
   return (
-    <Card className="grid grid-cols-1 rows-auto h-full w-fullr">
+    <Card className="grid grid-cols-1 rows-auto h-[416px] w-fullr">
       <CardHeader className={cn("h-24 w-full ")}>
         <CardTitle>{title}</CardTitle>
         <CardDescription className={cn("truncate")}>
@@ -50,11 +50,11 @@ const ItemCard = ({
       </CardContent>
       <CardFooter className={cn("flex justify-between items-start")}>
         <div>
-          <p className="font-semibold">
+          <div className="font-semibold">
             ${price} <s className="text-sm">${parseInt(price) * 2}</s>{" "}
             <span className="text-red-500 font-bold">{promo}</span>
             <Ratings starCount={ratings?.stars ?? 2} reviewCount={24} />
-          </p>
+          </div>
         </div>
         <button>
           <Icons.nav.favorites />

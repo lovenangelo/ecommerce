@@ -5,23 +5,57 @@ import {
 } from "@/components/ui/collapsible";
 import { Checkbox } from "@/components/ui/checkbox";
 import Icons from "@/lib/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import filters from "@/lib/filters";
 import { cn } from "@/lib/utils";
 import { Slider } from "@/components/ui/slider";
 
-const Collapsibles = () => {
+const Collapsibles = ({
+  setFilters,
+  filterValue,
+}: {
+  setFilters: React.Dispatch<React.SetStateAction<object>>;
+  filterValue: object;
+}) => {
   const [sizeTriggerOpen, setSizeTriggerOpen] = useState(false);
   const [colorTriggerOpen, setColorTriggerOpen] = useState(false);
   const [brandTriggerOpen, setBrandTriggerOpen] = useState(false);
   const [priceRangeTriggerOpen, setPriceRangeTriggerOpen] = useState(false);
   const [price, setPrice] = useState<number[]>([30]);
+  const [sizesFilter, setSizesFilter] = useState<string[]>([]);
+  const [colorsFilter, setColorsFilter] = useState<string[]>([]);
+  const [brandsFilter, setBrandsFilter] = useState<string[]>([]);
 
-  const collapsibleContent = (data: string[]) => {
+  console.log(sizesFilter, colorsFilter, brandsFilter);
+
+  useEffect(() => {
+    setFilters({
+      ...filterValue,
+      sizes: sizesFilter,
+      brands: brandsFilter,
+      colors: colorsFilter,
+    });
+  }, [sizesFilter, brandsFilter, colorsFilter]);
+
+  const collapsibleContent = (
+    data: string[],
+    updateFilterState: React.Dispatch<React.SetStateAction<string[]>>,
+    state: string[]
+  ) => {
     return data.map((item, index) => {
       return (
         <div className="items-top flex space-x-2" key={index}>
-          <Checkbox id="terms1" />
+          <Checkbox
+            checked={state.includes(item)}
+            onCheckedChange={(checked) => {
+              if (checked) {
+                updateFilterState([...state, item]);
+              } else {
+                updateFilterState(state.filter((value) => value !== item));
+              }
+            }}
+            id="terms1"
+          />
           <div className="grid gap-1.5 leading-none">
             <label
               htmlFor="terms1"
@@ -35,9 +69,17 @@ const Collapsibles = () => {
     });
   };
 
-  const sizes = collapsibleContent(filters.sizes);
-  const colors = collapsibleContent(filters.colors);
-  const brands = collapsibleContent(filters.brands);
+  const sizes = collapsibleContent(filters.sizes, setSizesFilter, sizesFilter);
+  const colors = collapsibleContent(
+    filters.colors,
+    setColorsFilter,
+    colorsFilter
+  );
+  const brands = collapsibleContent(
+    filters.brands,
+    setBrandsFilter,
+    brandsFilter
+  );
 
   return (
     <>
@@ -119,11 +161,12 @@ const Collapsibles = () => {
           <Slider
             onValueChange={(value) => {
               setPrice(value);
+              setFilters({ ...filterValue, price: price[0] });
             }}
             defaultValue={price}
             min={30}
-            max={55_000}
-            step={10}
+            max={3_000}
+            step={2}
           />
         </CollapsibleContent>
       </Collapsible>
