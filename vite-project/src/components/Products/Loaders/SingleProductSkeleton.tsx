@@ -1,7 +1,4 @@
 import { Skeleton } from "@/components/ui/skeleton";
-import Ratings from "../Ratings";
-import Coupon from "../Coupon";
-import Icons from "@/lib/icons";
 
 const SingleProductSkeleton = () => {
   return (
@@ -19,7 +16,7 @@ const SingleProductSkeleton = () => {
           <Skeleton className="flex space-x-2 h-[28px] w-full" />
           <Skeleton className="flex space-x-2 h-[28px] w-full" />
           <Skeleton className="h-[1px] w-full" />
-          <Skeleton className="w-full my-8 h-[306px] w-full" />
+          <Skeleton className="w-full my-8 h-[306px]" />
         </div>
       </div>
     </div>
