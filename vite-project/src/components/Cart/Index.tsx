@@ -16,9 +16,8 @@ import images from "@/lib/images";
 import { Button } from "../ui/button";
 import Icons from "@/lib/icons";
 import Coupon from "../Products/Coupon";
-import { Link, Redirect } from "wouter";
+import { Link } from "wouter";
 import CartItem from "./CartItem";
-import { useAppSelector } from "@/redux/hooks";
 const Index = () => {
   return (
     <div className="container">

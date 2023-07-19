@@ -132,8 +132,8 @@ const Index = () => {
             title: "Successfuly posted a new product",
             description: new Date().toString(),
           });
-          // setSelectedFile(null);
-          // form.reset();
+          setSelectedFile(null);
+          form.reset();
           setIsLoading(false);
         })
         .catch((e) =>
@@ -177,7 +177,7 @@ const Index = () => {
             <FormField
               control={form.control}
               name="image"
-              render={() => (
+              render={(field) => (
                 <FormItem>
                   <FormLabel
                     className={cn(
@@ -194,6 +194,7 @@ const Index = () => {
                       type="file"
                       accept="image/*"
                       onChange={handleFileChange}
+                      {...field}
                     />
                   </FormControl>
                   {submitted && !selectedFile ? (

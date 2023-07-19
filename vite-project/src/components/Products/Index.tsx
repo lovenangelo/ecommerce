@@ -13,12 +13,12 @@ import productsApi from "@/lib/api/products";
 import { useQuery } from "react-query";
 import { useState } from "react";
 import CardSkeleton from "./Loaders/CardSkeleton";
-const Index = () => {
-  const [filters, setFilters] = useState<object>({ category: "handbags" });
+const Index = ({ category }: { category: string }) => {
+  const [filters, setFilters] = useState<object>({ category: category });
   console.log(filters);
 
   const getHandbags = async () => await productsApi.getProducts(filters);
-  const handbags = useQuery("get-handbags", getHandbags, {
+  const handbags = useQuery(["get-handbags", category], getHandbags, {
     enabled: true,
     retry: 2,
   });
@@ -50,12 +50,14 @@ const Index = () => {
           price={item.price}
           promo={"50% OFF"}
           img={`http://localhost:8000/${item.image.url}`}
-          category="handbags"
+          category={category}
         />
       </div>
     )
   );
   console.log(filters);
+  console.log(handbags);
+
   return (
     <Layout>
       <div className="container mt-8">
@@ -68,7 +70,7 @@ const Index = () => {
             <div className="col-span-3 flex items-center justify-between">
               <p className="font-bold">
                 Showing {handbags.data?.data.current_page}-
-                {handbags.data?.data.last_page} of {handbags.data?.data.total}
+                {handbags.data?.data.last_page} of {handbags.data?.data.total}{" "}
                 items
               </p>
               <div className="flex items-center space-x-4">

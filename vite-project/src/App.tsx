@@ -7,7 +7,7 @@ import Navbar from "./components/Navbar";
 import Authentication from "./components/Authentication/AuthenticationWrapper";
 import { Route } from "wouter";
 import Profile from "@/components/Profile/Index";
-import Handbag from "@/components/Products/Index";
+import Product from "@/components/Products/Index";
 import SingleProduct from "./components/Products/SingleProduct";
 import Cart from "@/components/Cart/Index";
 import Checkout from "@/components/Cart/Checkout/Index";
@@ -43,8 +43,8 @@ function App() {
       </Route>
       {/* Products */}
       {/* Handbags */}
-      <Route path="/products">
-        <Handbag />
+      <Route path="/products/:category">
+        {(params) => <Product category={params.category} />}
       </Route>
 
       <Route path="/profile/:category/:id">

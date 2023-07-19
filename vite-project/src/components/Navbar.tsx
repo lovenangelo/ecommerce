@@ -77,7 +77,9 @@ const Navbar = () => {
         <ul className="list-none space-x-5 hidden md:flex">
           {nav.links.map((link, index) => (
             <li key={index}>
-              <Link href={"/products"}>{link.name}</Link>
+              <Link href={`/products/${link.name.toLowerCase()}`}>
+                {link.name}
+              </Link>
             </li>
           ))}
         </ul>
