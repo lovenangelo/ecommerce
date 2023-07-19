@@ -21,7 +21,6 @@ class ProductFilters
 
   public function receivedFilters()
   {
-    $filters = request()->all();
-    return $filters['filters'];
+    return request()->only(array_keys($this->filters));
   }
 }
