@@ -11,18 +11,31 @@ import Collapsibles from "./Collapsibles";
 import Pagination from "./Pagination";
 import productsApi from "@/lib/api/products";
 import { useQuery } from "react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CardSkeleton from "./Loaders/CardSkeleton";
 const Index = ({ category }: { category: string }) => {
-  const [filters, setFilters] = useState<object>({ category: category });
+  const [currentCategory, setCurrentCategory] = useState(category);
+  const [filters, setFilters] = useState<object>({ category: currentCategory });
   console.log(filters);
 
-  const getHandbags = async () => await productsApi.getProducts(filters);
-  const handbags = useQuery(["get-handbags", category], getHandbags, {
+  const getHandbags = async () =>
+    await productsApi.getProducts(currentCategory, filters);
+  const handbags = useQuery(["get-handbags", currentCategory], getHandbags, {
     enabled: true,
     retry: 2,
   });
-  console.log(handbags.data);
+
+  const refetch = handbags.refetch;
+
+  useEffect(() => {
+    if (currentCategory !== category) {
+      setCurrentCategory(category);
+    }
+  }, [category, currentCategory]);
+
+  useEffect(() => {
+    refetch();
+  }, [category, currentCategory, refetch]);
 
   const items = handbags.data?.data.data.map(
     (

@@ -13,9 +13,9 @@ const addNewProduct = async (data: ProductsType) => {
     });
 };
 
-const getProducts = async (filters: object) =>
+const getProducts = async (category: string, filters: object) =>
   await axiosClient.get(`/api/products`, {
-    params: { filters: filters },
+    params: { category: category },
   });
 
 const getProductItem = async (id: string, category: string) =>
