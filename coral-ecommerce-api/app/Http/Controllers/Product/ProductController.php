@@ -9,6 +9,13 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Controllers\Controller;
+use App\Models\Product\Brand;
+use App\Models\Product\Category;
+use App\Models\Product\Color;
+use App\Models\Product\PaymentOption;
+use App\Models\Product\Price;
+use App\Models\Product\Quantity;
+use App\Models\Product\Size;
 
 class ProductController extends Controller
 {
@@ -17,30 +24,8 @@ class ProductController extends Controller
    */
   public function index()
   {
-    $params = request()->all();
-    $filters = $params['filters'];
-    $query = Product::query();
-    if (isset($filters['category'])) {
-      $query->where('category', $filters['category']);
-    }
-    if (isset($filters['sizes'])) {
-      $sizes = $filters['sizes'];
-      $query->whereIn('sizes', $sizes);
-    }
-    if (isset($filters['colors'])) {
-      $colors = $filters['colors'];
-      $query->whereIn('colors', $colors);
-    }
-    if (isset($filters['brand'])) {
-      $brand = $filters['brand'];
-      $query->whereIn('brand', $brand);
-    }
-    if (isset($filters['price'])) {
-      $minPrice = $filters['price'];
-      $query->where('price', '>=', $minPrice);
-    }
-
-    $products = $query->with('image')->paginate(9);
+    $products = Product::with('brand', 'image', 'quantity', 'size', 'payment_options', 'brand', 'category', 'color', 'price')->paginate(9);
+    clock($products);
     return response()->json($products);
   }
 
@@ -49,8 +34,8 @@ class ProductController extends Controller
    */
   public function store(Request $request)
   {
-    $user_id = $request->user()->id;
     try {
+      $user_id = $request->user()->id;
       $validated = $request->validate(
         [
           'name' => 'required|string',
@@ -59,17 +44,41 @@ class ProductController extends Controller
           'quantity' => 'required|integer',
           'category' => 'required|string',
           'sizes' => 'required|string',
-          'colors' => 'required|string',
-          'delivery_options' => 'required|string',
+          'color' => 'required|string',
+          'payment_options' => 'required|string',
           'subtitle' => 'required|string',
           'brand' => 'required|string',
         ]
       );
-      $validated['user_id'] = $user_id;
-      $product = Product::create($validated);
+
+      $product = Product::create([...$request->only(['name', 'description', 'subtitle']), 'user_id' => $user_id]);
       $product->save();
+      $product_id = $product->id;
+      clock(['product_id' => $product_id, ...$request->only('price')]);
+      Price::create(['product_id' => $product_id, ...$request->only('price')]);
+      Category::create(['product_id' => $product_id, ...$request->only('category')]);
+      Quantity::create(['product_id' => $product_id, ...$request->only('quantity')]);
+      Color::create(['product_id' => $product_id, ...$request->only('color')]);
+      Brand::create(['product_id' => $product_id, ...$request->only('brand')]);
+
+      // Saving sizes
+      $sizes =  $request->input('sizes');
+      Size::create([
+        'product_id' => $product_id, 's' => str_contains($sizes, 's'), 'm' => str_contains($sizes, 'm'),
+        'l' => str_contains($sizes, 'l')
+      ]);
+
+      // Saving payment options
+      $payment_options =  $request->input('payment_options');
+      PaymentOption::create([
+        'product_id' => $product_id, 'card' => str_contains($payment_options, 'card'), 'cod' => str_contains($payment_options, 'cod')
+      ]);
+      clock(str_contains($payment_options, 'card'));
+
+      // Saving image
       $path = $request->file('image')->store("products/{$validated['category']}");
-      ProductImage::create(['product_id' => $product->id, 'url' => $path]);
+      ProductImage::create(['product_id' => $product_id, 'url' => $path]);
+
       return response()->json(['message' => 'New product created successfully'], 201);
     } catch (ValidationException $e) {
       return response()->json(['errors' => $e->errors()], 422);
@@ -82,7 +91,7 @@ class ProductController extends Controller
   public function show($category, $id)
   {
     try {
-      $product = Product::where(['category' => $category, 'id' => $id])->with('image')->first();
+      $product = Product::where(['id' => $id])->with('brand', 'image', 'quantity', 'size', 'payment_options', 'brand', 'category', 'color', 'price')->first();
       return response()->json($product);
     } catch (Exception $e) {
       return response()->json(['message' => 'Product could not be found', 404]);

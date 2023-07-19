@@ -28,4 +28,39 @@ class Product extends Model
   {
     return $this->HasOne(Review::class);
   }
+
+  public function category(): HasOne
+  {
+    return $this->HasOne(Category::class);
+  }
+
+  public function price(): HasOne
+  {
+    return $this->HasOne(Price::class);
+  }
+
+  public function brand(): HasOne
+  {
+    return $this->HasOne(Brand::class);
+  }
+
+  public function quantity(): HasOne
+  {
+    return $this->HasOne(Quantity::class);
+  }
+
+  public function color(): HasOne
+  {
+    return $this->HasOne(Color::class);
+  }
+
+  public function size(): HasOne
+  {
+    return $this->HasOne(Size::class);
+  }
+
+  public function payment_options(): HasOne
+  {
+    return $this->HasOne(PaymentOption::class);
+  }
 }
