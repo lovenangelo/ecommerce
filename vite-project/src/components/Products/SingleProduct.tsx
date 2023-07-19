@@ -8,20 +8,37 @@ import { useQuery } from "react-query";
 import SingleProductSkeleton from "./Loaders/SingleProductSkeleton";
 
 type Product = {
-  category: string;
-  created_at: string;
+  brand: {
+    brand: string;
+  };
+  category: {
+    category: string;
+  };
+  color: {
+    color: string;
+  };
   description: string;
-  name: string;
-  price: string;
-  quantity: number;
+  payment_options: {
+    cod: boolean;
+    card: boolean;
+  };
+  price: {
+    price: string;
+  };
+  quantity: {
+    quantity: number;
+  };
   subtitle: string;
-  sizes: string;
-  colors: string;
-  delivery_options: string;
-  brand: string;
+  size: {
+    s: boolean;
+    m: boolean;
+    l: boolean;
+  };
   image: {
     url: string;
   };
+  id: number;
+  name: string;
 };
 
 const SingleProduct = ({ id, category }: { id: string; category: string }) => {
@@ -41,6 +58,8 @@ const SingleProduct = ({ id, category }: { id: string; category: string }) => {
       console.log(e);
     },
   });
+
+  console.log(data);
 
   if (isLoading) return <SingleProductSkeleton />;
   return (
@@ -63,7 +82,7 @@ const SingleProduct = ({ id, category }: { id: string; category: string }) => {
             <div className="space-y-4">
               <Ratings starCount={4} reviewCount={24} />
               <div className="flex items-end space-x-4">
-                <h2 className="text-4xl font-bold">${data?.price}</h2>
+                <h2 className="text-4xl font-bold">${data?.price.price}</h2>
                 {/* {data?.promo && (
               <>
                 <s className="text-4xl text-[#B6B6B6] font-bold stroke">
@@ -75,9 +94,13 @@ const SingleProduct = ({ id, category }: { id: string; category: string }) => {
               </div>
             </div>{" "}
             <div className="space-y-22 text-sm space-y-2 text-[#626262]">
-              <p>Stocks: {data?.quantity}</p>
-              <p>Available colors: {data?.colors}</p>
-              <p>Available sizes: {data?.sizes}</p>
+              <p>Stocks: {data?.quantity.quantity}</p>
+              <p>Color: {data?.color.color}</p>
+              <div className="flex space-x-1">
+                <p>Available sizes: </p> {!!data?.size.s && <span>Small,</span>}
+                {!!data?.size.m && <span> Medium,</span>}
+                {!!data?.size.l && <span> Large</span>}
+              </div>
             </div>
           </div>
 
@@ -88,7 +111,12 @@ const SingleProduct = ({ id, category }: { id: string; category: string }) => {
               <p className="text-[#626262]">
                 Check estimated delivery date/pickup option.
               </p>
-              <p>Payment options: {data?.delivery_options}</p>
+              {/* <p>Payment options: {data?.delivery_options}</p> */}
+              <div className="flex space-x-1">
+                <p>Payment options: </p>{" "}
+                {!!data?.payment_options.card && <span>Card,</span>}
+                {!!data?.payment_options.cod && <span> Cash On Delivery,</span>}
+              </div>
             </div>
             <Coupon />
           </div>

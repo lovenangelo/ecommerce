@@ -22,22 +22,42 @@ const Index = ({ category }: { category: string }) => {
     enabled: true,
     retry: 2,
   });
+  console.log(handbags.data);
 
   const items = handbags.data?.data.data.map(
     (
       item: {
-        category: string;
-        created_at: string;
+        brand: {
+          brand: string;
+        };
+        category: {
+          category: string;
+        };
+        color: {
+          color: string;
+        };
         description: string;
-        id: number;
-        name: string;
-        user_id: number;
-        updated_at: string;
-        price: string;
-        quantity: number;
+        payment_options: {
+          cod: boolean;
+          card: boolean;
+        };
+        price: {
+          price: string;
+        };
+        quantity: {
+          quantity: number;
+        };
+        subtitle: string;
+        size: {
+          s: boolean;
+          m: boolean;
+          l: boolean;
+        };
         image: {
           url: string;
         };
+        id: number;
+        name: string;
       },
       index: number
     ) => (
@@ -47,10 +67,10 @@ const Index = ({ category }: { category: string }) => {
           title={item.name}
           description={item.description}
           ratings={null}
-          price={item.price}
+          price={item.price.price}
           promo={"50% OFF"}
           img={`http://localhost:8000/${item.image.url}`}
-          category={category}
+          category={item.category.category}
         />
       </div>
     )

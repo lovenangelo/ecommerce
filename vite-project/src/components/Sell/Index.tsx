@@ -55,13 +55,11 @@ const formSchema = z.object({
     .number()
     .or(z.string().regex(/\d+/).transform(Number))
     .refine((n) => n >= 0, { message: "Invalid quantity" }),
-  colors: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: "You have to select at least one item.",
-  }),
+  color: z.string(),
   sizes: z.array(z.string()).refine((value) => value.some((item) => item), {
     message: "You have to select at least one item.",
   }),
-  delivery_options: z
+  payment_options: z
     .array(z.string())
     .refine((value) => value.some((item) => item), {
       message: "You have to select at least one item.",
@@ -72,8 +70,10 @@ const formSchema = z.object({
     .min(2, "This field is required")
     .max(50, "Brand name is too long"),
 });
+
 const Index = () => {
   const user = useAppSelector((state) => state.user.value);
+
   useEffect(() => {
     if (!user)
       toast({
@@ -104,9 +104,9 @@ const Index = () => {
       category: "handbags",
       price: 20,
       quantity: 1,
-      colors: [],
+      color: "beige",
       sizes: [],
-      delivery_options: [],
+      payment_options: [],
     },
   });
 
@@ -115,9 +115,8 @@ const Index = () => {
   const addProduct = async (data: FormSchemaType) => {
     const prepare = {
       ...data,
-      delivery_options: data.delivery_options.join(),
+      payment_options: data.payment_options.join(),
       sizes: data.sizes.join(),
-      colors: data.colors.join(),
     };
     if (selectedFile) {
       setIsLoading(true);
@@ -342,16 +341,109 @@ const Index = () => {
             <div className="grid grid-cols-2 gap-4 mt-4">
               <div>
                 <div className="mb-4">
-                  <FormLabel className="text-base">Colors</FormLabel>
+                  <FormLabel className="text-base">Color</FormLabel>
                   <FormDescription>
-                    Select the colors that fit the product.
+                    Select the color that fit best your product.
                   </FormDescription>
                 </div>
-                {sellUtils.colors.map((item, index) => (
+                <div className="grid grid-cols-2 row-auto">
+                  {sellUtils.colors.map((item, index) => (
+                    <FormField
+                      key={item.id}
+                      control={form.control}
+                      name="color"
+                      render={({ field }) => {
+                        return (
+                          <>
+                            <FormItem key={item.id}>
+                              <div className="flex flex-row items-start space-x-3 space-y-0">
+                                <FormControl>
+                                  <Checkbox
+                                    disabled={isLoading}
+                                    checked={field.value == item.id}
+                                    onCheckedChange={() => {
+                                      field.onChange(item.id);
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  {item.label}
+                                </FormLabel>
+                              </div>
+                              {index == sellUtils.colors.length - 1 && (
+                                <div className="col-span-2">
+                                  <FormMessage />
+                                </div>
+                              )}
+                            </FormItem>
+                          </>
+                        );
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+              <div>
+                <div className="mb-4">
+                  <FormLabel className="text-base">Sizes</FormLabel>
+                  <FormDescription>
+                    Select the sizes available in your product.
+                  </FormDescription>
+                </div>
+                <div className="grid grid-cols-2 row-auto">
+                  {sellUtils.sizes.map((item, index) => (
+                    <FormField
+                      key={item.id}
+                      control={form.control}
+                      name="sizes"
+                      render={({ field }) => {
+                        return (
+                          <FormItem key={item.id}>
+                            <div className="flex flex-row items-start space-x-3 space-y-0">
+                              <FormControl>
+                                <Checkbox
+                                  disabled={isLoading}
+                                  checked={field.value?.includes(item.id)}
+                                  onCheckedChange={(checked) => {
+                                    return checked
+                                      ? field.onChange([
+                                          ...field.value,
+                                          item.id,
+                                        ])
+                                      : field.onChange(
+                                          field.value?.filter(
+                                            (value) => value !== item.id
+                                          )
+                                        );
+                                  }}
+                                />
+                              </FormControl>
+                              <FormLabel className="text-sm font-normal">
+                                {item.label}
+                              </FormLabel>
+                            </div>
+
+                            {index == sellUtils.sizes.length - 1 && (
+                              <FormMessage />
+                            )}
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="mt-4">
+              <div className="mb-4">
+                <FormLabel className="text-base">Payment Options</FormLabel>
+              </div>
+              <div className="grid grid-cols-2 row-auto">
+                {sellUtils.deliveryOptions.map((item, index) => (
                   <FormField
                     key={item.id}
                     control={form.control}
-                    name="colors"
+                    name="payment_options"
                     render={({ field }) => {
                       return (
                         <>
@@ -379,7 +471,7 @@ const Index = () => {
                                 {item.label}
                               </FormLabel>
                             </div>
-                            {index == sellUtils.colors.length - 1 && (
+                            {index == sellUtils.deliveryOptions.length - 1 && (
                               <FormMessage />
                             )}
                           </FormItem>
@@ -389,94 +481,6 @@ const Index = () => {
                   />
                 ))}
               </div>
-              <div>
-                <div className="mb-4">
-                  <FormLabel className="text-base">Sizes</FormLabel>
-                  <FormDescription>
-                    Select the sizes available in your product.
-                  </FormDescription>
-                </div>
-                {sellUtils.sizes.map((item, index) => (
-                  <FormField
-                    key={item}
-                    control={form.control}
-                    name="sizes"
-                    render={({ field }) => {
-                      return (
-                        <FormItem key={item}>
-                          <div className="flex flex-row items-start space-x-3 space-y-0">
-                            <FormControl>
-                              <Checkbox
-                                disabled={isLoading}
-                                checked={field.value?.includes(item)}
-                                onCheckedChange={(checked) => {
-                                  return checked
-                                    ? field.onChange([...field.value, item])
-                                    : field.onChange(
-                                        field.value?.filter(
-                                          (value) => value !== item
-                                        )
-                                      );
-                                }}
-                              />
-                            </FormControl>
-                            <FormLabel className="text-sm font-normal">
-                              {item}
-                            </FormLabel>
-                          </div>
-
-                          {index == sellUtils.sizes.length - 1 && (
-                            <FormMessage />
-                          )}
-                        </FormItem>
-                      );
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-            <div className="mt-4">
-              <div className="mb-4">
-                <FormLabel className="text-base">Delivery Options</FormLabel>
-              </div>
-              {sellUtils.deliveryOptions.map((item, index) => (
-                <FormField
-                  key={item.id}
-                  control={form.control}
-                  name="delivery_options"
-                  render={({ field }) => {
-                    return (
-                      <>
-                        <FormItem key={item.id}>
-                          <div className="flex flex-row items-start space-x-3 space-y-0">
-                            <FormControl>
-                              <Checkbox
-                                disabled={isLoading}
-                                checked={field.value?.includes(item.id)}
-                                onCheckedChange={(checked) => {
-                                  return checked
-                                    ? field.onChange([...field.value, item.id])
-                                    : field.onChange(
-                                        field.value?.filter(
-                                          (value) => value !== item.id
-                                        )
-                                      );
-                                }}
-                              />
-                            </FormControl>
-                            <FormLabel className="text-sm font-normal">
-                              {item.label}
-                            </FormLabel>
-                          </div>
-                          {index == sellUtils.deliveryOptions.length - 1 && (
-                            <FormMessage />
-                          )}
-                        </FormItem>
-                      </>
-                    );
-                  }}
-                />
-              ))}
             </div>
           </div>
           <hr className="col-span-3" />

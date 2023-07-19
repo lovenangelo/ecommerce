@@ -1,46 +1,79 @@
 const colors = [
   {
+    id: "beige",
+    label: "Beige",
+  },
+  {
+    id: "black",
+    label: "Black",
+  },
+  {
     id: "blue",
     label: "Blue",
   },
   {
-    id: "maroon red",
-    label: "Maroon Red",
+    id: "brown",
+    label: "Brown",
   },
   {
-    id: "crimson red",
-    label: "Crimson Red",
+    id: "gold",
+    label: "Gold",
   },
   {
-    id: "seinna pink",
-    label: "Seinna Pink",
+    id: "gray",
+    label: "Gray",
   },
   {
-    id: "teal",
-    label: "Teal",
+    id: "green",
+    label: "Green",
   },
   {
-    id: "aquamarine",
-    label: "Aquamarine",
+    id: "multi",
+    label: "Multi",
   },
   {
-    id: "off-white",
-    label: "Off-White",
+    id: "orange",
+    label: "Orange",
   },
   {
-    id: "muave-orange",
-    label: "Muave-Orange",
+    id: "pink",
+    label: "Pink",
+  },
+  {
+    id: "purple",
+    label: "Purple",
+  },
+  {
+    id: "red",
+    label: "Red",
+  },
+  {
+    id: "silver",
+    label: "Silver",
+  },
+  {
+    id: "white",
+    label: "White",
+  },
+  {
+    id: "yellow",
+    label: "Yellow",
   },
 ];
 
-const sizes = ["xs", "sm", "md", "lg", "xl", "xxl"];
+const sizes = [
+  { label: "small", id: "s" },
+  { label: "medium", id: "m" },
+  { label: "large", id: "l" },
+];
+
 const deliveryOptions = [
   {
     id: "card",
     label: "Card",
   },
   {
-    id: "cash on delivery",
+    id: "cod",
     label: "Cash On Delivery",
   },
 ];
