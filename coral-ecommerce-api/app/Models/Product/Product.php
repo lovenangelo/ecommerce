@@ -63,4 +63,10 @@ class Product extends Model
   {
     return $this->HasOne(PaymentOption::class);
   }
+
+  // This is the scope we added
+  public function scopeFilter($query, $filters)
+  {
+    return $filters->apply($query);
+  }
 }

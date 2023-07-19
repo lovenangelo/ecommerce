@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Product;
 
+use App\Filters\ProductFilters;
 use App\Models\Product\Product;
 use App\Models\Product\ProductImage;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Controllers\Controller;
 use App\Models\Product\Brand;
 use App\Models\Product\Category;
@@ -22,11 +22,11 @@ class ProductController extends Controller
   /**
    * Display a listing of the resource.
    */
-  public function index()
+  public function index(ProductFilters $filters)
   {
-    $products = Product::with('brand', 'image', 'quantity', 'size', 'payment_options', 'brand', 'category', 'color', 'price')->paginate(9);
-    clock($products);
-    return response()->json($products);
+    return Product::filter($filters)
+      ->with('brand', 'image', 'quantity', 'size', 'payment_options', 'brand', 'category', 'color', 'price')
+      ->paginate(9);
   }
 
   /**
