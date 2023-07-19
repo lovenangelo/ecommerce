@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Product;
 
-use App\Models\Product;
-use App\Models\ProductImage;
+use App\Models\Product\Product;
+use App\Models\Product\ProductImage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ProductImageController extends Controller
 {

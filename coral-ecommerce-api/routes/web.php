@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +17,4 @@ Route::get('/', function () {
   return ['Laravel' => app()->version()];
 });
 
-Route::get('/products/{category}', [ProductController::class, 'index'])->middleware('guest');
-Route::get('/products/{category}/{id}', [ProductController::class, 'show'])->middleware('guest');
 require __DIR__ . '/auth.php';

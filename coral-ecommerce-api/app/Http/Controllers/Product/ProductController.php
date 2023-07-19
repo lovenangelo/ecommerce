@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Product;
 
-use App\Models\Product;
-use App\Models\ProductImage;
+use App\Models\Product\Product;
+use App\Models\Product\ProductImage;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Spatie\QueryBuilder\QueryBuilder;
+use App\Http\Controllers\Controller;
 
 class ProductController extends Controller
 {
