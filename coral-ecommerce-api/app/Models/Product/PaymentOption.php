@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Category extends Model
+class PaymentOption extends Model
 {
+
   use HasFactory;
 
   protected $fillable = [
-    'category', 'product_id'
+    'cod', 'card', 'product_id'
   ];
-
 
   /**
    * Get the product that owns the PromoController

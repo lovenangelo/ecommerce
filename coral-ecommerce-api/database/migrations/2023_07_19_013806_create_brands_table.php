@@ -11,10 +11,10 @@ return new class extends Migration
    */
   public function up(): void
   {
-    Schema::create('categories', function (Blueprint $table) {
+    Schema::create('brands', function (Blueprint $table) {
       $table->id();
       $table->foreignId('product_id')->constrained();
-      $table->enum('category', ['handbags', 'watches', 'skincare', 'jewellery', 'apparels']);
+      $table->string('brand');
       $table->timestamps();
     });
   }
@@ -24,6 +24,6 @@ return new class extends Migration
    */
   public function down(): void
   {
-    Schema::dropIfExists('categories');
+    Schema::dropIfExists('brands');
   }
 };
