@@ -15,11 +15,21 @@ import { useEffect, useState } from "react";
 import CardSkeleton from "./Loaders/CardSkeleton";
 const Index = ({ category }: { category: string }) => {
   const [currentCategory, setCurrentCategory] = useState(category);
-  const [filters, setFilters] = useState<object>({ category: currentCategory });
-  console.log(filters);
+  const [price, setPrice] = useState<number[]>([20]);
+  const [sizesFilter, setSizesFilter] = useState<{
+    s: boolean;
+    m: boolean;
+    l: boolean;
+  }>({ s: false, m: false, l: false });
+  const [colorsFilter, setColorsFilter] = useState<string[]>([]);
 
   const getHandbags = async () =>
-    await productsApi.getProducts(currentCategory, filters);
+    await productsApi.getProducts(
+      currentCategory,
+      price,
+      colorsFilter,
+      sizesFilter
+    );
   const handbags = useQuery(["get-handbags", currentCategory], getHandbags, {
     enabled: true,
     retry: 2,
@@ -35,7 +45,8 @@ const Index = ({ category }: { category: string }) => {
 
   useEffect(() => {
     refetch();
-  }, [category, currentCategory, refetch]);
+  }, [category, currentCategory, refetch, price, sizesFilter, colorsFilter]);
+  console.log(handbags.data);
 
   const items = handbags.data?.data.data.map(
     (
@@ -88,8 +99,6 @@ const Index = ({ category }: { category: string }) => {
       </div>
     )
   );
-  console.log(filters);
-  console.log(handbags);
 
   return (
     <Layout>
@@ -97,7 +106,11 @@ const Index = ({ category }: { category: string }) => {
         <div className="grid grid-cols-4">
           <div className="col-span-1 space-y-2 pr-4">
             <h1 className="text-4xl font-bold mb-8">Handbags</h1>
-            <Collapsibles setFilters={setFilters} filterValue={filters} />
+            <Collapsibles
+              setPriceFilterValue={setPrice}
+              setColorsFilterValue={setColorsFilter}
+              setSizesFilterValue={setSizesFilter}
+            />
           </div>
           <div className="col-span-3 grid grid-flow-row grid-cols-3 gap-5">
             <div className="col-span-3 flex items-center justify-between">

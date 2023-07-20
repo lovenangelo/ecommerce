@@ -1,14 +1,70 @@
 const filters = {
-  sizes: ["xs", "sm", "md", "lg", "xl", "xxl"],
+  sizes: [
+    { label: "small", id: "s" },
+    { label: "medium", id: "m" },
+    { label: "large", id: "l" },
+  ],
   colors: [
-    "Blue",
-    "Maroon Red",
-    "Crimson Red",
-    "Seinna Pink",
-    "Teal",
-    "Aquamarine",
-    "Off-White",
-    "Muave-Orange",
+    {
+      id: "beige",
+      label: "Beige",
+    },
+    {
+      id: "black",
+      label: "Black",
+    },
+    {
+      id: "blue",
+      label: "Blue",
+    },
+    {
+      id: "brown",
+      label: "Brown",
+    },
+    {
+      id: "gold",
+      label: "Gold",
+    },
+    {
+      id: "gray",
+      label: "Gray",
+    },
+    {
+      id: "green",
+      label: "Green",
+    },
+    {
+      id: "multi",
+      label: "Multi",
+    },
+    {
+      id: "orange",
+      label: "Orange",
+    },
+    {
+      id: "pink",
+      label: "Pink",
+    },
+    {
+      id: "purple",
+      label: "Purple",
+    },
+    {
+      id: "red",
+      label: "Red",
+    },
+    {
+      id: "silver",
+      label: "Silver",
+    },
+    {
+      id: "white",
+      label: "White",
+    },
+    {
+      id: "yellow",
+      label: "Yellow",
+    },
   ],
   brands: [
     "Louis Vuitton Speedy",

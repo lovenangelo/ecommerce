@@ -5,31 +5,55 @@ import {
 } from "@/components/ui/collapsible";
 import { Checkbox } from "@/components/ui/checkbox";
 import Icons from "@/lib/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import filters from "@/lib/filters";
 import { cn } from "@/lib/utils";
 import { Slider } from "@/components/ui/slider";
 import debounce from "lodash.debounce";
 const Collapsibles = ({
-  setFilters,
-  filterValue,
+  setPriceFilterValue,
+  setSizesFilterValue,
+  setColorsFilterValue,
 }: {
-  setFilters: React.Dispatch<React.SetStateAction<object>>;
-  filterValue: object;
+  setPriceFilterValue: React.Dispatch<React.SetStateAction<number[]>>;
+  setSizesFilterValue: React.Dispatch<
+    React.SetStateAction<{
+      s: boolean;
+      m: boolean;
+      l: boolean;
+    }>
+  >;
+  setColorsFilterValue: React.Dispatch<React.SetStateAction<string[]>>;
 }) => {
   const [sizeTriggerOpen, setSizeTriggerOpen] = useState(false);
   const [colorTriggerOpen, setColorTriggerOpen] = useState(false);
-  const [brandTriggerOpen, setBrandTriggerOpen] = useState(false);
   const [priceRangeTriggerOpen, setPriceRangeTriggerOpen] = useState(false);
-  const [price, setPrice] = useState<number[]>([30]);
+  const [price, setPrice] = useState<number[]>([20]);
   const [sizesFilter, setSizesFilter] = useState<string[]>([]);
   const [colorsFilter, setColorsFilter] = useState<string[]>([]);
-  const [brandsFilter, setBrandsFilter] = useState<string[]>([]);
 
-  console.log(sizesFilter, colorsFilter, brandsFilter);
+  useEffect(() => {
+    setPriceFilterValue(price);
+  }, [price, setPriceFilterValue]);
+
+  useEffect(() => {
+    setSizesFilterValue({
+      s: sizesFilter.includes("s"),
+      m: sizesFilter.includes("m"),
+      l: sizesFilter.includes("l"),
+    });
+  }, [price, setPriceFilterValue, setSizesFilterValue, sizesFilter]);
+
+  useEffect(() => {
+    setPriceFilterValue(price);
+  }, [price, setPriceFilterValue]);
+
+  useEffect(() => {
+    setColorsFilterValue(colorsFilter);
+  }, [colorsFilter, price, setColorsFilterValue, setPriceFilterValue]);
 
   const collapsibleContent = (
-    data: string[],
+    data: { id: string; label: string }[],
     updateFilterState: React.Dispatch<React.SetStateAction<string[]>>,
     state: string[]
   ) => {
@@ -37,12 +61,12 @@ const Collapsibles = ({
       return (
         <div className="items-top flex space-x-2" key={index}>
           <Checkbox
-            checked={state.includes(item)}
+            checked={state.includes(item.id)}
             onCheckedChange={(checked) => {
               if (checked) {
-                updateFilterState([...state, item]);
+                updateFilterState([...state, item.id]);
               } else {
-                updateFilterState(state.filter((value) => value !== item));
+                updateFilterState(state.filter((value) => value !== item.id));
               }
             }}
             id="terms1"
@@ -52,7 +76,7 @@ const Collapsibles = ({
               htmlFor="terms1"
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
-              {item}
+              {item.label}
             </label>
           </div>
         </div>
@@ -65,11 +89,6 @@ const Collapsibles = ({
     filters.colors,
     setColorsFilter,
     colorsFilter
-  );
-  const brands = collapsibleContent(
-    filters.brands,
-    setBrandsFilter,
-    brandsFilter
   );
 
   return (
@@ -109,27 +128,10 @@ const Collapsibles = ({
             </span>
           </CollapsibleTrigger>
         </div>
-        <CollapsibleContent className="flex flex-col space-y-2 py-2">
+        <CollapsibleContent
+          className={cn("grid grid-cols-3 rows-auto gap-2 border-b-1 py-2")}
+        >
           {colors}
-        </CollapsibleContent>
-      </Collapsible>
-
-      {/* Brands */}
-      <Collapsible className="border-b-2">
-        <div className="flex items-center justify-between pr-8">
-          <p className="font-semibold text-xl">Brand</p>
-          <CollapsibleTrigger
-            onClick={() => {
-              setBrandTriggerOpen(!brandTriggerOpen);
-            }}
-          >
-            <span>
-              {brandTriggerOpen ? <Icons.minusIcon /> : <Icons.plusIcon />}
-            </span>
-          </CollapsibleTrigger>
-        </div>
-        <CollapsibleContent className="flex flex-col space-y-2 py-2">
-          {brands}
         </CollapsibleContent>
       </Collapsible>
 
@@ -152,10 +154,9 @@ const Collapsibles = ({
           <Slider
             onValueChange={(value) => {
               setPrice(value);
-              setFilters({ ...filterValue, price: price[0] });
             }}
             defaultValue={price}
-            min={30}
+            min={20}
             max={3_000}
             step={2}
           />

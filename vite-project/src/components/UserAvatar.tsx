@@ -16,7 +16,7 @@ const UserAvatar = ({
         height={height}
         width={width}
         className="object-cover"
-        src={`http://localhost:8000/${src}`}
+        src={src !== null ? `http://localhost:8000/${src}` : "/"}
       />
       <AvatarFallback className="font-semibold">{name}</AvatarFallback>
     </Avatar>
