@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import Icons from "@/lib/icons";
 import { cn } from "@/lib/utils";
-import { Link, useLocation } from "wouter";
+import { Link } from "wouter";
 import Ratings from "./Ratings";
 
 type Item = {
@@ -45,12 +45,7 @@ const ItemCard = ({
       </CardHeader>
       <CardContent className={cn("h-60 w-full cursor-pointer")}>
         <Link to={`/profile/${category}/${id}`}>
-          <img
-            className="object-cover w-full h-full"
-            loading="lazy"
-            src={img}
-            alt="bag"
-          />
+          <img className="object-cover w-full h-full" src={img} alt="bag" />
         </Link>
       </CardContent>
       <CardFooter className={cn("flex justify-between items-start")}>
