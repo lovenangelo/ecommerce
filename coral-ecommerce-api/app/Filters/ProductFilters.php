@@ -6,6 +6,9 @@ class ProductFilters
 {
   protected $filters = [
     'category' => CategoryFilter::class,
+    'sizes' => SizeFilter::class,
+    'colors' => ColorFilter::class,
+    'price' => PriceFilter::class
   ];
 
   public function apply($query)
@@ -21,6 +24,7 @@ class ProductFilters
 
   public function receivedFilters()
   {
+    clock(request()->all());
     return request()->only(array_keys($this->filters));
   }
 }

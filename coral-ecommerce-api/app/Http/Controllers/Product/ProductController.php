@@ -24,9 +24,11 @@ class ProductController extends Controller
    */
   public function index(ProductFilters $filters)
   {
-    return Product::filter($filters)
-      ->with('brand', 'image', 'quantity', 'size', 'payment_options', 'brand', 'category', 'color', 'price')
-      ->paginate(9);
+    $query = Product::with('image', 'brand', 'category', 'price');
+    $query->filter($filters);
+    $products = $query->paginate(9);
+
+    return $products;
   }
 
   /**
