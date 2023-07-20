@@ -21,12 +21,21 @@ const getProducts = async (
     s: boolean;
     m: boolean;
     l: boolean;
-  }
-) =>
-  await axiosClient.get(`/api/products`, {
-    params: { category, price: price[0], colors, sizes },
+  },
+  sort: string
+) => {
+  const sortValues = sort.split(".");
+  return await axiosClient.get(`/api/products`, {
+    params: {
+      category,
+      price: price[0],
+      colors,
+      sizes,
+      sort_by: sortValues[0],
+      sort_direction: sortValues[1],
+    },
   });
-
+};
 const getProductItem = async (id: string, category: string) =>
   await axiosClient.get(`api/products/${category}/${id}`);
 

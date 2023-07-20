@@ -42,17 +42,37 @@ const Collapsibles = ({
       { leading: false, trailing: true }
     )
   );
+  const [sizesFilterDebounce] = useState(() =>
+    debounce(
+      (sizes) => {
+        setSizesFilterValue(sizes);
+        console.log(price);
+      },
+      500,
+      { leading: false, trailing: true }
+    )
+  );
+  const [colorsFilterDebounce] = useState(() =>
+    debounce(
+      (colors) => {
+        setColorsFilterValue(colors);
+        console.log(colors);
+      },
+      1000,
+      { leading: false, trailing: true }
+    )
+  );
   useEffect(() => {
-    setSizesFilterValue({
+    sizesFilterDebounce({
       s: sizesFilter.includes("s"),
       m: sizesFilter.includes("m"),
       l: sizesFilter.includes("l"),
     });
-  }, [setSizesFilterValue, sizesFilter]);
+  }, [setSizesFilterValue, sizesFilter, sizesFilterDebounce]);
 
   useEffect(() => {
-    setColorsFilterValue(colorsFilter);
-  }, [colorsFilter, setColorsFilterValue]);
+    colorsFilterDebounce(colorsFilter);
+  }, [colorsFilter, setColorsFilterValue, colorsFilterDebounce]);
 
   const collapsibleContent = (
     data: { id: string; label: string }[],

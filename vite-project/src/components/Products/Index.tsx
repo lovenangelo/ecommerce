@@ -13,25 +13,28 @@ import productsApi from "@/lib/api/products";
 import { useQuery } from "react-query";
 import { useEffect, useState } from "react";
 import CardSkeleton from "./Loaders/CardSkeleton";
+import { ProductItem } from "./types/product-item";
+
 const Index = ({ category }: { category: string }) => {
   const [currentCategory, setCurrentCategory] = useState(category);
   const [price, setPrice] = useState<number[]>([20]);
-  console.log(price);
-
   const [sizesFilter, setSizesFilter] = useState<{
     s: boolean;
     m: boolean;
     l: boolean;
   }>({ s: false, m: false, l: false });
   const [colorsFilter, setColorsFilter] = useState<string[]>([]);
-
+  const [sort, setSort] = useState("featured.asc");
   const getHandbags = async () =>
     await productsApi.getProducts(
       currentCategory,
       price,
       colorsFilter,
-      sizesFilter
+      sizesFilter,
+      sort
     );
+  console.log(sort);
+
   const handbags = useQuery(["get-handbags", currentCategory], getHandbags, {
     enabled: true,
     retry: 2,
@@ -48,45 +51,9 @@ const Index = ({ category }: { category: string }) => {
   useEffect(() => {
     refetch();
   }, [category, currentCategory, refetch, price, sizesFilter, colorsFilter]);
-  console.log(handbags.data);
 
   const items = handbags.data?.data.data.map(
-    (
-      item: {
-        brand: {
-          brand: string;
-        };
-        category: {
-          category: string;
-        };
-        color: {
-          color: string;
-        };
-        description: string;
-        payment_options: {
-          cod: boolean;
-          card: boolean;
-        };
-        price: {
-          price: string;
-        };
-        quantity: {
-          quantity: number;
-        };
-        subtitle: string;
-        size: {
-          s: boolean;
-          m: boolean;
-          l: boolean;
-        };
-        image: {
-          url: string;
-        };
-        id: number;
-        name: string;
-      },
-      index: number
-    ) => (
+    (item: ProductItem, index: number) => (
       <div key={index}>
         <ItemCard
           id={item.id}
@@ -123,15 +90,21 @@ const Index = ({ category }: { category: string }) => {
               </p>
               <div className="flex items-center space-x-4">
                 <p className="font-semibold">Sort By</p>
-                <Select>
+                <Select
+                  defaultValue={sort}
+                  onValueChange={(value) => setSort(value)}
+                >
                   <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Popularity" />
+                    <SelectValue placeholder="featured" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="price">Price</SelectItem>
-                    <SelectItem value="newest">Newest</SelectItem>
-                    <SelectItem value="rating">Rating</SelectItem>
-                    <SelectItem value="popularity">Popularity</SelectItem>
+                    <SelectItem value="price.desc">
+                      Price: High to Low
+                    </SelectItem>
+                    <SelectItem value="price.asc">
+                      Price: Low to High{" "}
+                    </SelectItem>
+                    <SelectItem value="featured.asc">Featured</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
