@@ -50,7 +50,15 @@ const Index = ({ category }: { category: string }) => {
 
   useEffect(() => {
     refetch();
-  }, [category, currentCategory, refetch, price, sizesFilter, colorsFilter]);
+  }, [
+    category,
+    currentCategory,
+    refetch,
+    price,
+    sizesFilter,
+    colorsFilter,
+    sort,
+  ]);
 
   const items = handbags.data?.data.data.map(
     (item: ProductItem, index: number) => (
