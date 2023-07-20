@@ -16,6 +16,8 @@ import CardSkeleton from "./Loaders/CardSkeleton";
 const Index = ({ category }: { category: string }) => {
   const [currentCategory, setCurrentCategory] = useState(category);
   const [price, setPrice] = useState<number[]>([20]);
+  console.log(price);
+
   const [sizesFilter, setSizesFilter] = useState<{
     s: boolean;
     m: boolean;

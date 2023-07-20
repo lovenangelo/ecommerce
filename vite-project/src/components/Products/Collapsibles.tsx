@@ -10,6 +10,7 @@ import filters from "@/lib/filters";
 import { cn } from "@/lib/utils";
 import { Slider } from "@/components/ui/slider";
 import debounce from "lodash.debounce";
+
 const Collapsibles = ({
   setPriceFilterValue,
   setSizesFilterValue,
@@ -31,26 +32,27 @@ const Collapsibles = ({
   const [price, setPrice] = useState<number[]>([20]);
   const [sizesFilter, setSizesFilter] = useState<string[]>([]);
   const [colorsFilter, setColorsFilter] = useState<string[]>([]);
-
-  useEffect(() => {
-    setPriceFilterValue(price);
-  }, [price, setPriceFilterValue]);
-
+  const [priceFilterDebounce] = useState(() =>
+    debounce(
+      (price) => {
+        setPriceFilterValue(price);
+        console.log(price);
+      },
+      500,
+      { leading: false, trailing: true }
+    )
+  );
   useEffect(() => {
     setSizesFilterValue({
       s: sizesFilter.includes("s"),
       m: sizesFilter.includes("m"),
       l: sizesFilter.includes("l"),
     });
-  }, [price, setPriceFilterValue, setSizesFilterValue, sizesFilter]);
-
-  useEffect(() => {
-    setPriceFilterValue(price);
-  }, [price, setPriceFilterValue]);
+  }, [setSizesFilterValue, sizesFilter]);
 
   useEffect(() => {
     setColorsFilterValue(colorsFilter);
-  }, [colorsFilter, price, setColorsFilterValue, setPriceFilterValue]);
+  }, [colorsFilter, setColorsFilterValue]);
 
   const collapsibleContent = (
     data: { id: string; label: string }[],
@@ -154,6 +156,7 @@ const Collapsibles = ({
           <Slider
             onValueChange={(value) => {
               setPrice(value);
+              priceFilterDebounce(value);
             }}
             defaultValue={price}
             min={20}
