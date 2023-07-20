@@ -26,8 +26,14 @@ class ProductController extends Controller
   {
     $query = Product::with('image', 'brand', 'category', 'price');
     $query->filter($filters);
-    $products = $query->paginate(9);
+    $sortBy = request()->input('sort_by');
+    $sortDirection = request()->input('sort_direction');
 
+    if ($sortBy === 'price') {
+      $query->join('prices', 'products.id', '=', 'prices.product_id')
+        ->orderBy('prices.price', $sortDirection);
+    }
+    $products = $query->paginate(9);
     return $products;
   }
 

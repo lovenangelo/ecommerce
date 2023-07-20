@@ -24,7 +24,6 @@ class ProductFilters
 
   public function receivedFilters()
   {
-    clock(request()->all());
     return request()->only(array_keys($this->filters));
   }
 }

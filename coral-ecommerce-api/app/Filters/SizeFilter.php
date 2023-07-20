@@ -9,7 +9,6 @@ class SizeFilter
   {
     // Check if all sizes are false, if so, return the query without any filtering
     if (count(array_filter($sizeSlug, function ($size) {
-      clock($size, $size == 'true');
       return !filter_var($size, FILTER_VALIDATE_BOOLEAN);
     })) === 3) {
       return $query;
