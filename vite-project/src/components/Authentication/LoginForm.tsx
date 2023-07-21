@@ -18,6 +18,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useAppDispatch } from "@/redux/hooks";
 import { setUser } from "@/redux/slices/userSlice";
+import Icons from "@/lib/icons";
 
 const LoginForm = () => {
   const dispatch = useAppDispatch();
@@ -101,7 +102,12 @@ const LoginForm = () => {
         />
 
         <Button disabled={isLoading} className="w-full">
-          Login
+          Login{" "}
+          {isLoading && (
+            <span className="ml-2">
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            </span>
+          )}
         </Button>
         <div className="flex justify-between w-full items-center mt-8">
           <FormField

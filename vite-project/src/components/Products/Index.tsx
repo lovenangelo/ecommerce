@@ -40,6 +40,8 @@ const Index = ({ category }: { category: string }) => {
     retry: 2,
   });
 
+  console.log(handbags);
+
   const refetch = handbags.refetch;
 
   useEffect(() => {
@@ -127,7 +129,11 @@ const Index = ({ category }: { category: string }) => {
               </div>
             )}
             <div className="col-span-3 w-full">
-              <Pagination pages={10} currentPage={1} />
+              <Pagination
+                nextPageUrl={handbags.data?.data.next_page_url}
+                prevPageUrl={handbags.data?.data.prev_page_url}
+                links={handbags.data?.data.links}
+              />
             </div>
           </div>
         </div>

@@ -17,6 +17,7 @@ import axiosClient from "@/lib/axios";
 import { useState } from "react";
 import { useAppDispatch } from "@/redux/hooks";
 import { setUser } from "@/redux/slices/userSlice";
+import Icons from "@/lib/icons";
 const RegistrationForm = () => {
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -170,6 +171,11 @@ const RegistrationForm = () => {
         <div className="space-y-4 w-full">
           <Button className="w-full" disabled={isLoading} type="submit">
             Sign Up
+            {isLoading && (
+              <span className="ml-2">
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              </span>
+            )}
           </Button>
         </div>
       </form>

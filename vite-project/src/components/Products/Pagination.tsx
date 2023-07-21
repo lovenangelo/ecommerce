@@ -1,29 +1,49 @@
-import React, { useState } from "react";
+import React from "react";
 import PaginationButton from "./PaginationButton";
 
 interface PaginationProps {
-  pages: number;
-  currentPage: number;
+  nextPageUrl: string | null;
+  prevPageUrl: string | null;
+  links: {
+    url: string | null;
+    active: boolean;
+    label: number | string | null;
+  }[];
 }
 
-const Pagination: React.FC<PaginationProps> = ({ pages, currentPage }) => {
-  const pageNumbers = Array.from({ length: pages }, (_, i) => i + 1);
-
-  const numberedButtons = pageNumbers.map((number, index) => (
-    <li key={index}>
-      <PaginationButton display={number} />
-    </li>
-  ));
+const Pagination: React.FC<PaginationProps> = ({
+  nextPageUrl,
+  prevPageUrl,
+  links,
+}) => {
+  console.log(links);
+  if (!links) {
+    return <></>;
+  }
+  const numberedButtons = links.map((link, index) => {
+    console.log(link.url);
+    if (link.label == "&laquo; Previous") {
+      link.url = prevPageUrl;
+      link.active = Boolean(!prevPageUrl);
+    }
+    if (link.label == "Next &raquo;") {
+      link.url = nextPageUrl;
+      link.active = Boolean(!nextPageUrl);
+    }
+    return (
+      <li key={index}>
+        <PaginationButton
+          disabled={link.active}
+          url={link.url}
+          text={link.label}
+        />
+      </li>
+    );
+  });
 
   return (
     <ul className="flex space-x-2 w-full justify-center items-center mt-4">
-      <li>
-        <PaginationButton display={"Prev"} />
-      </li>
       {numberedButtons}
-      <li>
-        <PaginationButton display={"Next"} />
-      </li>
     </ul>
   );
 };
