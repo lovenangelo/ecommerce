@@ -14,6 +14,7 @@ const addNewProduct = async (data: ProductsType) => {
 };
 
 const getProducts = async (
+  base: string,
   category: string,
   price: number[],
   colors: string[],
@@ -25,7 +26,7 @@ const getProducts = async (
   sort: string
 ) => {
   const sortValues = sort.split(".");
-  return await axiosClient.get(`/api/products`, {
+  return await axiosClient.get(base, {
     params: {
       category,
       price: price[0],

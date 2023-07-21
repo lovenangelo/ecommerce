@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
-
+import { useAppDispatch } from "@/redux/hooks";
+import { changeQuery } from "@/redux/slices/productQuerySlice";
 const PaginationButton = ({
   text,
   className,
@@ -12,19 +13,23 @@ const PaginationButton = ({
   disabled?: boolean;
   url: string | null;
 }) => {
-  console.log(disabled);
-
+  const dispatch = useAppDispatch();
   return (
-    <Button variant={"outline"} disabled={disabled} className={cn(className)}>
-      <a type="button" href={url ?? ""}>
-        <p>
-          {text == "&laquo; Previous"
-            ? "Prev"
-            : text == "Next &raquo;"
-            ? "Next"
-            : text}
-        </p>
-      </a>
+    <Button
+      onClick={() => {
+        dispatch(changeQuery(url ?? ""));
+      }}
+      variant={"outline"}
+      disabled={disabled}
+      className={cn(className)}
+    >
+      <p>
+        {text == "&laquo; Previous"
+          ? "Prev"
+          : text == "Next &raquo;"
+          ? "Next"
+          : text}
+      </p>
     </Button>
   );
 };

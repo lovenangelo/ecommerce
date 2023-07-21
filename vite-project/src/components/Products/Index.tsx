@@ -14,7 +14,7 @@ import { useQuery } from "react-query";
 import { useEffect, useState } from "react";
 import CardSkeleton from "./Loaders/CardSkeleton";
 import { ProductItem } from "./types/product-item";
-
+import { useAppSelector } from "@/redux/hooks";
 const Index = ({ category }: { category: string }) => {
   const [currentCategory, setCurrentCategory] = useState(category);
   const [price, setPrice] = useState<number[]>([20]);
@@ -25,8 +25,11 @@ const Index = ({ category }: { category: string }) => {
   }>({ s: false, m: false, l: false });
   const [colorsFilter, setColorsFilter] = useState<string[]>([]);
   const [sort, setSort] = useState("featured.asc");
+  const productQuery = useAppSelector((state) => state.productQuery.value);
+
   const getHandbags = async () =>
     await productsApi.getProducts(
+      productQuery,
       currentCategory,
       price,
       colorsFilter,
@@ -60,6 +63,7 @@ const Index = ({ category }: { category: string }) => {
     sizesFilter,
     colorsFilter,
     sort,
+    productQuery,
   ]);
 
   const items = handbags.data?.data.data.map(

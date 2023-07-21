@@ -18,13 +18,15 @@ import axiosClient from "@/lib/axios";
 import { removeUser } from "@/redux/slices/userSlice";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useState } from "react";
+import { resetQuery } from "@/redux/slices/productQuerySlice";
 
 const Navbar = () => {
   const user = useAppSelector((state) => state.user.value);
   const name = user?.name.split(" ");
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  console.log(name);
+  const queryProduct = useAppSelector((state) => state.productQuery.value);
+  console.log(queryProduct);
 
   const signoutHandler = async () => {
     dispatch(removeUser());
@@ -37,10 +39,10 @@ const Navbar = () => {
     }
     setIsLoading(false);
   };
-
   const loginButton = (
     <Button variant={"ghost"} className={cn("w-full justify-start")}>
-      <Link href="/auth">Login</Link>
+      {" "}
+      <Link href="/auth">Login</Link>{" "}
     </Button>
   );
 
@@ -77,7 +79,14 @@ const Navbar = () => {
         <ul className="list-none space-x-5 hidden md:flex">
           {nav.links.map((link, index) => (
             <li key={index}>
-              <Link href={`/products/${link.name.toLowerCase()}`}>
+              <Link
+                onClick={() => {
+                  console.log("hello nav");
+
+                  dispatch(resetQuery());
+                }}
+                href={`/products/${link.name.toLowerCase()}`}
+              >
                 {link.name}
               </Link>
             </li>
@@ -119,7 +128,7 @@ const Navbar = () => {
                       src={`http://localhost:8000/${user.avatar}`}
                     />
                     <AvatarFallback className="font-semibold">
-                      {name![0][0].toUpperCase()}
+                      {name?.[0][0].toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                 ) : (
