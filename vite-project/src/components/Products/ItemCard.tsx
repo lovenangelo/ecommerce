@@ -48,8 +48,11 @@ const ItemCard = ({
       <CardContent className={cn("h-60 w-full cursor-pointer")}>
         <Link to={`/profile/${category}/${id}`}>
           <LazyLoadImage
+            height={"100%"}
+            width={"100%"}
             placeholder={<Skeleton className="h-full w-full" />}
-            className="object-cover w-full h-full"
+            className="object-cover w-full h-full transition-opacity"
+            effect="opacity"
             src={img}
             alt={title}
           />

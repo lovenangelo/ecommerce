@@ -2,7 +2,8 @@ import { Button } from "../ui/button";
 import icons from "@/lib/icons";
 import images from "@/lib/images";
 import { cn } from "@/lib/utils";
-
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/opacity.css";
 const Hero = () => {
   return (
     <section className="container h-96 w-full">
@@ -18,8 +19,11 @@ const Hero = () => {
           </Button>
         </div>
       </div>
-      <img
-        className="h-full w-full rounded-md object-cover"
+      <LazyLoadImage
+        effect="opacity"
+        height={"100%"}
+        width={"100%"}
+        className="h-full w-full rounded-md object-cover transition-opacity"
         src={images.heroBg}
         alt="hero backround"
       />
