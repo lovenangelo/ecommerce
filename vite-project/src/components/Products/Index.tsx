@@ -88,7 +88,9 @@ const Index = ({ category }: { category: string }) => {
       <div className="container mt-8">
         <div className="grid grid-cols-4">
           <div className="col-span-1 space-y-2 pr-4">
-            <h1 className="text-4xl font-bold mb-8">Handbags</h1>
+            <h1 className="text-4xl font-bold mb-8">
+              {category.toUpperCase()}
+            </h1>
             <Collapsibles
               setPriceFilterValue={setPrice}
               setColorsFilterValue={setColorsFilter}

@@ -40,13 +40,7 @@ const formSchema = z.object({
     .string()
     .min(25, "Description is too short")
     .max(1000, "Description is too long"),
-  category: z.enum([
-    "handbags",
-    "watches",
-    "skincare",
-    "jewellery",
-    "apparels",
-  ]),
+  category: z.string().nonempty("Required"),
   price: z
     .number()
     .or(z.string().regex(/\d+/).transform(Number))
@@ -132,6 +126,7 @@ const Index = () => {
             description: new Date().toString(),
           });
           setSelectedFile(null);
+          setSubmitted(false);
           form.reset();
           setIsLoading(false);
         })
@@ -246,14 +241,26 @@ const Index = () => {
             <FormField
               control={form.control}
               name="category"
-              render={() => (
+              render={({ field }) => (
                 <FormItem>
                   <FormLabel>Product Category</FormLabel>
                   <FormControl>
                     <Select
                       disabled={isLoading}
-                      name="category"
-                      defaultValue="handbags"
+                      defaultValue={field.value}
+                      {...field}
+                      onValueChange={(value) => {
+                        if (
+                          [
+                            "handbags",
+                            "watches",
+                            "skincare",
+                            "jewellery",
+                            "apparels",
+                          ].includes(value)
+                        )
+                          field.onChange(value);
+                      }}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select a category" />
