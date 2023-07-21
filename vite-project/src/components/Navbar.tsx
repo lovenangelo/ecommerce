@@ -1,5 +1,4 @@
 import logo from "@/assets/images/logo.png";
-import { Input } from "@/components/ui/input";
 import Icons from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import {
@@ -19,14 +18,13 @@ import { removeUser } from "@/redux/slices/userSlice";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useState } from "react";
 import { resetQuery } from "@/redux/slices/productQuerySlice";
+import Search from "./Search";
 
 const Navbar = () => {
   const user = useAppSelector((state) => state.user.value);
   const name = user?.name.split(" ");
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const queryProduct = useAppSelector((state) => state.productQuery.value);
-  console.log(queryProduct);
 
   const signoutHandler = async () => {
     dispatch(removeUser());
@@ -100,15 +98,7 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="flex justify-end items-center md:space-x-5 space-x-2">
-        <div className="flex items-center border shadow-sm px-2 rounded bg-[#F1F1F1] md:w-96 w-full">
-          <Icons.search height={20} width={20} className="h-12" />
-          <Input
-            className={cn(
-              "w-full border-0 shadow-none focus-visible:ring-0 bg-transparent"
-            )}
-            placeholder="Search for products or brands..."
-          />
-        </div>
+        <Search />
         <div className="hidden md:flex">
           <Button variant={"ghost"}>
             <Icons.nav.favorites />

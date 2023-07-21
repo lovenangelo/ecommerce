@@ -36,7 +36,6 @@ const Collapsibles = ({
     debounce(
       (price) => {
         setPriceFilterValue(price);
-        console.log(price);
       },
       500,
       { leading: false, trailing: true }
@@ -46,7 +45,6 @@ const Collapsibles = ({
     debounce(
       (sizes) => {
         setSizesFilterValue(sizes);
-        console.log(price);
       },
       500,
       { leading: false, trailing: true }
@@ -56,7 +54,6 @@ const Collapsibles = ({
     debounce(
       (colors) => {
         setColorsFilterValue(colors);
-        console.log(colors);
       },
       1000,
       { leading: false, trailing: true }

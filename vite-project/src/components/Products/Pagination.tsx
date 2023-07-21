@@ -16,12 +16,10 @@ const Pagination: React.FC<PaginationProps> = ({
   prevPageUrl,
   links,
 }) => {
-  console.log(links);
   if (!links) {
     return <></>;
   }
   const numberedButtons = links.map((link, index) => {
-    console.log(link.url);
     if (link.label == "&laquo; Previous") {
       link.url = prevPageUrl;
       link.active = Boolean(!prevPageUrl);

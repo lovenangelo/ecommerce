@@ -4,13 +4,12 @@ namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product\Product;
-use Illuminate\Http\Request;
 
 class ProductSearchController extends Controller
 {
   public function search()
   {
-    $query = Product::with('brand', 'category', 'price', 'color');
+    $query = Product::with('brand', 'category', 'price', 'color', 'image');
     $query->join('brands', 'products.id', '=', 'brands.product_id')
       ->join('categories', 'products.id', '=', 'categories.product_id')
       ->join('prices', 'products.id', '=', 'prices.product_id')
@@ -26,6 +25,6 @@ class ProductSearchController extends Controller
       });
     }
     $results = $query->paginate(5);
-    return $results;
+    return response()->json(['data' => $results]);
   }
 }

@@ -36,14 +36,11 @@ const Index = ({ category }: { category: string }) => {
       sizesFilter,
       sort
     );
-  console.log(sort);
 
   const handbags = useQuery(["get-handbags", currentCategory], getHandbags, {
     enabled: true,
     retry: 2,
   });
-
-  console.log(handbags);
 
   const refetch = handbags.refetch;
 
