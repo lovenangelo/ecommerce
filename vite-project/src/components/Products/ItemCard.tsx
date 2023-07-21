@@ -10,7 +10,9 @@ import Icons from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { Link } from "wouter";
 import Ratings from "./Ratings";
-
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/opacity.css";
+import { Skeleton } from "../ui/skeleton";
 type Item = {
   id: number;
   title: string;
@@ -45,7 +47,12 @@ const ItemCard = ({
       </CardHeader>
       <CardContent className={cn("h-60 w-full cursor-pointer")}>
         <Link to={`/profile/${category}/${id}`}>
-          <img className="object-cover w-full h-full" src={img} alt="bag" />
+          <LazyLoadImage
+            placeholder={<Skeleton className="h-full w-full" />}
+            className="object-cover w-full h-full"
+            src={img}
+            alt={title}
+          />
         </Link>
       </CardContent>
       <CardFooter className={cn("flex justify-between items-start")}>
