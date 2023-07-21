@@ -7,6 +7,7 @@ import { useQuery } from "react-query";
 import getSearchResults, { getNextData } from "@/lib/api/search";
 import { Button } from "./ui/button";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { Link } from "wouter";
 export default function Search() {
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
@@ -18,14 +19,16 @@ export default function Search() {
     }, 300);
   });
   const [seeMoreLoading, setSeeMoreLoading] = useState(false);
-  const [searchInputActive, setSearchInputActive] = useState(false);
+  const [showDiv, setShowDiv] = useState(false);
 
   const handleInputFocus = () => {
-    setSearchInputActive(true);
+    setShowDiv(true);
   };
 
   const handleInputBlur = () => {
-    setSearchInputActive(false);
+    setTimeout(() => {
+      setShowDiv(false);
+    }, 200);
   };
 
   const handleSearch = async () => await getSearchResults(search);
@@ -41,24 +44,28 @@ export default function Search() {
           };
           name: string;
           subtitle: string;
+          id: number;
         }) => {
           return (
-            <Button
-              variant={"ghost"}
-              className="border-b-2 h-24 flex items-center w-full justify-between p-4"
-            >
-              <div className="w-1/4 h-full">
-                <LazyLoadImage
-                  className="w-full h-full object-cover rounded-md"
-                  src={`http://localhost:8000/${result.image.url}`}
-                  alt=""
-                />
-              </div>
-              <div className=" text-right">
-                <h1 className="font-bold text-lg">{result.name}</h1>
-                <p className="w-48 truncate">{result.subtitle}</p>
-              </div>
-            </Button>
+            <Link key={result.id} to={`/item/${result.id}`}>
+              <Button
+                onClick={() => console.log("clicked")}
+                variant={"ghost"}
+                className="border-b-2 h-24 flex items-center w-full justify-between p-4"
+              >
+                <div className="w-1/4 h-full">
+                  <LazyLoadImage
+                    className="w-full h-full object-cover rounded-md"
+                    src={`http://localhost:8000/${result.image.url}`}
+                    alt=""
+                  />
+                </div>
+                <div className=" text-right">
+                  <h1 className="font-bold text-lg">{result.name}</h1>
+                  <p className="w-48 truncate">{result.subtitle}</p>
+                </div>
+              </Button>
+            </Link>
           );
         }
       );
@@ -78,24 +85,27 @@ export default function Search() {
         };
         name: string;
         subtitle: string;
+        id: number;
       }) => {
         return (
-          <Button
-            variant={"ghost"}
-            className="border-b-2 h-24 flex items-center w-full justify-between p-4"
-          >
-            <div className="w-1/4 h-full">
-              <LazyLoadImage
-                className="w-full h-full object-cover rounded-md"
-                src={`http://localhost:8000/${result.image.url}`}
-                alt=""
-              />
-            </div>
-            <div className=" text-right">
-              <h1 className="font-bold text-lg">{result.name}</h1>
-              <p className="w-48 truncate">{result.subtitle}</p>
-            </div>
-          </Button>
+          <Link key={result.id} to={`/item/${result.id}`}>
+            <Button
+              variant={"ghost"}
+              className="border-b-2 h-24 flex items-center w-full justify-between p-4"
+            >
+              <div className="w-1/4 h-full">
+                <LazyLoadImage
+                  className="w-full h-full object-cover rounded-md"
+                  src={`http://localhost:8000/${result.image.url}`}
+                  alt=""
+                />
+              </div>
+              <div className=" text-right">
+                <h1 className="font-bold text-lg">{result.name}</h1>
+                <p className="w-48 truncate">{result.subtitle}</p>
+              </div>
+            </Button>
+          </Link>
         );
       }
     );
@@ -122,7 +132,7 @@ export default function Search() {
           placeholder="Search for products or brands..."
         />
       </div>
-      {searchInputActive && (
+      {showDiv && (
         <div className="translate-y-14 max-h-60 absolute w-full bg-primary-foreground z-50 overflow-auto rounded-b-lg">
           {searchResults.data && (
             <>
