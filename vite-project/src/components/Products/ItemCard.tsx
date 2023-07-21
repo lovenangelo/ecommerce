@@ -24,7 +24,6 @@ type Item = {
   price: string;
   promo: string | null;
   img: string;
-  category: string;
 };
 
 const ItemCard = ({
@@ -35,7 +34,6 @@ const ItemCard = ({
   price,
   promo,
   img,
-  category,
 }: Item) => {
   return (
     <Card className="grid grid-cols-1 rows-auto h-[416px] w-fullr">
@@ -46,7 +44,7 @@ const ItemCard = ({
         </CardDescription>
       </CardHeader>
       <CardContent className={cn("h-60 w-full cursor-pointer")}>
-        <Link to={`/profile/${category}/${id}`}>
+        <Link to={`/item/${id}`}>
           <LazyLoadImage
             height={"100%"}
             width={"100%"}

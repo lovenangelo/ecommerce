@@ -41,9 +41,9 @@ type Product = {
   name: string;
 };
 
-const SingleProduct = ({ id, category }: { id: string; category: string }) => {
+const SingleProduct = ({ id }: { id: string }) => {
   const getProductItem = async () => {
-    const res = await productsApi.getProductItem(id, category);
+    const res = await productsApi.getProductItem(id);
     const product: Product = res.data;
     return product;
   };

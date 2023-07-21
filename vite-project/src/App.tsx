@@ -47,10 +47,8 @@ function App() {
         {(params) => <Product category={params.category} />}
       </Route>
 
-      <Route path="/profile/:category/:id">
-        {(params) => (
-          <SingleProduct category={params.category} id={params.id} />
-        )}
+      <Route path="/item/:id">
+        {(params) => <SingleProduct id={params.id} />}
       </Route>
 
       <Route path="/">

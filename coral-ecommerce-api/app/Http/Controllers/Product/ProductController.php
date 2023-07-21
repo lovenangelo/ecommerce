@@ -96,7 +96,7 @@ class ProductController extends Controller
   /**
    * Display the specified resource.
    */
-  public function show($category, $id)
+  public function show($id)
   {
     try {
       $product = Product::where(['id' => $id])->with('brand', 'image', 'quantity', 'size', 'payment_options', 'brand', 'category', 'color', 'price')->first();

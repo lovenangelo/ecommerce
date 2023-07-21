@@ -1,4 +1,5 @@
 import axiosClient from "../axios";
+import { ProductsType } from "./types";
 
 const addNewProduct = async (data: ProductsType) => {
   await axiosClient
@@ -37,8 +38,8 @@ const getProducts = async (
     },
   });
 };
-const getProductItem = async (id: string, category: string) =>
-  await axiosClient.get(`api/products/${category}/${id}`);
+const getProductItem = async (id: string) =>
+  await axiosClient.get(`api/products/${id}`);
 
 const productsApi = {
   addNewProduct,
