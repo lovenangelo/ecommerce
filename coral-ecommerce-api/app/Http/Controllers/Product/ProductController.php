@@ -9,31 +9,57 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\Controller;
-use App\Models\Product\Brand;
-use App\Models\Product\Category;
-use App\Models\Product\Color;
-use App\Models\Product\PaymentOption;
-use App\Models\Product\Price;
-use App\Models\Product\Quantity;
-use App\Models\Product\Size;
 
 class ProductController extends Controller
 {
   /**
    * Display a listing of the resource.
    */
-  public function index(ProductFilters $filters)
+  public function index(Request $request, ProductFilters $filters)
   {
-    $query = Product::with('image', 'brand', 'category', 'price');
-    $query->filter($filters);
+    $categoryFilter = $request->input('category');
+    $colorsFilter = $request->input('colors');
+    $sizesFilter = $request->input('sizes');
+    $priceFilter = $request->input('price');
     $sortBy = request()->input('sort_by');
     $sortDirection = request()->input('sort_direction');
 
-    if ($sortBy === 'price') {
-      $query->join('prices', 'products.id', '=', 'prices.product_id')
-        ->orderBy('prices.price', $sortDirection);
+    $query = Product::query();
+
+    // Apply filters
+    if ($categoryFilter) {
+      $query->where('category', $categoryFilter);
     }
-    $products = $query->paginate(9);
+
+    if ($colorsFilter) {
+      $colors = explode(',', $colorsFilter);
+      $query->where(function ($query) use ($colors) {
+        foreach ($colors as $color) {
+          $query->orWhere('color', 'like', '%' . $color . '%');
+        }
+      });
+    }
+
+    if ($sizesFilter) {
+      $sizes = explode(',', $sizesFilter);
+      $query->where(function ($query) use ($sizes) {
+        foreach ($sizes as $size) {
+          $query->orWhere('sizes', 'like', '%' . $size . '%');
+        }
+      });
+    }
+
+    if ($priceFilter) {
+      $query->where('price', '>=', $priceFilter);
+    }
+
+    // Sorting
+    if ($sortBy === 'price') {
+      $query
+        ->orderBy('price', $sortDirection);
+    }
+    $products = $query->with('image')->paginate(9);
+
     return $products;
   }
 
@@ -58,30 +84,9 @@ class ProductController extends Controller
           'brand' => 'required|string',
         ]
       );
-
-      $product = Product::create([...$request->only(['name', 'description', 'subtitle']), 'user_id' => $user_id]);
+      $product = Product::create([...$validated, 'user_id' => $user_id]);
       $product->save();
       $product_id = $product->id;
-      clock(['product_id' => $product_id, ...$request->only('price')]);
-      Price::create(['product_id' => $product_id, ...$request->only('price')]);
-      Category::create(['product_id' => $product_id, ...$request->only('category')]);
-      Quantity::create(['product_id' => $product_id, ...$request->only('quantity')]);
-      Color::create(['product_id' => $product_id, ...$request->only('color')]);
-      Brand::create(['product_id' => $product_id, ...$request->only('brand')]);
-
-      // Saving sizes
-      $sizes =  $request->input('sizes');
-      Size::create([
-        'product_id' => $product_id, 's' => str_contains($sizes, 's'), 'm' => str_contains($sizes, 'm'),
-        'l' => str_contains($sizes, 'l')
-      ]);
-
-      // Saving payment options
-      $payment_options =  $request->input('payment_options');
-      PaymentOption::create([
-        'product_id' => $product_id, 'card' => str_contains($payment_options, 'card'), 'cod' => str_contains($payment_options, 'cod')
-      ]);
-      clock(str_contains($payment_options, 'card'));
 
       // Saving image
       $path = $request->file('image')->store("products/{$validated['category']}");
@@ -99,7 +104,7 @@ class ProductController extends Controller
   public function show($id)
   {
     try {
-      $product = Product::where(['id' => $id])->with('brand', 'image', 'quantity', 'size', 'payment_options', 'brand', 'category', 'color', 'price')->first();
+      $product = Product::where(['id' => $id])->with('image')->first();
       return response()->json($product);
     } catch (Exception $e) {
       return response()->json(['message' => 'Product could not be found', 404]);
@@ -131,19 +136,5 @@ class ProductController extends Controller
     } catch (Exception $e) {
       return response()->json(['message' => 'Product could not be deleted', 500]);
     }
-  }
-
-  /**
-   * Filter 
-   */
-  public function filter(Request $request, $category)
-  {
-  }
-
-  /**
-   * Filter 
-   */
-  public function sort(Request $request, $category)
-  {
   }
 }

@@ -17,6 +17,13 @@ return new class extends Migration
       $table->string('name');
       $table->text('description');
       $table->string('subtitle');
+      $table->string('brand');
+      $table->integer('quantity');
+      $table->string('payment_options');
+      $table->string('sizes');
+      $table->string('color');
+      $table->string('category');
+      $table->decimal('price');
       $table->timestamps();
     });
   }
