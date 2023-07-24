@@ -3,6 +3,7 @@
 use App\Http\Controllers\AvatarController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Product\ProductSearchController;
+use App\Http\Controllers\Product\UserProductController;
 use App\Http\Controllers\Profile\PasswordResetController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +36,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
   // Products routes
   Route::post('/products/create', [ProductController::class, 'store']);
+  Route::get('/my-products', [UserProductController::class, 'index']);
+  Route::put('/my-products/{id}', [UserProductController::class, 'update']);
+  Route::delete('/my-products/{id}', [UserProductController::class, 'destroy']);
 });
 
 Route::get('/products', [ProductController::class, 'index']);

@@ -109,31 +109,4 @@ class ProductController extends Controller
       return response()->json(['message' => 'Product could not be found', 404]);
     }
   }
-
-
-  /**
-   * Update the specified resource in storage.
-   */
-  public function update(Request $request, $id)
-  {
-    $product = Product::findOrFail($id);
-    $product->fill($request->all());
-    $product->save();
-
-    return response()->noContent();
-  }
-
-  /**
-   * Remove the specified resource from storage.
-   */
-  public function destroy($id)
-  {
-    try {
-      $product = Product::findOrFail($id);
-      $product->delete();
-      return response()->json(['message' => 'Product deleted successfully']);
-    } catch (Exception $e) {
-      return response()->json(['message' => 'Product could not be deleted', 500]);
-    }
-  }
 }
