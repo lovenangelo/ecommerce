@@ -13,9 +13,7 @@ export type ProductItem = {
     cod: boolean;
     card: boolean;
   };
-  price: {
-    price: string;
-  };
+  price: number;
   quantity: {
     quantity: number;
   };

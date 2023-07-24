@@ -5,4 +5,9 @@ export type ProductsType = {
   price: number;
   quantity: number;
   image: File;
+  sizes: string;
+  payment_options: string;
+  subtitle: string;
+  brand: string;
+  color: string;
 };

@@ -19,11 +19,7 @@ import HeroPromo from "./HeroPromo";
 const Index = ({ category }: { category: string }) => {
   const [currentCategory, setCurrentCategory] = useState(category);
   const [price, setPrice] = useState<number[]>([20]);
-  const [sizesFilter, setSizesFilter] = useState<{
-    s: boolean;
-    m: boolean;
-    l: boolean;
-  }>({ s: false, m: false, l: false });
+  const [sizesFilter, setSizesFilter] = useState<string[]>([]);
   const [colorsFilter, setColorsFilter] = useState<string[]>([]);
   const [sort, setSort] = useState("featured.asc");
   const productQuery = useAppSelector((state) => state.productQuery.value);
@@ -64,6 +60,8 @@ const Index = ({ category }: { category: string }) => {
     productQuery,
   ]);
 
+  console.log(handbags.data?.data.data);
+
   const items = handbags.data?.data.data.map(
     (item: ProductItem, index: number) => (
       <div key={index}>
@@ -72,7 +70,7 @@ const Index = ({ category }: { category: string }) => {
           title={item.name}
           description={item.description}
           ratings={null}
-          price={item.price.price}
+          price={item.price}
           promo={"50% OFF"}
           img={`http://localhost:8000/${item.image.url}`}
         />

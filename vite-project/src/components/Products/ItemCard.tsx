@@ -21,7 +21,7 @@ type Item = {
     review_count: number;
     stars: number;
   } | null;
-  price: string;
+  price: number;
   promo: string | null;
   img: string;
 };
@@ -59,7 +59,7 @@ const ItemCard = ({
       <CardFooter className={cn("flex justify-between items-start")}>
         <div>
           <div className="font-semibold">
-            ${price} <s className="text-sm">${parseInt(price) * 2}</s>{" "}
+            ${price} <s className="text-sm">${price * 2}</s>{" "}
             <span className="text-red-500 font-bold">{promo}</span>
             <Ratings starCount={ratings?.stars ?? 2} reviewCount={24} />
           </div>

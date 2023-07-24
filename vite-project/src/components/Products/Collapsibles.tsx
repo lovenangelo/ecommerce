@@ -17,13 +17,7 @@ const Collapsibles = ({
   setColorsFilterValue,
 }: {
   setPriceFilterValue: React.Dispatch<React.SetStateAction<number[]>>;
-  setSizesFilterValue: React.Dispatch<
-    React.SetStateAction<{
-      s: boolean;
-      m: boolean;
-      l: boolean;
-    }>
-  >;
+  setSizesFilterValue: React.Dispatch<React.SetStateAction<string[]>>;
   setColorsFilterValue: React.Dispatch<React.SetStateAction<string[]>>;
 }) => {
   const [sizeTriggerOpen, setSizeTriggerOpen] = useState(false);
@@ -60,11 +54,7 @@ const Collapsibles = ({
     )
   );
   useEffect(() => {
-    sizesFilterDebounce({
-      s: sizesFilter.includes("s"),
-      m: sizesFilter.includes("m"),
-      l: sizesFilter.includes("l"),
-    });
+    sizesFilterDebounce(sizesFilter);
   }, [setSizesFilterValue, sizesFilter, sizesFilterDebounce]);
 
   useEffect(() => {

@@ -19,11 +19,7 @@ const getProducts = async (
   category: string,
   price: number[],
   colors: string[],
-  sizes: {
-    s: boolean;
-    m: boolean;
-    l: boolean;
-  },
+  sizes: string[],
   sort: string
 ) => {
   const sortValues = sort.split(".");

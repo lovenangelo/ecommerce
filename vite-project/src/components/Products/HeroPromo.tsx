@@ -1,5 +1,6 @@
 import images from "@/lib/images";
-
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/opacity.css";
 const HeroPromo = () => {
   return (
     <section className="container h-96 w-full relative">
@@ -9,8 +10,11 @@ const HeroPromo = () => {
           <p className="z-30 text-5xl font-normal">BLACK FRIDAY</p>
         </div>
       </div>
-      <img
+      <LazyLoadImage
         className="h-full w-full rounded-md object-fit"
+        height={"100%"}
+        width={"100%"}
+        effect="opacity"
         src={images.heroPromo}
         alt="hero backround"
       />
