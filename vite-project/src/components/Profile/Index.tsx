@@ -8,7 +8,11 @@ import PersonalInformationForm from "./components/PersonalInformationForm";
 import MyOrders from "./components/MyOrders";
 import MyWishlist from "./components/MyWishlist";
 
-type ProfileTabs = "PERSONAL-INFORMATION" | "MY-ORDERS" | "MY-WISHLIST";
+type ProfileTabs =
+  | "PERSONAL-INFORMATION"
+  | "MY-ORDERS"
+  | "MY-WISHLIST"
+  | "MY-PRODUCTS";
 
 const Index = () => {
   const user = useAppSelector((state) => state.user.value);
@@ -57,6 +61,17 @@ const Index = () => {
             onClick={() => setTab("MY-WISHLIST")}
           >
             <p>My Wishlist</p>
+            <Icons.chevronRight />
+          </Button>
+          <Button
+            variant={"ghost"}
+            className={cn(
+              "w-full justify-between rounded-none",
+              "active:border-l-2"
+            )}
+            onClick={() => setTab("MY-PRODUCTS")}
+          >
+            <p>My Products</p>
             <Icons.chevronRight />
           </Button>
         </div>

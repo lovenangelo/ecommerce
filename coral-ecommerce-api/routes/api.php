@@ -3,6 +3,7 @@
 use App\Http\Controllers\AvatarController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Product\ProductSearchController;
+use App\Http\Controllers\Profile\PasswordResetController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
   Route::get('/user', function (Request $request) {
     return $request->user();
   });
+  Route::post('/reset-password', [PasswordResetController::class, 'store']);
 
   // Avatar
   Route::post(
