@@ -76,6 +76,7 @@ export default function Search() {
 
   const handleSeeMore = async () => {
     setSeeMoreLoading(true);
+    setShowDiv(true);
     const res = await getNextData(nextPageUrl);
     console.log(res);
     const results: JSX.Element[] = res.data.data.data.map(
@@ -119,12 +120,14 @@ export default function Search() {
       <div className="flex items-center border shadow-sm px-2 rounded bg-[#F1F1F1] md:w-96 w-full">
         <Icons.search height={20} width={20} className="h-12" />
         <Input
-          onFocus={handleInputFocus}
-          onBlur={handleInputBlur}
+          type="search"
           value={searchInput}
           onChange={(event) => {
             setSearchInput(event.target.value);
             searchDebounce(event.target.value);
+            if (event.target.value.length !== 0) {
+              setShowDiv(true);
+            }
           }}
           className={cn(
             "w-full border-0 shadow-none focus-visible:ring-0 bg-transparent"

@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import CardSkeleton from "./Loaders/CardSkeleton";
 import { ProductItem } from "./types/product-item";
 import { useAppSelector } from "@/redux/hooks";
+import HeroPromo from "./HeroPromo";
 const Index = ({ category }: { category: string }) => {
   const [currentCategory, setCurrentCategory] = useState(category);
   const [price, setPrice] = useState<number[]>([20]);
@@ -81,7 +82,8 @@ const Index = ({ category }: { category: string }) => {
 
   return (
     <Layout>
-      <div className="container mt-8">
+      {category == "handbags" && <HeroPromo />}
+      <div className="container mt-8 min-h-screen">
         <div className="grid grid-cols-4">
           <div className="col-span-1 space-y-2 pr-4">
             <h1 className="text-4xl font-bold mb-8">

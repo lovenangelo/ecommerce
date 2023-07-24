@@ -1,5 +1,4 @@
 import Brands from "./components/Home/Brands";
-import Footer from "./components/Home/Footer";
 import HandPickedCollections from "./components/Home/HandPickedCollections";
 import Hero from "./components/Home/Hero";
 import NewArrivals from "./components/Home/NewArrivals";
@@ -12,6 +11,9 @@ import SingleProduct from "./components/Products/SingleProduct";
 import Cart from "@/components/Cart/Index";
 import Checkout from "@/components/Cart/Checkout/Index";
 import Sell from "@/components/Sell/Index";
+import { Suspense, lazy } from "react";
+
+const LazyFooter = lazy(() => import("@/components/Home/Footer"));
 function App() {
   return (
     <>
@@ -59,8 +61,9 @@ function App() {
           <Brands />
         </>
       </Route>
-
-      <Footer />
+      <Suspense fallback={<div>Loading...</div>}>
+        <LazyFooter />
+      </Suspense>
     </>
   );
 }

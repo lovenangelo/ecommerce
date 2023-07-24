@@ -6,7 +6,9 @@ import Ratings from "./Ratings";
 import productsApi from "@/lib/api/products";
 import { useQuery } from "react-query";
 import SingleProductSkeleton from "./Loaders/SingleProductSkeleton";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
+import "react-lazy-load-image-component/src/effects/opacity.css";
 type Product = {
   brand: {
     brand: string;
@@ -66,7 +68,10 @@ const SingleProduct = ({ id }: { id: string }) => {
     <div className="container">
       <div className="grid grid-cols-2 rows-auto w-full h-full">
         <div className="h-full w-full p-8 rounded-md">
-          <img
+          <LazyLoadImage
+            height={"100%"}
+            width={"100%"}
+            effect="opacity"
             src={`http://localhost:8000/${data?.image.url}`}
             alt="bag"
             className=" object-cover h-full w-full rounded-md"
