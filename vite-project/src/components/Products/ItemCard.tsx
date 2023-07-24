@@ -13,6 +13,8 @@ import Ratings from "./Ratings";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/opacity.css";
 import { Skeleton } from "../ui/skeleton";
+import { Button } from "../ui/button";
+import productsApi from "@/lib/api/products";
 type Item = {
   id: number;
   title: string;
@@ -24,6 +26,7 @@ type Item = {
   price: number;
   promo: string | null;
   img: string;
+  deletable?: boolean;
 };
 
 const ItemCard = ({
@@ -34,11 +37,30 @@ const ItemCard = ({
   price,
   promo,
   img,
+  deletable = false,
 }: Item) => {
+  const handleDelete = async () => {
+    try {
+      await productsApi.deleteProduct(id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Card className="grid grid-cols-1 rows-auto h-[416px] w-fullr">
       <CardHeader className={cn("h-24 w-full ")}>
-        <CardTitle>{title}</CardTitle>
+        <div className="flex justify-between items-start">
+          <CardTitle>{title}</CardTitle>
+          {deletable && (
+            <Button
+              onClick={handleDelete}
+              variant={"ghost"}
+              className="p-0 m-0 h-4444 w-4 "
+            >
+              <Icons.deleteIcon color="red" />
+            </Button>
+          )}
+        </div>
         <CardDescription className={cn("truncate")}>
           {description}
         </CardDescription>

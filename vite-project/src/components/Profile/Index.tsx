@@ -7,6 +7,7 @@ import { useState } from "react";
 import PersonalInformationForm from "./components/PersonalInformationForm";
 import MyOrders from "./components/MyOrders";
 import MyWishlist from "./components/MyWishlist";
+import MyProducts from "./components/MyProducts";
 
 type ProfileTabs =
   | "PERSONAL-INFORMATION"
@@ -88,6 +89,11 @@ const Index = () => {
         {tab == "MY-WISHLIST" && (
           <div className="col-span-3 w-full">
             <MyWishlist />
+          </div>
+        )}
+        {tab == "MY-PRODUCTS" && (
+          <div className="col-span-3 w-full">
+            <MyProducts />
           </div>
         )}
       </div>

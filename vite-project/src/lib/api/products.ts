@@ -34,13 +34,30 @@ const getProducts = async (
     },
   });
 };
+
 const getProductItem = async (id: string) =>
   await axiosClient.get(`api/products/${id}`);
 
+// User products
+// products for every specific user
+
+const getUserProducts = async (base: string) => {
+  return await axiosClient.get(base);
+};
+
+const deleteProduct = async (id: number) => {
+  return await axiosClient.delete(`/api/my-products/${id}`);
+};
+
+const updateProduct = async (id: number) => {
+  return await axiosClient.put(`/api/my-products/${id}`);
+};
+
 const productsApi = {
   addNewProduct,
-  // deleteProduct,
-  // updateProduct,
+  getUserProducts,
+  deleteProduct,
+  updateProduct,
   getProducts,
   getProductItem,
 };
