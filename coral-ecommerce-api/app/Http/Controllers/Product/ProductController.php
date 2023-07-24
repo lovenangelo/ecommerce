@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Product;
 
-use App\Filters\ProductFilters;
 use App\Models\Product\Product;
 use App\Models\Product\ProductImage;
 use Exception;
@@ -15,7 +14,7 @@ class ProductController extends Controller
   /**
    * Display a listing of the resource.
    */
-  public function index(Request $request, ProductFilters $filters)
+  public function index(Request $request)
   {
     $categoryFilter = $request->input('category');
     $colorsFilter = $request->input('colors');

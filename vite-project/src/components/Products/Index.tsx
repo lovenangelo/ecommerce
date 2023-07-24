@@ -29,8 +29,8 @@ const Index = ({ category }: { category: string }) => {
       productQuery,
       currentCategory,
       price,
-      colorsFilter,
-      sizesFilter,
+      colorsFilter.join(),
+      sizesFilter.join(),
       sort
     );
 
