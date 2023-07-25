@@ -36,38 +36,7 @@ import Icons from "@/lib/icons";
 import { useQuery } from "react-query";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import SkeletonLoading from "./skeleton";
-
-const formSchema = z.object({
-  name: z.string().min(2, "Name is too short").max(50, "Name is too long"),
-  image: z.instanceof(File).nullable(),
-  description: z
-    .string()
-    .min(25, "Description is too short")
-    .max(1000, "Description is too long"),
-  category: z.string().nonempty("Required"),
-  price: z
-    .number()
-    .or(z.string().regex(/\d+/).transform(Number))
-    .refine((n) => n > 0, { message: "Invalid price" }),
-  quantity: z
-    .number()
-    .or(z.string().regex(/\d+/).transform(Number))
-    .refine((n) => n >= 0, { message: "Invalid quantity" }),
-  color: z.string(),
-  sizes: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: "You have to select at least one item.",
-  }),
-  payment_options: z
-    .array(z.string())
-    .refine((value) => value.some((item) => item), {
-      message: "You have to select at least one item.",
-    }),
-  subtitle: z.string().min(2, "This field is required").max(250, "Too long"),
-  brand: z
-    .string()
-    .min(2, "This field is required")
-    .max(50, "Brand name is too long"),
-});
+import formSchema, { schemaDefaultValues } from "./schema";
 
 // If id is not null, the user is using form to edit
 const SellForm = ({ id }: { id?: string }) => {
@@ -89,19 +58,7 @@ const SellForm = ({ id }: { id?: string }) => {
   const productData = product.data?.data;
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      image: new File([], "image"),
-      description: "",
-      subtitle: "",
-      brand: "",
-      category: "",
-      price: 20,
-      quantity: 1,
-      color: "beige",
-      sizes: [],
-      payment_options: [],
-    },
+    defaultValues: schemaDefaultValues,
   });
 
   useEffect(() => {
@@ -127,10 +84,18 @@ const SellForm = ({ id }: { id?: string }) => {
     }
   }, [productData, user, form]);
 
-  console.log(product);
   if (product.isLoading) {
-    return <SkeletonLoading />;
+    return (
+      <div className="bg-white w-full h-screen rounded">
+        <SkeletonLoading />
+      </div>
+    );
   }
+
+  if (user == null) {
+    return <Redirect to="/auth" />;
+  }
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
     console.log(file);
@@ -214,14 +179,10 @@ const SellForm = ({ id }: { id?: string }) => {
     }
   };
 
-  if (user == null) {
-    return <Redirect to="/auth" />;
-  }
-
   return (
     <Form {...form}>
       <form
-        className="bg-white p-8 rounded space-y-4 grid grid-cols-3 gap-8 auto-rows m-12"
+        className="bg-white p-8 rounded space-y-4 grid grid-cols-3 gap-8 auto-rows"
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <div className="space-y-4 col-span-3">
