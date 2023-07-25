@@ -34,6 +34,11 @@ function App() {
         <Profile />
       </Route>
 
+      {/* Edit Product */}
+      <Route path="/my-products/edit/:id">
+        {(params) => <Sell id={params.id} />}
+      </Route>
+
       {/* Cart  */}
       <Route path="/cart">
         <Cart />
@@ -43,6 +48,7 @@ function App() {
       <Route path="/checkout">
         <Checkout />
       </Route>
+
       {/* Products */}
       {/* Handbags */}
       <Route path="/products/:category">

@@ -37,6 +37,7 @@ type Item = {
   price: number;
   promo: string | null;
   img: string;
+  editable: boolean;
   deletable?: boolean;
   onDelete?: () => void;
 };
@@ -49,10 +50,11 @@ const ItemCard = ({
   price,
   promo,
   img,
+  editable = false,
   deletable = false,
   onDelete,
 }: Item) => {
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const handleDelete = async () => {
     try {
@@ -65,56 +67,66 @@ const ItemCard = ({
       console.log(error);
     }
     setIsLoading(false);
-    setDialogOpen(false);
+    setDeleteDialogOpen(false);
   };
+
   return (
     <Card className="grid grid-cols-1 rows-auto h-[416px] w-fullr">
       <CardHeader className={cn("h-24 w-full ")}>
         <div className="flex justify-between items-start">
           <CardTitle>{title}</CardTitle>
-          {deletable && (
-            <Dialog
-              open={dialogOpen}
-              onOpenChange={(open) => setDialogOpen(open)}
-            >
-              <DialogTrigger className="w-max h-max p-0 m-0">
+          <div className="flex space-x-2">
+            {editable && (
+              <Link to={`/my-products/edit/${id}`}>
                 <Button variant={"ghost"} className="p-0 m-0 h-4 w-4 ">
-                  <Icons.deleteIcon color="red" />
+                  <Icons.editIcon color="blue" />
                 </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Are you sure absolutely sure?</DialogTitle>
-                  <DialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    your product and remove its data from our servers.
-                  </DialogDescription>
-                  <DialogFooter className="flex justify-end space-x-2">
-                    <Button
-                      disabled={isLoading}
-                      onClick={() => {
-                        setDialogOpen(false);
-                      }}
-                    >
-                      No
-                    </Button>
-                    <Button
-                      disabled={isLoading}
-                      variant={"outline"}
-                      onClick={handleDelete}
-                    >
-                      Yes
-                      {isLoading && (
-                        <span className="ml-2">
-                          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                        </span>
-                      )}
-                    </Button>
-                  </DialogFooter>
-                </DialogHeader>
-              </DialogContent>
-            </Dialog>
-          )}
+              </Link>
+            )}
+            {deletable && (
+              <Dialog
+                open={deleteDialogOpen}
+                onOpenChange={(open) => setDeleteDialogOpen(open)}
+              >
+                <DialogTrigger className="w-max h-max p-0 m-0">
+                  <Button variant={"ghost"} className="p-0 m-0 h-4 w-4 ">
+                    <Icons.deleteIcon color="red" />
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+                    <DialogDescription>
+                      This action cannot be undone. This will permanently delete
+                      your product and remove its data from our servers.
+                    </DialogDescription>
+                    <DialogFooter className="flex justify-end space-x-2">
+                      <Button
+                        disabled={isLoading}
+                        onClick={() => {
+                          setDeleteDialogOpen(false);
+                        }}
+                      >
+                        No
+                      </Button>
+                      <Button
+                        disabled={isLoading}
+                        variant={"outline"}
+                        onClick={handleDelete}
+                      >
+                        Yes
+                        {isLoading && (
+                          <span className="ml-2">
+                            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                          </span>
+                        )}
+                      </Button>
+                    </DialogFooter>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
+            )}
+          </div>{" "}
         </div>
         <CardDescription className={cn("truncate")}>
           {description}

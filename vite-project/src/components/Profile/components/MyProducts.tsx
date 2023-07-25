@@ -37,6 +37,7 @@ const MyProducts = () => {
           promo={"50% OFF"}
           img={`http://localhost:8000/${item.image.url}`}
           deletable={true}
+          editable={true}
           onDelete={() => {
             setDeletedAProduct(true);
           }}

@@ -21,7 +21,8 @@ const Footer = () => {
       className={cn(
         "px-8 md:flex md:justify-between h-max bg-[#1B4B66] mt-8 py-5 space-y-8",
         location == "/auth" && "hidden md:hidden",
-        location == "/sell" && "hidden md:hidden"
+        location == "/sell" && "hidden md:hidden",
+        location.startsWith("/my-products") && "hidden md:hidden"
       )}
     >
       <div className="grid grid-cols-3 gap-12">{footerLinks}</div>

@@ -35,8 +35,12 @@ const getProducts = async (
   });
 };
 
-const getProductItem = async (id: string) =>
-  await axiosClient.get(`api/products/${id}`);
+const getProductItem = async (id?: string) => {
+  if (id) {
+    return await axiosClient.get(`api/products/${id}`);
+  }
+  return null;
+};
 
 // User products
 // products for every specific user
