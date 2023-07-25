@@ -73,6 +73,7 @@ const Index = ({ category }: { category: string }) => {
           price={item.price}
           promo={"50% OFF"}
           img={`http://localhost:8000/${item.image.url}`}
+          editable={false}
         />
       </div>
     )

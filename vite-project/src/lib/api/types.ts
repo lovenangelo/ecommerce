@@ -4,7 +4,7 @@ export type ProductsType = {
   category: string;
   price: number;
   quantity: number;
-  image: File;
+  image: File | null;
   sizes: string;
   payment_options: string;
   subtitle: string;

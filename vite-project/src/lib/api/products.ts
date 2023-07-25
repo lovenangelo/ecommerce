@@ -2,7 +2,7 @@ import axiosClient from "../axios";
 import { ProductsType } from "./types";
 
 const addNewProduct = async (data: ProductsType) => {
-  await axiosClient
+  return await axiosClient
     .post("/api/products/create", data, {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -43,6 +43,7 @@ const getProductItem = async (id?: string) => {
 };
 
 // User products
+
 // products for every specific user
 
 const getUserProducts = async (base: string) => {
@@ -53,8 +54,14 @@ const deleteProduct = async (id: number) => {
   return await axiosClient.delete(`/api/my-products/${id}`);
 };
 
-const updateProduct = async (id: number) => {
-  return await axiosClient.put(`/api/my-products/${id}`);
+const updateProduct = async (id: string, data: ProductsType) => {
+  console.log(data);
+
+  return await axiosClient.post(`/api/my-products/${id}`, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 };
 
 const productsApi = {

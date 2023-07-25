@@ -34,10 +34,12 @@ import { cn } from "@/lib/utils";
 import { toast } from "@/components/ui/use-toast";
 import Icons from "@/lib/icons";
 import { useQuery } from "react-query";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import SkeletonLoading from "./skeleton";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is too short").max(50, "Name is too long"),
-  image: z.instanceof(File),
+  image: z.instanceof(File).nullable(),
   description: z
     .string()
     .min(25, "Description is too short")
@@ -70,18 +72,37 @@ const formSchema = z.object({
 // If id is not null, the user is using form to edit
 const SellForm = ({ id }: { id?: string }) => {
   const user = useAppSelector((state) => state.user.value);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const product = useQuery(
     ["get-product-details"],
     () => productsApi.getProductItem(id),
     {
       retry: 2,
       enabled: Boolean(id),
+      cacheTime: 0,
     }
   );
 
-  console.log(product);
-
   const productData = product.data?.data;
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      image: new File([], "image"),
+      description: "",
+      subtitle: "",
+      brand: "",
+      category: "",
+      price: 20,
+      quantity: 1,
+      color: "beige",
+      sizes: [],
+      payment_options: [],
+    },
+  });
 
   useEffect(() => {
     if (!user)
@@ -89,39 +110,33 @@ const SellForm = ({ id }: { id?: string }) => {
         title: "Login to your account",
         description: "You need to log in to post a product.",
       });
-  }, [user]);
+    if (productData) {
+      form.reset({
+        name: productData?.name ?? "",
+        image: new File([], "image"),
+        description: productData?.description ?? "",
+        subtitle: productData?.subtitle ?? "",
+        brand: productData?.brand ?? "",
+        category: productData?.category ?? "",
+        price: productData?.price ?? 20,
+        quantity: productData?.quantity ?? 1,
+        color: productData?.color ?? "beige",
+        sizes: productData?.sizes.split(",") ?? [],
+        payment_options: productData?.payment_options.split(",") ?? [],
+      });
+    }
+  }, [productData, user, form]);
 
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [submitted, setSubmitted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
+  console.log(product);
+  if (product.isLoading) {
+    return <SkeletonLoading />;
+  }
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
     console.log(file);
 
     setSelectedFile(file || null);
   };
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: productData?.name ?? "",
-      image: new File([], "image"),
-      description: productData?.description ?? "",
-      subtitle: productData?.subtitle ?? "",
-      brand: productData?.brand ?? "",
-      category: productData?.category ?? "",
-      price: productData?.price ?? 20,
-      quantity: productData?.quantity ?? 1,
-      color: productData?.color ?? "beige",
-      sizes: productData?.sizes.split(",") ?? [],
-      payment_options: productData?.payment_options.split(",") ?? [],
-    },
-  });
-
-  if (product.isLoading) {
-    return <h1>loading</h1>;
-  }
 
   type FormSchemaType = z.infer<typeof formSchema>;
 
@@ -134,12 +149,10 @@ const SellForm = ({ id }: { id?: string }) => {
     if (selectedFile) {
       setIsLoading(true);
       const product = { ...prepare, image: selectedFile };
-      console.log(product);
 
       await productsApi
         .addNewProduct(product)
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           toast({
             title: "Successfuly posted a new product",
             description: new Date().toString(),
@@ -160,10 +173,44 @@ const SellForm = ({ id }: { id?: string }) => {
     }
   };
 
+  const updateProduct = async (data: FormSchemaType) => {
+    let product = {
+      ...data,
+      payment_options: data.payment_options.join(),
+      sizes: data.sizes.join(),
+      _method: "put",
+    };
+    if (id) {
+      setIsLoading(true);
+      if (!selectedFile) {
+        product = { ...product, image: null };
+      } else {
+        product = { ...product, image: selectedFile };
+      }
+      try {
+        await productsApi.updateProduct(id, product);
+        toast({
+          title: "Successfuly updated!",
+          description: new Date().toString(),
+        });
+      } catch (error) {
+        console.log(error);
+        toast({
+          title: "Oops! Item cannot be updated.",
+        });
+      }
+
+      setIsLoading(false);
+    }
+  };
+
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
-    setSubmitted(true);
-    if (selectedFile) {
+    if (selectedFile && !id) {
+      setSubmitted(true);
       addProduct(data);
+    }
+    if (id) {
+      updateProduct(data);
     }
   };
 
@@ -178,10 +225,11 @@ const SellForm = ({ id }: { id?: string }) => {
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <div className="space-y-4 col-span-3">
-          <h1 className="font-bold text-2xl">Add a new product</h1>
+          {!id && <h1 className="font-bold text-2xl">Add a new product</h1>}
+          {id && <h1 className="font-bold text-2xl">Edit Product</h1>}
           <hr />
         </div>
-        <div className="space-y-4">
+        <div className="space-y-4 flex flex-col">
           <FormField
             control={form.control}
             name="image"
@@ -189,11 +237,27 @@ const SellForm = ({ id }: { id?: string }) => {
               <FormItem>
                 <FormLabel
                   className={cn(
-                    submitted && !selectedFile && "text-destructive"
+                    submitted && !selectedFile && !id && "text-destructive"
                   )}
                 >
                   Product Image
                 </FormLabel>
+                {id && (
+                  <LazyLoadImage
+                    className="object-cover h-48 w-full"
+                    src={
+                      selectedFile !== null
+                        ? URL.createObjectURL(selectedFile)
+                        : `http://localhost:8000/${productData.image.url}`
+                    }
+                  />
+                )}
+                {id && (
+                  <FormDescription>
+                    If you choose a new file, the current image will be
+                    replaced.
+                  </FormDescription>
+                )}
                 <FormControl>
                   <Input
                     disabled={isLoading}
@@ -205,7 +269,7 @@ const SellForm = ({ id }: { id?: string }) => {
                     {...field}
                   />
                 </FormControl>
-                {submitted && !selectedFile ? (
+                {submitted && !selectedFile && !id ? (
                   <p
                     className={cn("text-[0.8rem] font-medium text-destructive")}
                   >
@@ -495,14 +559,14 @@ const SellForm = ({ id }: { id?: string }) => {
         <hr className="col-span-3" />
         <div className="col-span-3 flex w-full justify-center">
           <Button
-            className="w-48 mt-8 align-middle"
+            className="w-48 mt-8 align-middle flex"
             onClick={() => {
               setSubmitted(true);
             }}
             type="submit"
             disabled={isLoading}
           >
-            Add Product{" "}
+            {id && <p>Save changes</p>} {!id && <p>Add Product</p>}{" "}
             {isLoading && (
               <span className="ml-2">
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
