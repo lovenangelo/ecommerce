@@ -3,16 +3,27 @@ import CardSkeleton from "@/components/Products/Loaders/CardSkeleton";
 import Pagination from "@/components/Products/Pagination";
 import { ProductItem } from "@/components/Products/types/product-item";
 import productsApi from "@/lib/api/products";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
 const MyProducts = () => {
+  const [deletedAProduct, setDeletedAProduct] = useState(false);
   const getUserProducts = () => productsApi.getUserProducts("/api/my-products");
+
   const products = useQuery(["user-products"], getUserProducts, {
     enabled: true,
     retry: 2,
   });
 
-  console.log(products);
+  const refetch = products.refetch;
+
+  useEffect(() => {
+    if (deletedAProduct) {
+      refetch();
+    }
+    // Reset the state
+    setDeletedAProduct(false);
+  }, [deletedAProduct, refetch]);
 
   const items = products.data?.data.data.map(
     (item: ProductItem, index: number) => (
@@ -26,6 +37,9 @@ const MyProducts = () => {
           promo={"50% OFF"}
           img={`http://localhost:8000/${item.image.url}`}
           deletable={true}
+          onDelete={() => {
+            setDeletedAProduct(true);
+          }}
         />
       </div>
     )

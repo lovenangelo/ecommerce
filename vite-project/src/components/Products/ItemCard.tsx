@@ -15,6 +15,17 @@ import "react-lazy-load-image-component/src/effects/opacity.css";
 import { Skeleton } from "../ui/skeleton";
 import { Button } from "../ui/button";
 import productsApi from "@/lib/api/products";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { useState } from "react";
+
 type Item = {
   id: number;
   title: string;
@@ -27,6 +38,7 @@ type Item = {
   promo: string | null;
   img: string;
   deletable?: boolean;
+  onDelete?: () => void;
 };
 
 const ItemCard = ({
@@ -38,13 +50,22 @@ const ItemCard = ({
   promo,
   img,
   deletable = false,
+  onDelete,
 }: Item) => {
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const handleDelete = async () => {
     try {
+      setIsLoading(true);
       await productsApi.deleteProduct(id);
+      if (onDelete) {
+        onDelete();
+      }
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
+    setDialogOpen(false);
   };
   return (
     <Card className="grid grid-cols-1 rows-auto h-[416px] w-fullr">
@@ -52,13 +73,47 @@ const ItemCard = ({
         <div className="flex justify-between items-start">
           <CardTitle>{title}</CardTitle>
           {deletable && (
-            <Button
-              onClick={handleDelete}
-              variant={"ghost"}
-              className="p-0 m-0 h-4444 w-4 "
+            <Dialog
+              open={dialogOpen}
+              onOpenChange={(open) => setDialogOpen(open)}
             >
-              <Icons.deleteIcon color="red" />
-            </Button>
+              <DialogTrigger className="w-max h-max p-0 m-0">
+                <Button variant={"ghost"} className="p-0 m-0 h-4 w-4 ">
+                  <Icons.deleteIcon color="red" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+                  <DialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    your product and remove its data from our servers.
+                  </DialogDescription>
+                  <DialogFooter className="flex justify-end space-x-2">
+                    <Button
+                      disabled={isLoading}
+                      onClick={() => {
+                        setDialogOpen(false);
+                      }}
+                    >
+                      No
+                    </Button>
+                    <Button
+                      disabled={isLoading}
+                      variant={"outline"}
+                      onClick={handleDelete}
+                    >
+                      Yes
+                      {isLoading && (
+                        <span className="ml-2">
+                          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                        </span>
+                      )}
+                    </Button>
+                  </DialogFooter>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
           )}
         </div>
         <CardDescription className={cn("truncate")}>
