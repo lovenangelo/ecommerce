@@ -115,7 +115,11 @@ const Navbar = () => {
                   <Avatar>
                     <AvatarImage
                       className="object-cover"
-                      src={`http://localhost:8000/${user.avatar}`}
+                      src={
+                        user.avatar == null
+                          ? "/"
+                          : `http://localhost:8000/${user.avatar}`
+                      }
                     />
                     <AvatarFallback className="font-semibold">
                       {name?.[0][0].toUpperCase()}

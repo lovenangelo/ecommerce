@@ -108,17 +108,21 @@ const Index = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[100px]">Product Name</TableHead>
+                  <TableHead className="w-[200px]">Product Name</TableHead>
                   <TableHead>Price</TableHead>
                   <TableHead>Qty</TableHead>
                   <TableHead className="text-right">Subtotal</TableHead>
                 </TableRow>
               </TableHeader>
-              {items.length == 0 ? (
-                <h1>No items</h1>
-              ) : (
-                <TableBody>{items}</TableBody>
-              )}
+              <TableBody>
+                {items.length == 0 ? (
+                  <TableRow>
+                    <TableCell>No items</TableCell>
+                  </TableRow>
+                ) : (
+                  items
+                )}
+              </TableBody>
             </Table>
           </div>
           <div className="col-span-1 h-full bg-gray-100 rounded-lg p-5 border">
@@ -173,9 +177,13 @@ const Index = () => {
             <hr className="my-8" />
             <div className="flex items-center my-8 space-x-4">
               <Link to="/checkout">
-                <Button>Place Order</Button>
+                <Button disabled={cart.data?.data.data.length == 0}>
+                  Place Order
+                </Button>
               </Link>
-              <Button variant={"outline"}>Continue Shopping</Button>
+              <Link to="/products/handbags">
+                <Button variant={"outline"}>Continue Shopping</Button>
+              </Link>
             </div>
           </div>
         </div>
