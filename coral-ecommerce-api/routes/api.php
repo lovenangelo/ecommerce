@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AvatarController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Product\ProductSearchController;
 use App\Http\Controllers\Product\UserProductController;
@@ -39,6 +40,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
   Route::get('/my-products', [UserProductController::class, 'index']);
   Route::put('/my-products/{id}', [UserProductController::class, 'update']);
   Route::delete('/my-products/{id}', [UserProductController::class, 'destroy']);
+
+  // Cart
+  Route::resource('cart', CartItemController::class);
 });
 
 Route::get('/products', [ProductController::class, 'index']);
