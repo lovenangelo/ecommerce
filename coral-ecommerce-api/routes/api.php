@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AvatarController;
-use App\Http\Controllers\CartController;
+use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Product\ProductSearchController;
 use App\Http\Controllers\Product\UserProductController;

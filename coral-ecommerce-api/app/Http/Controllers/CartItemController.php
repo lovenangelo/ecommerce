@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\CartItem;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class CartItemController extends Controller
@@ -13,7 +12,7 @@ class CartItemController extends Controller
    */
   public function index()
   {
-    $cart = User::with('cart_items');
+    $cart = CartItem::where('user_id', request()->user()->id)->with('product')->paginate(9);
     return $cart;
   }
 
