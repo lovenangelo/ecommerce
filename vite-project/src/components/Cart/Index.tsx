@@ -18,7 +18,16 @@ import Icons from "@/lib/icons";
 import Coupon from "../Products/Coupon";
 import { Link } from "wouter";
 import CartItem from "./CartItem";
+import { useQuery } from "react-query";
+import { getCartItems } from "./cartApi";
 const Index = () => {
+  const cartItems = async () => {
+    return getCartItems();
+  };
+  const cart = useQuery(["get-cart"], cartItems, { retry: 2, enabled: true });
+
+  console.log(cart);
+
   return (
     <div className="container">
       <h1 className="font-bold text-xl mt-4">My Cart</h1>
