@@ -24,7 +24,8 @@ const Footer = () => {
         location == "/sell" && "hidden md:hidden",
         location.startsWith("/cart") && "hidden md:hidden",
         location.startsWith("/my-products") && "hidden md:hidden",
-        location.startsWith("/checkout") && "hidden md:hidden"
+        location.startsWith("/checkout") && "hidden md:hidden",
+        location.startsWith("/item") && "hidden md:hidden"
       )}
     >
       <div className="grid grid-cols-3 gap-12">{footerLinks}</div>
