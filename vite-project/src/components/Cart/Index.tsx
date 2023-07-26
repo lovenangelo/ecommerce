@@ -17,10 +17,13 @@ import Icons from "@/lib/icons";
 import Coupon from "../Products/Coupon";
 import { Link } from "wouter";
 import { useQuery } from "react-query";
-import { getCartItems } from "./api/cartApi";
+import { deleteCartItem, getCartItems } from "./api/cartApi";
 import SkeletonLoading from "./SkeletonLoading";
 import { ProductItem } from "../Products/types/product-item";
+import { toast } from "../ui/use-toast";
+import { useState } from "react";
 const Index = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const cartItems = async () => {
     return getCartItems();
   };
@@ -28,13 +31,32 @@ const Index = () => {
 
   console.log(cart);
 
+  const removeCartItemHandler = async (id: string) => {
+    try {
+      setIsLoading(true);
+      await deleteCartItem(id);
+      toast({
+        title: "Succesfully removed item from your cart",
+      });
+      cart.refetch();
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: "Failed to delete item",
+      });
+    }
+    setIsLoading(false);
+  };
+
   const items = cart.data?.data.data.map(
-    (item: { product: ProductItem; quantity: number }) => {
+    (item: { product: ProductItem; quantity: number; id: string }) => {
       return (
         <TableRow>
           <TableCell className="font-medium w-96">
+            {" "}
             <div className="grid grid-cols-2 row-auto gap-2">
               <div className="row-span-3 w-full h-full">
+                {" "}
                 <img
                   className="object-cover"
                   src={`http://localhost:8000/${item.product.image.url}`}
@@ -54,10 +76,19 @@ const Index = () => {
             ${item.product.price * item.quantity}
           </TableCell>
           <div className="flex">
-            <Button variant="ghost" className="text-blue-700">
+            <Button
+              disabled={isLoading}
+              variant="ghost"
+              className="text-blue-700"
+            >
               Move to Wishlist
             </Button>
-            <Button variant="ghost" className="text-red-700">
+            <Button
+              disabled={isLoading}
+              onClick={() => removeCartItemHandler(item.id)}
+              variant="ghost"
+              className="text-red-700"
+            >
               Remove
             </Button>
           </div>
@@ -83,7 +114,11 @@ const Index = () => {
                   <TableHead className="text-right">Subtotal</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>{items}</TableBody>
+              {items.length == 0 ? (
+                <h1>No items</h1>
+              ) : (
+                <TableBody>{items}</TableBody>
+              )}
             </Table>
           </div>
           <div className="col-span-1 h-full bg-gray-100 rounded-lg p-5 border">

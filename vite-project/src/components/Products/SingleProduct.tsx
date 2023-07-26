@@ -9,6 +9,9 @@ import SingleProductSkeleton from "./Loaders/SingleProductSkeleton";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import "react-lazy-load-image-component/src/effects/opacity.css";
+import { useState } from "react";
+import { addCartItem } from "../Cart/api/cartApi";
+import { toast } from "../ui/use-toast";
 type Product = {
   brand: string;
   category: string;
@@ -27,26 +30,45 @@ type Product = {
 };
 
 const SingleProduct = ({ id }: { id: string }) => {
+  const [quantity, setQuantity] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const getProductItem = async () => {
     const res = await productsApi.getProductItem(id);
-    const product: Product = res.data;
+    const product: Product = res?.data;
     return product;
   };
 
-  const { isLoading, data } = useQuery("get-product-item", getProductItem, {
-    enabled: true,
-    retry: 2,
-    onSuccess: (res) => {
-      console.log(res);
-    },
-    onError: (e) => {
-      console.log(e);
-    },
-  });
+  const { isLoading: fetchLoading, data } = useQuery(
+    "get-product-item",
+    getProductItem,
+    {
+      enabled: true,
+      retry: 2,
+      onSuccess: (res) => {
+        console.log(res);
+      },
+      onError: (e) => {
+        console.log(e);
+      },
+    }
+  );
 
   console.log(data);
 
-  if (isLoading) return <SingleProductSkeleton />;
+  const addToCartHandler = async () => {
+    if (data)
+      try {
+        setIsLoading(true);
+        await addCartItem(data?.id, quantity);
+        toast({ title: "Successfully added new item to your cart" });
+      } catch (error) {
+        console.log(error);
+        toast({ title: "Failed to add item to your cart" });
+      }
+    setIsLoading(false);
+  };
+
+  if (fetchLoading) return <SingleProductSkeleton />;
   return (
     <div className="container">
       <div className="grid grid-cols-2 rows-auto w-full h-full">
@@ -110,15 +132,29 @@ const SingleProduct = ({ id }: { id: string }) => {
           </div>
           <div className="flex space-x-2">
             <p className="font-bold">Quantity:</p>
-            <div className="border-2 flex space-x-2 justify-center items-center px-2">
-              <Icons.minusIcon className="h-4 w-4" />
-              <p>1</p>
-              <Icons.plusIcon className="h-4 w-4" />
+            <div className="border-2 flex space-x-2 justify-center items-center ">
+              <Button
+                onClick={() => setQuantity((prev) => (prev -= 1))}
+                variant={"ghost"}
+              >
+                <Icons.minusIcon className="h-4 w-4" />
+              </Button>
+              <p>{quantity}</p>
+              <Button
+                onClick={() => setQuantity((prev) => (prev += 1))}
+                variant={"ghost"}
+              >
+                <Icons.plusIcon className="h-4 w-4" />
+              </Button>
             </div>
           </div>
           <div className="flex items-center space-x-2">
-            <Button>Add to bag</Button>
-            <Button variant={"outline"}>Add To Wishlist</Button>
+            <Button disabled={isLoading} onClick={addToCartHandler}>
+              Add to cart
+            </Button>{" "}
+            <Button disabled={isLoading} variant={"outline"}>
+              Add To Wishlist
+            </Button>
           </div>
           <hr />
           <Tabs defaultValue="product-description" className="w-full my-8">
