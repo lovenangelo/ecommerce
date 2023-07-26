@@ -46,7 +46,10 @@ class CartItemController extends Controller
    */
   public function update(Request $request, $id)
   {
-    //
+    $cartItem = CartItem::findOrFail($id);
+    $cartItem->quantity = $request->input('quantity');
+    $cartItem->save();
+    return response()->noContent();
   }
 
   /**

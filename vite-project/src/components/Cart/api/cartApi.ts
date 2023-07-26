@@ -14,3 +14,7 @@ export const addCartItem = async (product_id: number, quantity: number) => {
     quantity,
   });
 };
+
+export const updateCartItem = async (id: string, quantity: number) => {
+  return await axiosClient.put(`/api/cart/${id}`, { quantity });
+};

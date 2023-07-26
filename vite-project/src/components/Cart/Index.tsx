@@ -17,23 +17,30 @@ import Icons from "@/lib/icons";
 import Coupon from "../Products/Coupon";
 import { Link } from "wouter";
 import { useQuery } from "react-query";
-import { deleteCartItem, getCartItems } from "./api/cartApi";
+import { deleteCartItem, getCartItems, updateCartItem } from "./api/cartApi";
 import SkeletonLoading from "./SkeletonLoading";
 import { ProductItem } from "../Products/types/product-item";
 import { toast } from "../ui/use-toast";
 import { useState } from "react";
+import { Input } from "../ui/input";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { Checkbox } from "../ui/checkbox";
+import debounce from "lodash.debounce";
 const Index = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
+  const [orders, setOrders] = useState<
+    { price: number; product_id: number; quantity: number }[]
+  >([]);
+  const [subtotal, setSubtotal] = useState(0);
+  const [grandTotal, setGrandTotal] = useState(0);
+
   const cartItems = async () => {
     return getCartItems();
   };
   const cart = useQuery(["get-cart"], cartItems, { retry: 2, enabled: true });
 
-  console.log(cart);
-
   const removeCartItemHandler = async (id: string) => {
     try {
-      setIsLoading(true);
       await deleteCartItem(id);
       toast({
         title: "Succesfully removed item from your cart",
@@ -45,53 +52,104 @@ const Index = () => {
         title: "Failed to delete item",
       });
     }
-    setIsLoading(false);
   };
 
+  const updateCartItemHandler = async (id: string, quantity: number) => {
+    await updateCartItem(id, quantity);
+  };
+
+  const [quantityUpdateDebounce] = useState(() =>
+    debounce(
+      (id: string, value: number) => {
+        updateCartItemHandler(id, value);
+      },
+      1000,
+      { leading: false, trailing: true }
+    )
+  );
+
   const items = cart.data?.data.data.map(
-    (item: { product: ProductItem; quantity: number; id: string }) => {
+    (
+      item: { product: ProductItem; quantity: number; id: string },
+      index: number
+    ) => {
       return (
-        <TableRow>
+        <TableRow key={index} className="h-max">
           <TableCell className="font-medium w-96">
-            {" "}
-            <div className="grid grid-cols-2 row-auto gap-2">
-              <div className="row-span-3 w-full h-full">
-                {" "}
-                <img
-                  className="object-cover"
+            <div className="grid grid-flow-col row-auto gap-4">
+              <Checkbox
+                onCheckedChange={(value) => {
+                  if (value) {
+                    setOrders([
+                      ...orders,
+                      {
+                        price: item.product.price,
+                        quantity: item.quantity,
+                        product_id: item.product.id,
+                      },
+                    ]);
+                    setSubtotal(
+                      (prev) => prev + item.product.price * item.quantity
+                    );
+                    setGrandTotal(
+                      (prev) => prev + item.product.price * item.quantity
+                    );
+                  } else {
+                    setOrders(
+                      orders.filter((order) => {
+                        return order.product_id !== item.product.id;
+                      })
+                    );
+                    setSubtotal(
+                      (prev) => prev - item.product.price * item.quantity
+                    );
+                    setGrandTotal(
+                      (prev) => prev - item.product.price * item.quantity
+                    );
+                  }
+                }}
+              />
+              <div className="flex row-span-3 w-24 h-24">
+                <LazyLoadImage
+                  className="object-cover rounded-md w-24"
                   src={`http://localhost:8000/${item.product.image.url}`}
                   alt="product image"
                 />
               </div>
               <div className="space-y-2">
-                <h1 className="font-bold">{item.product.name}</h1>
-                <p className="truncate">{item.product.subtitle}</p>
-                <p>Qty: {item.quantity}</p>
+                <h1 className="font-bold text-xl">{item.product.name}</h1>
+                <p className="h-24 font-normal text-ellipsis w-full">
+                  {item.product.subtitle}
+                </p>
               </div>
             </div>
           </TableCell>
-          <TableCell className="align-top">{item.product.price}</TableCell>
-          <TableCell className="align-top">{item.quantity}</TableCell>
+          <TableCell className="align-top">${item.product.price}</TableCell>
           <TableCell className="align-top">
+            <Input
+              type="number"
+              defaultValue={item.quantity}
+              min={1}
+              onChange={(event) => {
+                const value = event.target.value;
+                item.quantity = parseInt(value);
+                quantityUpdateDebounce(item.id, item.quantity);
+              }}
+              className="w-24"
+            />
+          </TableCell>
+          <TableCell className="align-top font-semibold">
             ${item.product.price * item.quantity}
           </TableCell>
-          <div className="flex">
+          <TableCell className="flex p-2 justify-end">
             <Button
-              disabled={isLoading}
-              variant="ghost"
-              className="text-blue-700"
-            >
-              Move to Wishlist
-            </Button>
-            <Button
-              disabled={isLoading}
               onClick={() => removeCartItemHandler(item.id)}
               variant="ghost"
-              className="text-red-700"
+              className="text-red-700 w-12"
             >
-              Remove
+              <Icons.deleteIcon />
             </Button>
-          </div>
+          </TableCell>
         </TableRow>
       );
     }
@@ -103,15 +161,15 @@ const Index = () => {
       {cart.isLoading ? (
         <SkeletonLoading />
       ) : (
-        <div className="max-h-[400px] h-max grid grid-cols-3 mt-4 gap-8 ">
-          <div className="col-span-2 w-full min-h-[400px] h-max row-auto overflow-auto rounded-lg border bg-gray-100">
+        <div className=" grid grid-cols-3 mt-4 gap-8">
+          <div className="col-span-2 w-full row-auto rounded-lg border bg-gray-100">
             <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[200px]">Product Name</TableHead>
                   <TableHead>Price</TableHead>
                   <TableHead>Qty</TableHead>
-                  <TableHead className="text-right">Subtotal</TableHead>
+                  <TableHead>Subtotal</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -125,45 +183,17 @@ const Index = () => {
               </TableBody>
             </Table>
           </div>
-          <div className="col-span-1 h-full bg-gray-100 rounded-lg p-5 border">
+          <div className="col-span-1 h-max bg-gray-100 rounded-lg p-5 border">
             <h1 className="mb-4 font-bold text-lg">Order Summary</h1>
             <div className="grid grid-cols-2 row-auto gap-2">
               <p>Sub Total</p>
-              <p>
-                {cart.data?.data.data.reduce(
-                  (
-                    total: number,
-                    item: {
-                      quantity: number;
-                      product: ProductItem;
-                    }
-                  ) => {
-                    const itemPrice = item.product.price * item.quantity;
-                    return total + itemPrice;
-                  },
-                  0
-                )}
-              </p>
+              <p>${subtotal}</p>
               <p>Discount</p>
               <p>0</p>
               <p>Delivery Fee</p>
               <p>$0.00</p>
               <p className="font-semibold">Grand Total</p>
-              <p>
-                {cart.data?.data.data.reduce(
-                  (
-                    total: number,
-                    item: {
-                      quantity: number;
-                      product: ProductItem;
-                    }
-                  ) => {
-                    const itemPrice = item.product.price * item.quantity;
-                    return total + itemPrice;
-                  },
-                  0
-                )}
-              </p>
+              <p className="font-bold">${grandTotal}</p>
             </div>
             <Collapsible className="mt-8">
               <CollapsibleTrigger className="flex space-x-2">
