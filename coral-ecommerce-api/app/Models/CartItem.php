@@ -11,6 +11,10 @@ class CartItem extends Model
 {
   use HasFactory;
 
+  protected $fillabe = [
+    'quantity'
+  ];
+
   /**
    * Get the user that owns the Cart
    *

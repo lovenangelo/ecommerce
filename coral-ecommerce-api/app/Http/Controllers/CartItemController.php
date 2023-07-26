@@ -12,7 +12,7 @@ class CartItemController extends Controller
    */
   public function index()
   {
-    $cart = CartItem::where('user_id', request()->user()->id)->with('product')->paginate(9);
+    $cart = CartItem::where('user_id', request()->user()->id)->with('product.image')->paginate(9);
     return $cart;
   }
 
