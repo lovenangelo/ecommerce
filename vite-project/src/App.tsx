@@ -81,15 +81,15 @@ function App() {
             <NewArrivals />
             <HandPickedCollections />
             <Brands />
+            <Suspense fallback={<div>Loading...</div>}>
+              <LazyFooter />
+            </Suspense>
           </>
         </Route>
         <Route>
           <NotFoundPage />
         </Route>
       </Switch>
-      <Suspense fallback={<div>Loading...</div>}>
-        <LazyFooter />
-      </Suspense>
     </>
   );
 }

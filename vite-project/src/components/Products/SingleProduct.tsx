@@ -39,7 +39,7 @@ const SingleProduct = ({ id }: { id: string }) => {
   };
 
   const { isLoading: fetchLoading, data } = useQuery(
-    "get-product-item",
+    ["get-product-item", id],
     getProductItem,
     {
       enabled: true,
