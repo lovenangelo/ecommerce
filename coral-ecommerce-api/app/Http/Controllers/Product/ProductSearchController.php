@@ -9,22 +9,23 @@ class ProductSearchController extends Controller
 {
   public function search()
   {
-    $query = Product::with('brand', 'category', 'price', 'color', 'image');
-    $query->join('brands', 'products.id', '=', 'brands.product_id')
-      ->join('categories', 'products.id', '=', 'categories.product_id')
-      ->join('prices', 'products.id', '=', 'prices.product_id')
-      ->join('colors', 'products.id', '=', 'colors.product_id');
-    $searchKeyword = request()->input('search');
-    if ($searchKeyword) {
-      $query->where(function ($query) use ($searchKeyword) {
-        $query->where('name', 'like', '%' . $searchKeyword . '%')
-          ->orWhere('price', 'like', '%' . $searchKeyword . '%')
-          ->orWhere('color', 'like', '%' . $searchKeyword . '%')
-          ->orWhere('category', 'like', '%' . $searchKeyword . '%')
-          ->orWhere('brand', 'like', '%' . $searchKeyword . '%');
+    $searchTerm = request()->input('search'); // 'q' is the parameter for the search term.
+
+    $query = Product::query();
+
+    // Search
+    if ($searchTerm) {
+      $query->where(function ($query) use ($searchTerm) {
+        $query->where('name', 'like', '%' . $searchTerm . '%')
+          ->orWhere('color', 'like', '%' . $searchTerm . '%')
+          ->orWhere('category', 'like', '%' . $searchTerm . '%')
+          ->orWhere('brand', 'like', '%' . $searchTerm . '%')
+          ->orWhere('sizes', 'like', '%' . $searchTerm . '%');
       });
     }
-    $results = $query->paginate(5);
-    return response()->json(['data' => $results]);
+
+    $products = $query->with('image')->paginate(5);
+
+    return response()->json(['data' => $products]);
   }
 }
