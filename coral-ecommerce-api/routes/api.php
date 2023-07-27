@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AvatarController;
 use App\Http\Controllers\CartItemController;
+use App\Http\Controllers\Orders\OrderAddressController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Product\ProductSearchController;
 use App\Http\Controllers\Product\UserProductController;
@@ -43,6 +44,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
   // Cart
   Route::resource('cart', CartItemController::class);
+
+  // Order
+  Route::get('/order/address', [OrderAddressController::class, 'index']);
+  Route::post('/order/address', [OrderAddressController::class, 'store']);
 });
 
 Route::get('/products', [ProductController::class, 'index']);
