@@ -26,8 +26,9 @@ const Index = () => {
     return <Redirect to="/auth" />;
   }
 
-  const items = orderDetails?.items.map((item) => (
+  const items = orderDetails?.items.map((item, index) => (
     <CartItem
+      key={index}
       title={item.title}
       subtitle={item.subtitle}
       quantity={item.quantity}

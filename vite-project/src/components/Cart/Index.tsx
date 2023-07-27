@@ -121,7 +121,7 @@ const Index = () => {
 
   const items = cartItems?.map((item, index) => {
     return (
-      <TableRow key={index} className="h-max">
+      <TableRow key={index} className="h-max bg-white">
         <TableCell className="font-medium w-96">
           <div className="grid grid-flow-col row-auto gap-4">
             <Checkbox
