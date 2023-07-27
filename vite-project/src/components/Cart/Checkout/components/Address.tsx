@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/form";
 import { toast } from "@/components/ui/use-toast";
 import { createAddress } from "../check-api";
+import { useState } from "react";
 
 const phoneRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
@@ -37,19 +38,23 @@ const FormSchema = z.object({
   state: z.string().nonempty("Don't leave this field empty"),
 });
 
-async function onSubmit(data: z.infer<typeof FormSchema>) {
-  // toast({
-  //   title: "You submitted the following values:",
-  //   description: (
-  //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-  //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-  //     </pre>
-  //   ),
-  // });
-  await createAddress(data);
-}
-
 const AddressForm = () => {
+  const [addressSaveLoading, setAddressSaveLoading] = useState(false);
+
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    try {
+      setAddressSaveLoading(true);
+      await createAddress(data);
+      toast({
+        title: "Address saved!",
+      });
+    } catch (error) {
+      toast({
+        title: "Cannot save address",
+      });
+    }
+    setAddressSaveLoading(false);
+  }
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -180,6 +185,11 @@ const AddressForm = () => {
             <div className="w-full col-span-4 justify-end flex">
               <Button className="w-max justify-end flex" type="submit">
                 Save
+                {addressSaveLoading && (
+                  <span className="ml-2">
+                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                  </span>
+                )}
               </Button>
             </div>
           </form>
