@@ -266,9 +266,7 @@ const Index = () => {
             <hr className="my-8" />
             <div className="flex items-center my-8 space-x-4">
               <Link to="/checkout">
-                <Button disabled={cart.data?.data.data.length == 0}>
-                  Place Order
-                </Button>
+                <Button disabled={orders.length == 0}>Place Order</Button>
               </Link>
               <Link to="/products/handbags">
                 <Button variant={"outline"}>Continue Shopping</Button>
