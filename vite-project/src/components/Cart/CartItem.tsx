@@ -14,9 +14,8 @@ const CartItem = ({
 }) => {
   return (
     <div className="grid grid-cols-2 row-auto gap-2 w-full h-full">
-      <div className="row-span-3 w-full h-48">
+      <div className="row-span-3 w-full h-24">
         <LazyLoadImage
-          className="object-cover h-full w-full"
           height={"100%"}
           effect="opacity"
           src={`http://localhost:8000/${src}`}
@@ -25,7 +24,7 @@ const CartItem = ({
       </div>
       <div className="space-y-2">
         <h1 className="font-bold">{title}</h1>
-        <p>{subtitle}</p>
+        <p className="truncate overflow-hidden">{subtitle}</p>
         <p>Qty: {quantity}</p>
       </div>
     </div>

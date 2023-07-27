@@ -10,8 +10,8 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useState } from "react";
 import { Link, Redirect } from "wouter";
-import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/redux/hooks";
+import AddressForm from "./components/Address";
 type PaymentMethod = "CREDIT-CARD" | "COD";
 
 const Index = () => {
@@ -38,55 +38,10 @@ const Index = () => {
 
   return (
     <div className="container">
-      <h1 className="font-bold text-xl">Checkout</h1>
       <div className="grid grid-cols-3 mt-8 gap-8 ">
         <div className="col-span-2 space-y-8 ">
-          <Collapsible>
-            <CollapsibleTrigger className="font-bold flex">
-              <p>Add New Address</p>
-              <Icons.chevronDownIcon />
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <div className="grid gap-4 grid-cols-2 rows-auto my-8">
-                <div className="grid w-full max-w-sm items-center gap-1.5">
-                  <Label htmlFor="name">Full Name</Label>
-                  <Input id="name" type="text" placeholder="Enter Name" />
-                </div>
-                <div className="grid w-full max-w-sm items-center gap-1.5">
-                  <Label htmlFor="mobile-number">Mobile Number</Label>
-                  <Input
-                    id="mobile-number"
-                    type="number"
-                    placeholder="Enter Number"
-                  />
-                </div>
-                <div className="grid w-full max-w-sm items-center gap-1.5">
-                  <Label htmlFor="street-address">Street Address</Label>
-                  <Input
-                    id="street-address"
-                    type="text"
-                    placeholder="Enter Address"
-                  />
-                </div>
-                <div className="grid w-full max-w-sm items-center gap-1.5">
-                  <Label htmlFor="state">State</Label>
-                  <Input id="state" type="text" placeholder="Enter State" />
-                </div>
-                <div className="grid w-full max-w-sm items-center gap-1.5">
-                  <Label htmlFor="city">City</Label>
-                  <Input id="city" type="text" placeholder="Enter City" />
-                </div>
-                <div className="grid w-full max-w-sm items-center gap-1.5">
-                  <Label htmlFor="zip-code">Zip Code</Label>
-                  <Input
-                    id="zip-code"
-                    type="number"
-                    placeholder="Enter Zipcode"
-                  />
-                </div>
-              </div>
-            </CollapsibleContent>
-          </Collapsible>
+          <h1 className="font-bold text-xl">Checkout</h1>
+          <AddressForm />
           <hr />
           <Collapsible>
             <CollapsibleTrigger className="font-bold flex">
@@ -168,12 +123,10 @@ const Index = () => {
           </div>
         </div>
       </div>
-
       <div className="my-8 flex h-full w-full justify-between items-center align-bottom">
         <Link to="/cart" className="underline">
           Back to Cart
         </Link>
-        <Button>Next</Button>
       </div>
     </div>
   );
