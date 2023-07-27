@@ -67,6 +67,7 @@ const Index = ({ category }: { category: string }) => {
       <div key={index}>
         <ItemCard
           id={item.id}
+          category={category}
           title={item.name}
           description={item.description}
           ratings={null}

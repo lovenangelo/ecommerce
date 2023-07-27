@@ -30,6 +30,7 @@ type Item = {
   id: number;
   title: string;
   description: string;
+  category: string;
   ratings: {
     review_count: number;
     stars: number;
@@ -44,6 +45,7 @@ type Item = {
 
 const ItemCard = ({
   id,
+  category,
   title,
   description,
   ratings,
@@ -133,7 +135,7 @@ const ItemCard = ({
         </CardDescription>
       </CardHeader>
       <CardContent className={cn("h-60 w-full cursor-pointer")}>
-        <Link to={`/item/${id}`}>
+        <Link to={`/products/${category}/${id}`}>
           <LazyLoadImage
             height={"100%"}
             width={"100%"}

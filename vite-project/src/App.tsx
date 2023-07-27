@@ -71,7 +71,7 @@ function App() {
           }}
         </Route>
 
-        <Route path="/item/:id">
+        <Route path="/products/:category/:id">
           {(params) => <SingleProduct id={params.id} />}
         </Route>
 

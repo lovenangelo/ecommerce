@@ -151,12 +151,16 @@ const Index = () => {
               }}
             />
             <div className="flex row-span-3 w-24 h-24">
-              <LazyLoadImage
-                // className="object-cover rounded-md w-24"
-                src={`http://localhost:8000/${item.product.image.url}`}
-                effect="opacity"
-                alt="product image"
-              />
+              <Link
+                to={`/products/${item.product.category}/${item.product.id}`}
+              >
+                {" "}
+                <LazyLoadImage
+                  src={`http://localhost:8000/${item.product.image.url}`}
+                  effect="opacity"
+                  alt="product image"
+                />
+              </Link>
             </div>
             <div className="space-y-2">
               <h1 className="font-bold text-xl">{item.product.name}</h1>
