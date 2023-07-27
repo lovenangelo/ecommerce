@@ -21,16 +21,6 @@ export default function Search() {
   const [seeMoreLoading, setSeeMoreLoading] = useState(false);
   const [showDiv, setShowDiv] = useState(false);
 
-  const handleInputFocus = () => {
-    setShowDiv(true);
-  };
-
-  const handleInputBlur = () => {
-    setTimeout(() => {
-      setShowDiv(false);
-    }, 200);
-  };
-
   const handleSearch = async () => await getSearchResults(search);
 
   const searchResults = useQuery(["get-search-results", search], handleSearch, {
@@ -44,10 +34,14 @@ export default function Search() {
           };
           name: string;
           subtitle: string;
+          category: string;
           id: number;
         }) => {
           return (
-            <Link key={result.id} to={`/item/${result.id}`}>
+            <Link
+              key={result.id}
+              to={`/products/${result.category}/${result.id}`}
+            >
               <Button
                 onClick={() => console.log("clicked")}
                 variant={"ghost"}
@@ -90,22 +84,17 @@ export default function Search() {
       }) => {
         return (
           <Link key={result.id} to={`/item/${result.id}`}>
-            <Button
-              variant={"ghost"}
-              className="border-b-2 h-24 flex items-center w-full justify-between p-4"
-            >
-              <div className="w-1/4 h-full">
-                <LazyLoadImage
-                  className="w-full h-full object-cover rounded-md"
-                  src={`http://localhost:8000/${result.image.url}`}
-                  alt=""
-                />
-              </div>
-              <div className=" text-right">
-                <h1 className="font-bold text-lg">{result.name}</h1>
-                <p className="w-48 truncate">{result.subtitle}</p>
-              </div>
-            </Button>
+            <div className="w-1/4 h-full">
+              <LazyLoadImage
+                className="w-full h-full object-cover rounded-md"
+                src={`http://localhost:8000/${result.image.url}`}
+                alt=""
+              />
+            </div>
+            <div className=" text-right">
+              <h1 className="font-bold text-lg">{result.name}</h1>
+              <p className="w-48 truncate">{result.subtitle}</p>
+            </div>
           </Link>
         );
       }
@@ -120,7 +109,11 @@ export default function Search() {
       <div className="flex items-center border shadow-sm px-2 rounded bg-[#F1F1F1] md:w-96 w-full">
         <Icons.search height={20} width={20} className="h-12" />
         <Input
-          type="search"
+          onBlur={() => {
+            setTimeout(() => {
+              setShowDiv(false);
+            }, 100);
+          }}
           value={searchInput}
           onChange={(event) => {
             setSearchInput(event.target.value);
@@ -134,6 +127,9 @@ export default function Search() {
           )}
           placeholder="Search for products or brands..."
         />
+      </div>
+      <div className="translate-y-14 max-h-60 absolute w-full bg-primary-foreground z-50 overflow-auto rounded-b-lg">
+        <datalist id="search-results">{searchResultsList}</datalist>
       </div>
       {showDiv && (
         <div className="translate-y-14 max-h-60 absolute w-full bg-primary-foreground z-50 overflow-auto rounded-b-lg">
