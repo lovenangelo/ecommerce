@@ -12,6 +12,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 
+import "react-lazy-load-image-component/src/effects/opacity.css";
 import { Button } from "../ui/button";
 import Icons from "@/lib/icons";
 import Coupon from "../Products/Coupon";
@@ -21,27 +22,43 @@ import { deleteCartItem, getCartItems, updateCartItem } from "./api/cartApi";
 import SkeletonLoading from "./SkeletonLoading";
 import { ProductItem } from "../Products/types/product-item";
 import { toast } from "../ui/use-toast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Checkbox } from "../ui/checkbox";
 import debounce from "lodash.debounce";
 const Index = () => {
-  // const [isLoading, setIsLoading] = useState(false);
-  const [orders, setOrders] = useState<
-    { price: number; product_id: number; quantity: number }[]
-  >([]);
   const [subtotal, setSubtotal] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
 
-  const cartItems = async () => {
+  // The state of cart items from fetch
+  const [cartItems, setCartItems] = useState<
+    { product: ProductItem; quantity: number; id: string }[] | []
+  >([]);
+
+  const fetchCartItems = async () => {
     return getCartItems();
   };
-  const cart = useQuery(["get-cart"], cartItems, { retry: 2, enabled: true });
+  const cart = useQuery(["get-cart"], fetchCartItems, {
+    retry: 2,
+    enabled: true,
+    onSuccess(data) {
+      setCartItems(data.data.data);
+    },
+  });
+
+  const remove = cart.remove;
+
+  useEffect(() => {
+    return () => {
+      remove();
+    };
+  }, [remove]);
 
   const removeCartItemHandler = async (id: string) => {
     try {
       await deleteCartItem(id);
+
       toast({
         title: "Succesfully removed item from your cart",
       });
@@ -54,6 +71,7 @@ const Index = () => {
     }
   };
 
+  // API PUT req
   const updateCartItemHandler = async (id: string, quantity: number) => {
     await updateCartItem(id, quantity);
   };
@@ -68,92 +86,129 @@ const Index = () => {
     )
   );
 
-  const items = cart.data?.data.data.map(
-    (
-      item: { product: ProductItem; quantity: number; id: string },
-      index: number
-    ) => {
-      return (
-        <TableRow key={index} className="h-max">
-          <TableCell className="font-medium w-96">
-            <div className="grid grid-flow-col row-auto gap-4">
-              <Checkbox
-                onCheckedChange={(value) => {
-                  if (value) {
-                    setOrders([
-                      ...orders,
-                      {
-                        price: item.product.price,
-                        quantity: item.quantity,
-                        product_id: item.product.id,
-                      },
-                    ]);
-                    setSubtotal(
-                      (prev) => prev + item.product.price * item.quantity
-                    );
-                    setGrandTotal(
-                      (prev) => prev + item.product.price * item.quantity
-                    );
-                  } else {
-                    setOrders(
-                      orders.filter((order) => {
-                        return order.product_id !== item.product.id;
-                      })
-                    );
-                    setSubtotal(
-                      (prev) => prev - item.product.price * item.quantity
-                    );
-                    setGrandTotal(
-                      (prev) => prev - item.product.price * item.quantity
-                    );
-                  }
-                }}
-              />
-              <div className="flex row-span-3 w-24 h-24">
-                <LazyLoadImage
-                  className="object-cover rounded-md w-24"
-                  src={`http://localhost:8000/${item.product.image.url}`}
-                  alt="product image"
-                />
-              </div>
-              <div className="space-y-2">
-                <h1 className="font-bold text-xl">{item.product.name}</h1>
-                <p className="h-24 font-normal text-ellipsis w-full">
-                  {item.product.subtitle}
-                </p>
-              </div>
-            </div>
-          </TableCell>
-          <TableCell className="align-top">${item.product.price}</TableCell>
-          <TableCell className="align-top">
-            <Input
-              type="number"
-              defaultValue={item.quantity}
-              min={1}
-              onChange={(event) => {
-                const value = event.target.value;
-                item.quantity = parseInt(value);
-                quantityUpdateDebounce(item.id, item.quantity);
+  // The selected cart items to send as order
+  const [orders, setOrders] = useState<
+    { price: number; product_id: number; quantity: number }[]
+  >([]);
+
+  // This is used to disable the input buttons
+  const disabledSetter = new Array(cartItems.length).fill(false);
+  const [quantityInputDisable, setQuantityInputDisable] = useState<
+    boolean[] | []
+  >(disabledSetter);
+
+  // Updating cart item quantity for row subtotal
+  const handleQuantityChange = (rowIndex: number, value: number) => {
+    const updatedData = cartItems?.map((item, index) => {
+      if (index === rowIndex) {
+        return { ...item, quantity: value };
+      }
+      return item;
+    });
+    setCartItems(updatedData ?? []);
+  };
+
+  const items = cartItems?.map((item, index) => {
+    return (
+      <TableRow key={index} className="h-max">
+        <TableCell className="font-medium w-96">
+          <div className="grid grid-flow-col row-auto gap-4">
+            <Checkbox
+              onCheckedChange={(value) => {
+                const updatedDisabledSetter = quantityInputDisable;
+                if (value) {
+                  updatedDisabledSetter[index] = true;
+                  setQuantityInputDisable(updatedDisabledSetter);
+                  setOrders([
+                    ...orders,
+                    {
+                      price: item.product.price,
+                      quantity: item.quantity,
+                      product_id: item.product.id,
+                    },
+                  ]);
+                  setSubtotal(
+                    (prev) => prev + item.product.price * item.quantity
+                  );
+                  setGrandTotal(
+                    (prev) => prev + item.product.price * item.quantity
+                  );
+                } else {
+                  updatedDisabledSetter[index] = false;
+                  setQuantityInputDisable(updatedDisabledSetter);
+                  setOrders(
+                    orders.filter((order) => {
+                      return order.product_id !== item.product.id;
+                    })
+                  );
+                  setSubtotal(
+                    (prev) => prev - item.product.price * item.quantity
+                  );
+                  setGrandTotal(
+                    (prev) => prev - item.product.price * item.quantity
+                  );
+                }
               }}
-              className="w-24"
             />
-          </TableCell>
-          <TableCell className="align-top font-semibold">
-            ${item.product.price * item.quantity}
-          </TableCell>
-          <TableCell className="flex p-2 justify-end">
-            <Button
-              onClick={() => removeCartItemHandler(item.id)}
-              variant="ghost"
-              className="text-red-700 w-12"
-            >
-              <Icons.deleteIcon />
-            </Button>
-          </TableCell>
-        </TableRow>
-      );
-    }
-  );
+            <div className="flex row-span-3 w-24 h-24">
+              <LazyLoadImage
+                // className="object-cover rounded-md w-24"
+                src={`http://localhost:8000/${item.product.image.url}`}
+                effect="opacity"
+                alt="product image"
+              />
+            </div>
+            <div className="space-y-2">
+              <h1 className="font-bold text-xl">{item.product.name}</h1>
+              <p className="h-24 font-normal text-ellipsis w-full">
+                {item.product.subtitle}
+              </p>
+            </div>
+          </div>
+        </TableCell>
+        <TableCell className="align-top">${item.product.price}</TableCell>
+        <TableCell className="align-top">
+          <Input
+            disabled={quantityInputDisable[index]}
+            type="number"
+            defaultValue={item.quantity}
+            min={1}
+            onChange={(event) => {
+              const value = event.target.value;
+              const newQuantity = parseInt(value);
+              item.quantity = newQuantity;
+              handleQuantityChange(index, newQuantity);
+              quantityUpdateDebounce(item.id, item.quantity);
+            }}
+            className="w-24"
+          />
+        </TableCell>
+        <TableCell className="align-top font-semibold">
+          ${item.product.price * item.quantity}
+        </TableCell>
+        <TableCell className="flex p-2 justify-end">
+          <Button
+            onClick={() => {
+              removeCartItemHandler(item.id);
+              setOrders(
+                orders.filter((order) => {
+                  return order.product_id !== item.product.id;
+                })
+              );
+              setSubtotal((prev) => prev - item.product.price * item.quantity);
+              setGrandTotal(
+                (prev) => prev - item.product.price * item.quantity
+              );
+            }}
+            variant="ghost"
+            className="text-red-700 w-12"
+          >
+            <Icons.deleteIcon />
+          </Button>
+        </TableCell>
+      </TableRow>
+    );
+  });
 
   return (
     <div className="container">
@@ -173,7 +228,7 @@ const Index = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {items.length == 0 ? (
+                {items?.length == 0 ? (
                   <TableRow>
                     <TableCell>No items</TableCell>
                   </TableRow>

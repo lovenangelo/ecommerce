@@ -151,9 +151,19 @@ const SingleProduct = ({ id }: { id: string }) => {
           <div className="flex items-center space-x-2">
             <Button disabled={isLoading} onClick={addToCartHandler}>
               Add to cart
+              {isLoading && (
+                <span className="ml-2">
+                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                </span>
+              )}
             </Button>{" "}
             <Button disabled={isLoading} variant={"outline"}>
               Add To Wishlist
+              {isLoading && (
+                <span className="ml-2">
+                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                </span>
+              )}
             </Button>
           </div>
           <hr />
