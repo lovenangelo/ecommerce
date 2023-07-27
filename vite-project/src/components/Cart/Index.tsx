@@ -27,8 +27,11 @@ import { Input } from "../ui/input";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Checkbox } from "../ui/checkbox";
 import debounce from "lodash.debounce";
+import { useAppDispatch } from "@/redux/hooks";
+import { updateOrder } from "@/redux/slices/orderDetailsSlice";
 const Index = () => {
-  const [subtotal, setSubtotal] = useState(0);
+  const dispatch = useAppDispatch();
+  const [subTotal, setSubTotal] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
 
   // The state of cart items from fetch
@@ -95,6 +98,7 @@ const Index = () => {
       quantity: number;
       src: string;
       subtitle: string;
+      title: string;
     }[]
   >([]);
 
@@ -134,9 +138,10 @@ const Index = () => {
                       product_id: item.product.id,
                       src: item.product.image.url,
                       subtitle: item.product.subtitle,
+                      title: item.product.name,
                     },
                   ]);
-                  setSubtotal(
+                  setSubTotal(
                     (prev) => prev + item.product.price * item.quantity
                   );
                   setGrandTotal(
@@ -150,7 +155,7 @@ const Index = () => {
                       return order.product_id !== item.product.id;
                     })
                   );
-                  setSubtotal(
+                  setSubTotal(
                     (prev) => prev - item.product.price * item.quantity
                   );
                   setGrandTotal(
@@ -159,12 +164,15 @@ const Index = () => {
                 }
               }}
             />
-            <div className="flex row-span-3 w-24 h-24">
+            <div className="flex row-span-3 w-24">
               <Link
+                className="h-full"
                 to={`/products/${item.product.category}/${item.product.id}`}
               >
                 {" "}
                 <LazyLoadImage
+                  width={"100%"}
+                  height={"100%"}
                   src={`http://localhost:8000/${item.product.image.url}`}
                   effect="opacity"
                   alt="product image"
@@ -208,7 +216,7 @@ const Index = () => {
                   return order.product_id !== item.product.id;
                 })
               );
-              setSubtotal((prev) => prev - item.product.price * item.quantity);
+              setSubTotal((prev) => prev - item.product.price * item.quantity);
               setGrandTotal(
                 (prev) => prev - item.product.price * item.quantity
               );
@@ -255,7 +263,7 @@ const Index = () => {
             <h1 className="mb-4 font-bold text-lg">Order Summary</h1>
             <div className="grid grid-cols-2 row-auto gap-2">
               <p>Sub Total</p>
-              <p>${subtotal}</p>
+              <p>${subTotal}</p>
               <p>Discount</p>
               <p>0</p>
               <p>Delivery Fee</p>
@@ -274,7 +282,19 @@ const Index = () => {
             </Collapsible>
             <hr className="my-8" />
             <div className="flex items-center my-8 space-x-4">
-              <Link to="/checkout">
+              <Link
+                onClick={() => {
+                  console.log("updated");
+                  dispatch(
+                    updateOrder({
+                      items: orders,
+                      grandTotal: grandTotal,
+                      subTotal: subTotal,
+                    })
+                  );
+                }}
+                to="/checkout"
+              >
                 <Button disabled={orders.length == 0}>Place Order</Button>
               </Link>
               <Link to="/products/handbags">

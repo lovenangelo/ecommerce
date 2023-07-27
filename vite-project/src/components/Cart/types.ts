@@ -5,5 +5,6 @@ export type OrderItems =
       quantity: number;
       src: string;
       subtitle: string;
+      title: string;
     }[]
   | [];

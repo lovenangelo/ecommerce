@@ -159,11 +159,6 @@ const SingleProduct = ({ id }: { id: string }) => {
             </Button>{" "}
             <Button disabled={isLoading} variant={"outline"}>
               Add To Wishlist
-              {isLoading && (
-                <span className="ml-2">
-                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                </span>
-              )}
             </Button>
           </div>
           <hr />

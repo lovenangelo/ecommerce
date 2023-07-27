@@ -13,14 +13,27 @@ import { Link, Redirect } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/redux/hooks";
 type PaymentMethod = "CREDIT-CARD" | "COD";
+
 const Index = () => {
   const user = useAppSelector((state) => state.user.value);
+  const orderDetails = useAppSelector((state) => state.orderDetails.value);
+  console.log(orderDetails);
+
   const [paymentMethod, setPaymentMethod] =
     useState<PaymentMethod>("CREDIT-CARD");
 
   if (user == null) {
     return <Redirect to="/auth" />;
   }
+
+  const items = orderDetails?.items.map((item) => (
+    <CartItem
+      title={item.title}
+      subtitle={item.subtitle}
+      quantity={item.quantity}
+      src={item.src}
+    />
+  ));
 
   return (
     <div className="container">
@@ -136,21 +149,19 @@ const Index = () => {
           <hr className="mt-4" />
           <div className="w-full h-full space-y-4 mt-4 overflow-auto grid-cols-1 grid-rows-2">
             <div className="overflow-auto grid grid-cols-1 row-auto h-64 w-full gap-4 p-4">
-              <CartItem />
-              <CartItem />
-              <CartItem />
+              {items}
             </div>
             <div className="col-span-1 h-max bg-gray-100 p-5">
               <h1 className="mb-4 font-bold text-lg">Order Details</h1>
               <div className="grid grid-cols-2 row-auto gap-2">
                 <p>Sub Total</p>
-                {/* <p>${subTotal}</p> */}
+                <p>${orderDetails?.subTotal ?? 0}</p>
                 <p>Discount</p>
-                <p>-$0.00</p>
+                <p>$0.00</p>
                 <p>Delivery Fee</p>
-                <p>-$0.00</p>
+                <p>$0.00</p>
                 <p className="font-semibold">Grand Total</p>
-                {/* <p>{grandTotal}</p> */}
+                <p className="font-bold">${orderDetails?.grandTotal ?? 0}</p>
               </div>
             </div>
           </div>

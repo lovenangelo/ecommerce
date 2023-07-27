@@ -6,8 +6,8 @@ import { OrderItems } from "@/components/Cart/types";
 interface OrderDetails {
   value: {
     items: OrderItems;
-    grandTotal: string;
-    subTotal: string;
+    grandTotal: number;
+    subTotal: number;
   } | null;
 }
 
@@ -23,8 +23,8 @@ export const orderDetailsSlice = createSlice({
       state,
       action: PayloadAction<{
         items: OrderItems;
-        grandTotal: string;
-        subTotal: string;
+        grandTotal: number;
+        subTotal: number;
       } | null>
     ) => {
       state.value = action.payload;
