@@ -55,6 +55,7 @@ const Index = () => {
     };
   }, [remove]);
 
+  // API DELETE Req cart item
   const removeCartItemHandler = async (id: string) => {
     try {
       await deleteCartItem(id);
@@ -88,7 +89,13 @@ const Index = () => {
 
   // The selected cart items to send as order
   const [orders, setOrders] = useState<
-    { price: number; product_id: number; quantity: number }[]
+    {
+      price: number;
+      product_id: number;
+      quantity: number;
+      src: string;
+      subtitle: string;
+    }[]
   >([]);
 
   // This is used to disable the input buttons
@@ -125,6 +132,8 @@ const Index = () => {
                       price: item.product.price,
                       quantity: item.quantity,
                       product_id: item.product.id,
+                      src: item.product.image.url,
+                      subtitle: item.product.subtitle,
                     },
                   ]);
                   setSubtotal(

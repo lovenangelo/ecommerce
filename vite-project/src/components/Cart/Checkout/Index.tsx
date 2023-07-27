@@ -144,20 +144,20 @@ const Index = () => {
               <h1 className="mb-4 font-bold text-lg">Order Details</h1>
               <div className="grid grid-cols-2 row-auto gap-2">
                 <p>Sub Total</p>
-                <p>$119.69</p>
+                {/* <p>${subTotal}</p> */}
                 <p>Discount</p>
-                <p>-$13.40</p>
+                <p>-$0.00</p>
                 <p>Delivery Fee</p>
                 <p>-$0.00</p>
                 <p className="font-semibold">Grand Total</p>
-                <p>$106.29</p>
+                {/* <p>{grandTotal}</p> */}
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="mt-8 flex h-full w-full justify-between items-center align-bottom">
+      <div className="my-8 flex h-full w-full justify-between items-center align-bottom">
         <Link to="/cart" className="underline">
           Back to Cart
         </Link>
