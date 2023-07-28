@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
 import dropin from "braintree-web-drop-in";
 import { useEffect, useState } from "react";
 
@@ -17,7 +18,7 @@ export default function BraintreeDropIn({
         dropin.create(
           {
             // insert your tokenization key or client token here
-            authorization: "sandbox_s9gd7m2p_vp62s592633kc5p5",
+            authorization: "sandbox_hcctjjt8_b4knnxr55k9tmrds",
             container: "#braintree-drop-in-div",
           },
           function (error, instance) {
@@ -37,6 +38,7 @@ export default function BraintreeDropIn({
 
   const onPaymentCompleted = () => {
     console.log("payment completed");
+    toast({ title: "success!" });
   };
 
   return (
@@ -58,8 +60,6 @@ export default function BraintreeDropIn({
 
                   // TODO: use the paymentMethodNonce to
                   //  call you server and complete the payment here
-
-                  // ...
 
                   alert(`Payment completed with nonce=${paymentMethodNonce}`);
 

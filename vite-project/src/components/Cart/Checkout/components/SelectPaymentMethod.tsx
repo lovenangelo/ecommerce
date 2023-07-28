@@ -4,6 +4,7 @@ import Icons from "@/lib/icons";
 import { useState } from "react";
 type PaymentMethod = "CREDIT-CARD" | "COD";
 import BraintreeDropIn from "./BrainTreeDropIn";
+import { Button } from "@/components/ui/button";
 
 const SelectPaymentMethod = () => {
   const [paymentMethod, setPaymentMethod] =
@@ -32,6 +33,9 @@ const SelectPaymentMethod = () => {
         <RadioGroupItem value="COD" id="COD" />
         <Label htmlFor="COD">Cash On Delivery (COD)</Label>
       </div>
+      {paymentMethod == "COD" && (
+        <Button className="w-max mt-8">Place Order</Button>
+      )}
     </RadioGroup>
   );
 };
