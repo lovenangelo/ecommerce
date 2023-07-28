@@ -7,6 +7,7 @@ use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Product\ProductSearchController;
 use App\Http\Controllers\Product\UserProductController;
 use App\Http\Controllers\Profile\PasswordResetController;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -49,6 +50,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
   Route::get('/order/address', [OrderAddressController::class, 'index']);
   Route::post('/order/address', [OrderAddressController::class, 'store']);
   Route::delete('/order/address/{id}', [OrderAddressController::class, 'destroy']);
+
+  // Wishlist
+  Route::post('/wishlist', [WishlistController::class, 'store']);
+  Route::get('/wishlist/{product_id}', [WishlistController::class, 'get']);
+  Route::delete('/wishlist/{product_id}', [WishlistController::class, 'delete']);
 });
 
 Route::get('/products', [ProductController::class, 'index']);

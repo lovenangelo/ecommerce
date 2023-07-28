@@ -53,6 +53,7 @@ const LoginForm = () => {
           name: res.data.name,
           email: res.data.email,
           avatar: res.data.avatar,
+          id: res.data.id,
         })
       );
     } catch (error) {

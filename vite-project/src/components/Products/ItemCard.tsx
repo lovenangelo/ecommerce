@@ -25,6 +25,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useState } from "react";
+import { addWishList } from "@/lib/api/wishlist";
+import { useAppSelector } from "@/redux/hooks";
 
 type Item = {
   id: number;
@@ -56,6 +58,7 @@ const ItemCard = ({
   deletable = false,
   onDelete,
 }: Item) => {
+  const user = useAppSelector((state) => state.user.value);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const handleDelete = async () => {
@@ -70,6 +73,16 @@ const ItemCard = ({
     }
     setIsLoading(false);
     setDeleteDialogOpen(false);
+  };
+  const handleAddToWishlist = async () => {
+    console.log("adding to wishlist");
+    try {
+      console.log("hoy");
+      await addWishList(user?.id ?? null, id);
+      console.log("good");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -155,8 +168,8 @@ const ItemCard = ({
             <Ratings starCount={ratings?.stars ?? 2} reviewCount={24} />
           </div>
         </div>
-        <button>
-          <Icons.nav.favorites />
+        <button onClick={handleAddToWishlist}>
+          <Icons.nav.favorites color="black" className="hover:fill-red-300" />
         </button>
       </CardFooter>
     </Card>

@@ -3,6 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 
 type User = {
+  id: number;
   name: string;
   email: string;
   avatar: string | null;
