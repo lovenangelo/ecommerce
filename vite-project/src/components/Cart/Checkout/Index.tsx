@@ -5,9 +5,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useEffect, useState } from "react";
 import { Link, Redirect } from "wouter";
 import { useAppSelector } from "@/redux/hooks";
@@ -16,7 +13,6 @@ import { useQuery } from "react-query";
 import { deleteAddress, getAddresses } from "./checkout-api";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-type PaymentMethod = "CREDIT-CARD" | "COD";
 import {
   Dialog,
   DialogContent,
@@ -27,6 +23,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
+import SelectPaymentMethod from "./components/SelectPaymentMethod";
 
 const Index = () => {
   const user = useAppSelector((state) => state.user.value);
@@ -67,9 +64,6 @@ const Index = () => {
       removeQuery();
     };
   }, [removeQuery]);
-
-  const [paymentMethod, setPaymentMethod] =
-    useState<PaymentMethod>("CREDIT-CARD");
 
   const handleDeleteAddress = async () => {
     try {
@@ -194,53 +188,7 @@ const Index = () => {
               <Icons.chevronDownIcon />
             </CollapsibleTrigger>
             <CollapsibleContent>
-              <RadioGroup
-                className="my-8"
-                onValueChange={(val) => {
-                  if (val == "CREDIT-CARD" || val == "COD")
-                    setPaymentMethod(val);
-                }}
-                defaultValue="CREDIT-CARD"
-              >
-                {" "}
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="CREDIT-CARD" id="CREDIT-CARD" />
-                  <Label className="flex items-center" htmlFor="CREDIT-CARD">
-                    Credit/Debit Card{" "}
-                    <span className="ml-2">
-                      <Icons.creditCard />
-                    </span>
-                  </Label>
-                </div>{" "}
-                {paymentMethod == "CREDIT-CARD" && (
-                  <div className="my-2 space-y-4">
-                    <div>
-                      <Label htmlFor="card-name">Name on card</Label>
-                      <Input placeholder="Luke Skywalker" />
-                    </div>
-                    <div>
-                      <Label htmlFor="card-number">Card number</Label>
-                      <Input placeholder="**** **** **** ****" type="number" />
-                    </div>
-                    <div className="flex space-x-4 items-center">
-                      <div>
-                        <Label htmlFor="card-expiration">Expiration date</Label>
-                        <Input placeholder="MM/YY" type="number" />
-                      </div>
-                      <div>
-                        <Label htmlFor="card-security-code">
-                          Security code
-                        </Label>
-                        <Input placeholder="CVC" type="number" />
-                      </div>
-                    </div>
-                  </div>
-                )}{" "}
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="COD" id="COD" />
-                  <Label htmlFor="COD">Cash On Delivery (COD)</Label>
-                </div>
-              </RadioGroup>
+              <SelectPaymentMethod />
             </CollapsibleContent>
           </Collapsible>
           <hr />
@@ -264,6 +212,9 @@ const Index = () => {
                 <p className="font-semibold">Grand Total</p>
                 <p className="font-bold">${orderDetails?.grandTotal ?? 0}</p>
               </div>
+            </div>
+            <div className="flex justify-center">
+              <Button>Place Order</Button>
             </div>
           </div>
         </div>
