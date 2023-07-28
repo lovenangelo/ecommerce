@@ -213,9 +213,6 @@ const Index = () => {
                 <p className="font-bold">${orderDetails?.grandTotal ?? 0}</p>
               </div>
             </div>
-            <div className="flex justify-center">
-              <Button>Place Order</Button>
-            </div>
           </div>
         </div>
       </div>
