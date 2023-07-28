@@ -41,10 +41,10 @@ class OrderAddressController extends Controller
     }
   }
 
-  public function destory($id)
+  public function destroy($id)
   {
 
-    $address = OrderAddress::findOrFail($id)->get();
+    $address = OrderAddress::findOrFail($id);
     if ($address) {
       $address->delete();
       return response()->json(['message' => 'Address successfully deleted.'], 204);
