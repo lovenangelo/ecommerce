@@ -14,9 +14,8 @@ const CartItem = ({
 }) => {
   return (
     <div className="grid grid-cols-2 row-auto gap-2 w-full h-full">
-      <div className="row-span-3 w-full h-24">
+      <div className="row-span-3">
         <LazyLoadImage
-          height={"100%"}
           effect="opacity"
           src={`http://localhost:8000/${src}`}
           alt="product image"
