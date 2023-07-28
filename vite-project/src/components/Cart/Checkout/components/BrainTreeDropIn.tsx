@@ -12,7 +12,7 @@ export default function BraintreeDropIn({
   >(undefined);
 
   useEffect(() => {
-    if (showDropIn) {
+    if (showDropIn && braintreeInstance == undefined) {
       const initializeBraintree = () =>
         dropin.create(
           {
@@ -25,16 +25,9 @@ export default function BraintreeDropIn({
             else setBraintreeInstance(instance);
           }
         );
-
-      if (braintreeInstance) {
-        braintreeInstance.teardown().then(() => {
-          initializeBraintree();
-        });
-      } else {
-        initializeBraintree();
-      }
+      initializeBraintree();
     }
-  }, [braintreeInstance, showDropIn]);
+  }, [showDropIn, braintreeInstance]);
 
   const onPaymentCompleted = () => {
     console.log("payment completed");
@@ -44,33 +37,35 @@ export default function BraintreeDropIn({
     <div style={{ display: `${showDropIn ? "block" : "none"}` }}>
       <div id={"braintree-drop-in-div"} />
 
-      <Button
-        className={"braintreePayButton"}
-        disabled={!braintreeInstance}
-        onClick={() => {
-          if (braintreeInstance) {
-            braintreeInstance.requestPaymentMethod((error, payload) => {
-              if (error) {
-                console.error(error);
-              } else {
-                const paymentMethodNonce = payload.nonce;
-                console.log("payment method nonce", payload.nonce);
+      {braintreeInstance && (
+        <Button
+          className="mb-8"
+          disabled={!braintreeInstance}
+          onClick={() => {
+            if (braintreeInstance) {
+              braintreeInstance.requestPaymentMethod((error, payload) => {
+                if (error) {
+                  console.error(error);
+                } else {
+                  const paymentMethodNonce = payload.nonce;
+                  console.log("payment method nonce", payload.nonce);
 
-                // TODO: use the paymentMethodNonce to
-                //  call you server and complete the payment here
+                  // TODO: use the paymentMethodNonce to
+                  //  call you server and complete the payment here
 
-                // ...
+                  // ...
 
-                alert(`Payment completed with nonce=${paymentMethodNonce}`);
+                  alert(`Payment completed with nonce=${paymentMethodNonce}`);
 
-                onPaymentCompleted();
-              }
-            });
-          }
-        }}
-      >
-        Place Order
-      </Button>
+                  onPaymentCompleted();
+                }
+              });
+            }
+          }}
+        >
+          Place Order
+        </Button>
+      )}
     </div>
   );
 }
