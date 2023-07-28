@@ -10,3 +10,11 @@ export const createAddress = async (address: {
 }) => {
   return await axiosClient.post("/api/order/address", address);
 };
+
+export const getAddresses = async () => {
+  return await axiosClient.get("/api/order/address");
+};
+
+export const deleteAddress = async (id: number) => {
+  return await axiosClient.delete(`/api/order/address/${id}`);
+};

@@ -8,19 +8,75 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, Redirect } from "wouter";
 import { useAppSelector } from "@/redux/hooks";
 import AddressForm from "./components/Address";
+import { useQuery } from "react-query";
+import { deleteAddress, getAddresses } from "./checkout-api";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
 type PaymentMethod = "CREDIT-CARD" | "COD";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const Index = () => {
   const user = useAppSelector((state) => state.user.value);
   const orderDetails = useAppSelector((state) => state.orderDetails.value);
-  console.log(orderDetails);
+  const [addresses, setAddresses] = useState<
+    {
+      city: string;
+      fullname: string;
+      id: number;
+      mobile_number: string;
+      state: string;
+      street_address: string;
+      zip_code: string;
+    }[]
+  >([]);
+  const [pickedAddress, setPickedAddress] = useState(0);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const fetchAddress = async () => {
+    return await getAddresses();
+  };
+
+  const addressList = useQuery(["get-user-saved-addresses"], fetchAddress, {
+    retry: 2,
+    enabled: true,
+    onSuccess(data) {
+      setAddresses(data.data);
+    },
+  });
+
+  const removeQuery = addressList.remove;
+
+  useEffect(() => {
+    return () => {
+      removeQuery();
+    };
+  }, [removeQuery]);
 
   const [paymentMethod, setPaymentMethod] =
     useState<PaymentMethod>("CREDIT-CARD");
+
+  const handleDeleteAddress = async () => {
+    try {
+      setIsLoading(true);
+      await deleteAddress(addresses[pickedAddress].id);
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+    setDeleteDialogOpen(false);
+  };
 
   if (user == null) {
     return <Redirect to="/auth" />;
@@ -36,12 +92,83 @@ const Index = () => {
     />
   ));
 
+  const addressOptions = addresses.map((address, index) => {
+    return (
+      <div className="flex justify-start items-center space-x-2">
+        <Checkbox
+          checked={pickedAddress == index}
+          onCheckedChange={() => {
+            setPickedAddress(index);
+          }}
+        />
+        <div className="flex p-2 border-2 rounded-lg space-x-1">
+          <h1>{address.fullname},</h1>
+          <p>{address.street_address},</p>
+          <p>{address.city},</p>
+          <p>{address.state},</p>
+          <p>{address.zip_code},</p>
+          <p>{address.mobile_number}</p>
+        </div>
+        <Dialog
+          open={deleteDialogOpen}
+          onOpenChange={(open) => {
+            setDeleteDialogOpen(open);
+          }}
+        >
+          <DialogTrigger>
+            <Button variant={"ghost"} className="text-destructive">
+              <Icons.deleteIcon />
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+              <DialogDescription>
+                This action cannot be undone. This will permanently delete your
+                saved address.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter className="flex justify-end space-x-2">
+              <Button
+                disabled={isLoading}
+                onClick={() => {
+                  setDeleteDialogOpen(false);
+                }}
+              >
+                No
+              </Button>
+              <Button
+                disabled={isLoading}
+                variant={"outline"}
+                onClick={handleDeleteAddress}
+              >
+                Yes
+                {isLoading && (
+                  <span className="ml-2">
+                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                  </span>
+                )}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+    );
+  });
+
   return (
     <div className="container">
       <div className="grid grid-cols-3 mt-8 gap-8 ">
         <div className="col-span-2 space-y-8 ">
           <h1 className="font-bold text-xl">Checkout</h1>
-          <AddressForm />
+
+          {addresses.length !== 0 && (
+            <>
+              <h2 className="font-bold flex">Address</h2>
+              {addressOptions}
+            </>
+          )}
+          {addresses.length < 2 && <AddressForm />}
           <hr />
           <Collapsible>
             <CollapsibleTrigger className="font-bold flex">

@@ -18,7 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { toast } from "@/components/ui/use-toast";
-import { createAddress } from "../check-api";
+import { createAddress } from "../checkout-api";
 import { useState } from "react";
 
 const phoneRegex = new RegExp(
@@ -40,7 +40,6 @@ const FormSchema = z.object({
 
 const AddressForm = () => {
   const [addressSaveLoading, setAddressSaveLoading] = useState(false);
-
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
       setAddressSaveLoading(true);

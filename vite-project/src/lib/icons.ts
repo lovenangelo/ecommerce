@@ -20,7 +20,7 @@ import {
   CreditCardIcon,
   Loader2,
   XIcon,
-  TrashIcon,
+  Trash2Icon,
   EditIcon,
 } from "lucide-react";
 
@@ -34,7 +34,7 @@ const Icons = {
     menu: MenuIcon,
   },
   editIcon: EditIcon,
-  deleteIcon: TrashIcon,
+  deleteIcon: Trash2Icon,
   closeIcon: XIcon,
   spinner: Loader2,
   creditCard: CreditCardIcon,

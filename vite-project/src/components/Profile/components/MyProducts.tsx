@@ -41,6 +41,7 @@ const MyProducts = () => {
           onDelete={() => {
             setDeletedAProduct(true);
           }}
+          category={item.category.category}
         />
       </div>
     )
