@@ -19,7 +19,7 @@ import Coupon from "../Products/Coupon";
 import { Link } from "wouter";
 import { useQuery } from "react-query";
 import { deleteCartItem, getCartItems, updateCartItem } from "./api/cartApi";
-import SkeletonLoading from "./SkeletonLoading";
+import SkeletonLoading from "./Loaders/SkeletonLoading";
 import { ProductItem } from "../Products/types/product-item";
 import { toast } from "../ui/use-toast";
 import { useEffect, useState } from "react";

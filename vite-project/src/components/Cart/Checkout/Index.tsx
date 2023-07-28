@@ -26,6 +26,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Index = () => {
   const user = useAppSelector((state) => state.user.value);
@@ -59,6 +60,7 @@ const Index = () => {
   const refetch = addressList.refetch;
 
   const removeQuery = addressList.remove;
+  const queryIsLoading = addressList.isLoading;
 
   useEffect(() => {
     return () => {
@@ -165,13 +167,20 @@ const Index = () => {
         <div className="col-span-2 space-y-8 ">
           <h1 className="font-bold text-xl">Checkout</h1>
 
-          {addresses.length !== 0 && (
-            <>
-              <h2 className="font-bold flex">Address</h2>
-              {addressOptions}
-            </>
+          {queryIsLoading ? (
+            <div className="space-y-2">
+              <Skeleton className="h-12 w-full" />
+              <Skeleton className="h-12 w-full" />
+            </div>
+          ) : (
+            addresses.length !== 0 && (
+              <>
+                <h2 className="font-bold flex">Address</h2>
+                {addressOptions}
+              </>
+            )
           )}
-          {addresses.length < 2 && (
+          {!queryIsLoading && addresses.length < 2 && (
             <AddressForm
               onAddSuccess={() => {
                 refetch();
