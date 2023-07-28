@@ -25,8 +25,14 @@ export default function BraintreeDropIn({
             else setBraintreeInstance(instance);
           }
         );
+
       initializeBraintree();
     }
+    return () => {
+      if (braintreeInstance) {
+        braintreeInstance.teardown();
+      }
+    };
   }, [showDropIn, braintreeInstance]);
 
   const onPaymentCompleted = () => {
