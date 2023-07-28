@@ -38,7 +38,7 @@ const FormSchema = z.object({
   state: z.string().nonempty("Don't leave this field empty"),
 });
 
-const AddressForm = () => {
+const AddressForm = ({ onAddSuccess }: { onAddSuccess: () => void }) => {
   const [addressSaveLoading, setAddressSaveLoading] = useState(false);
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
@@ -52,6 +52,7 @@ const AddressForm = () => {
         title: "Cannot save address",
       });
     }
+    onAddSuccess();
     setAddressSaveLoading(false);
   }
   const form = useForm<z.infer<typeof FormSchema>>({

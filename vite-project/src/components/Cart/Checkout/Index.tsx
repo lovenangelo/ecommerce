@@ -56,6 +56,8 @@ const Index = () => {
     },
   });
 
+  const refetch = addressList.refetch;
+
   const removeQuery = addressList.remove;
 
   useEffect(() => {
@@ -71,6 +73,7 @@ const Index = () => {
     try {
       setIsLoading(true);
       await deleteAddress(addresses[pickedAddress].id);
+      await refetch();
     } catch (error) {
       console.log(error);
     }
@@ -168,7 +171,13 @@ const Index = () => {
               {addressOptions}
             </>
           )}
-          {addresses.length < 2 && <AddressForm />}
+          {addresses.length < 2 && (
+            <AddressForm
+              onAddSuccess={() => {
+                refetch();
+              }}
+            />
+          )}
           <hr />
           <Collapsible>
             <CollapsibleTrigger className="font-bold flex">
