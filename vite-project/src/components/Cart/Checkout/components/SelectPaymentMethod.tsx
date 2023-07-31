@@ -9,6 +9,8 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { updatePaymentMethod } from "@/redux/slices/orderPaymentMethodSlice";
 import { toast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
+import { placeOrder } from "../checkout-api";
+import { Order } from "../order-type";
 
 const SelectPaymentMethod = ({
   isProcessingOrder,
@@ -23,12 +25,38 @@ const SelectPaymentMethod = ({
   const orderPaymentMethod = useAppSelector(
     (state) => state.orderPaymentMethodReducer.value
   );
-  const placeOrderHandler = () => {
-    toast({
-      title: "Processing order...",
-    });
+  const orderDetails = useAppSelector((state) => state.orderDetails.value);
+  const user = useAppSelector((state) => state.user.value);
+  const placeOrderHandler = async () => {
     setIsProcessingOrder(true);
-    console.log(orderAddress, orderPaymentMethod);
+    console.log(orderAddress, orderDetails, orderPaymentMethod);
+    if (orderDetails == null || user == null || orderAddress == null) {
+      setIsProcessingOrder(false);
+      return;
+    }
+    console.log("passed");
+    const order: Order = {
+      user_id: user?.id,
+      payment_method: paymentMethod,
+      total_amount: orderDetails?.grandTotal,
+      order_items: orderDetails.items,
+      order_address_id: orderAddress.id,
+    };
+    try {
+      toast({
+        title: "Processing order...",
+      });
+      await placeOrder(order);
+      toast({
+        title: "Successfull!",
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Failed to place order",
+      });
+    }
+    setIsProcessingOrder(false);
   };
   return (
     <RadioGroup

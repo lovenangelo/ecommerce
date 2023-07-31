@@ -57,7 +57,6 @@ const RegistrationForm = () => {
   const onSubmit: SubmitHandler<RegsitrationFormSchemaType> = async (data) => {
     try {
       setIsLoading(true);
-      console.log(data);
       await axiosClient.post("/register", data);
       const res = await axiosClient.get("api/user");
       dispatch(
@@ -65,9 +64,9 @@ const RegistrationForm = () => {
           name: res.data.name,
           email: res.data.email,
           avatar: res.data.avatar,
+          id: res.data.id,
         })
       );
-      console.log("successfully registered");
     } catch (error) {
       console.log(error);
     }

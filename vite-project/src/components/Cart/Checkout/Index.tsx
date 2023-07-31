@@ -56,7 +56,7 @@ const Index = () => {
     onSuccess(data) {
       setAddresses(data.data);
       if (addresses.length !== 0) {
-        dispatch(updateAddress(addresses[pickedAddress]));
+        dispatch(updateAddress(data.data[pickedAddress]));
       }
     },
   });

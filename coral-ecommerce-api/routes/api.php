@@ -8,6 +8,7 @@ use App\Http\Controllers\Product\ProductSearchController;
 use App\Http\Controllers\Product\UserProductController;
 use App\Http\Controllers\Profile\PasswordResetController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\Orders\OrdersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -58,6 +59,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 // Cart
 Route::resource('cart', CartItemController::class);
+
+// Order
+Route::resource('/order', OrdersController::class);
 
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show']);

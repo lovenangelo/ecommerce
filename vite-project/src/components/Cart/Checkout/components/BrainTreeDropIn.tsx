@@ -3,6 +3,8 @@ import { toast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/redux/hooks";
 import dropin from "braintree-web-drop-in";
 import { useEffect, useState } from "react";
+import { Order } from "../order-type";
+import { placeOrder } from "../checkout-api";
 
 export default function BraintreeDropIn({
   showDropIn,
@@ -20,6 +22,8 @@ export default function BraintreeDropIn({
   const orderPaymentMethod = useAppSelector(
     (state) => state.orderPaymentMethodReducer.value
   );
+  const orderDetails = useAppSelector((state) => state.orderDetails.value);
+  const user = useAppSelector((state) => state.user.value);
 
   useEffect(() => {
     if (showDropIn && braintreeInstance === undefined) {
@@ -50,7 +54,36 @@ export default function BraintreeDropIn({
     };
   }, [braintreeInstance]);
 
-  const onPaymentCompleted = () => {
+  const onPaymentCompleted = async () => {
+    setIsProcessingOrder(true);
+    console.log(orderAddress, orderDetails, orderPaymentMethod);
+    if (orderDetails == null || user == null || orderAddress == null) {
+      setIsProcessingOrder(false);
+      return;
+    }
+    console.log("passed", user);
+    const order: Order = {
+      user_id: user?.id,
+      payment_method: "card",
+      total_amount: orderDetails?.grandTotal,
+      order_items: orderDetails.items,
+      order_address_id: orderAddress.id,
+    };
+    try {
+      toast({
+        title: "Processing order...",
+      });
+      await placeOrder(order);
+      toast({
+        title: "Successfull!",
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Failed to place order",
+      });
+    }
+    setIsProcessingOrder(false);
     console.log("payment completed");
     toast({
       title: "Processing order...",

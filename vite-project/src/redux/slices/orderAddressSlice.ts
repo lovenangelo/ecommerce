@@ -9,6 +9,7 @@ type Address = {
   street_address: string;
   city: string;
   state: string;
+  id: number;
 };
 
 interface OrderAddress {
