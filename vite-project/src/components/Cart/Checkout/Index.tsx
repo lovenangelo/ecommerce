@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/collapsible";
 import { useEffect, useState } from "react";
 import { Link, Redirect } from "wouter";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import AddressForm from "./components/Address";
 import { useQuery } from "react-query";
 import { deleteAddress, getAddresses } from "./checkout-api";
@@ -24,9 +24,11 @@ import {
 } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import SelectPaymentMethod from "./components/SelectPaymentMethod";
+import { updateAddress } from "@/redux/slices/orderAddressSlice";
 
 const Index = () => {
   const user = useAppSelector((state) => state.user.value);
+  const dispatch = useAppDispatch();
   const orderDetails = useAppSelector((state) => state.orderDetails.value);
   const [addresses, setAddresses] = useState<
     {
@@ -45,12 +47,16 @@ const Index = () => {
   const fetchAddress = async () => {
     return await getAddresses();
   };
+  console.log(useAppSelector((state) => state.orderAddress.value));
 
   const addressList = useQuery(["get-user-saved-addresses"], fetchAddress, {
     retry: 2,
     enabled: true,
     onSuccess(data) {
       setAddresses(data.data);
+      if (addresses.length !== 0) {
+        dispatch(updateAddress(addresses[pickedAddress]));
+      }
     },
   });
 
@@ -69,6 +75,9 @@ const Index = () => {
     try {
       setIsLoading(true);
       await deleteAddress(addresses[pickedAddress].id);
+      if (addresses.length == 0) {
+        dispatch(updateAddress(null));
+      }
       await refetch();
     } catch (error) {
       console.log(error);
@@ -93,11 +102,14 @@ const Index = () => {
 
   const addressOptions = addresses.map((address, index) => {
     return (
-      <div className="flex justify-start items-center space-x-2">
+      <div key={index} className="flex justify-start items-center space-x-2">
         <Checkbox
           checked={pickedAddress == index}
           onCheckedChange={() => {
             setPickedAddress(index);
+            if (addresses.length !== 0) {
+              dispatch(updateAddress(addresses[pickedAddress]));
+            }
           }}
         />
         <div className="flex p-2 border-2 rounded-lg space-x-1">
@@ -115,9 +127,7 @@ const Index = () => {
           }}
         >
           <DialogTrigger>
-            <Button variant={"ghost"} className="text-destructive">
-              <Icons.deleteIcon />
-            </Button>
+            <Icons.deleteIcon />
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
