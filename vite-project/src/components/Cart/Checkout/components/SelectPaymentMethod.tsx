@@ -59,6 +59,7 @@ const SelectPaymentMethod = ({
         <BraintreeDropIn
           isProcessingOrder={isProcessingOrder}
           showDropIn={true}
+          setIsProcessingOrder={setIsProcessingOrder}
         />
       )}{" "}
       <div className="flex items-center space-x-2">

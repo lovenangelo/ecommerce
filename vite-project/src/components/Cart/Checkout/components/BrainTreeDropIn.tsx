@@ -1,46 +1,62 @@
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
+import { useAppSelector } from "@/redux/hooks";
 import dropin from "braintree-web-drop-in";
 import { useEffect, useState } from "react";
 
 export default function BraintreeDropIn({
   showDropIn,
   isProcessingOrder,
+  setIsProcessingOrder,
 }: {
   showDropIn: boolean;
   isProcessingOrder: boolean;
+  setIsProcessingOrder: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [braintreeInstance, setBraintreeInstance] = useState<
     dropin.Dropin | undefined
   >(undefined);
+  const orderAddress = useAppSelector((state) => state.orderAddress.value);
+  const orderPaymentMethod = useAppSelector(
+    (state) => state.orderPaymentMethodReducer.value
+  );
 
   useEffect(() => {
-    if (showDropIn && braintreeInstance == undefined) {
-      const initializeBraintree = () =>
-        dropin.create(
-          {
-            // insert your tokenization key or client token here
-            authorization: "sandbox_hcctjjt8_b4knnxr55k9tmrds",
-            container: "#braintree-drop-in-div",
-          },
-          function (error, instance) {
-            if (error) console.error(error);
-            else setBraintreeInstance(instance);
-          }
-        );
+    if (showDropIn && braintreeInstance === undefined) {
+      console.log("running", braintreeInstance);
+      const initializeBraintree = () => {
+        if (braintreeInstance === undefined)
+          return dropin.create(
+            {
+              authorization: "sandbox_hcctjjt8_b4knnxr55k9tmrds",
+              container: "#braintree-drop-in-div",
+            },
+            (error, instance) => {
+              if (error) console.error(error);
+              else setBraintreeInstance(instance);
+            }
+          );
+      };
 
       initializeBraintree();
     }
+  }, [braintreeInstance, showDropIn]);
+
+  useEffect(() => {
     return () => {
       if (braintreeInstance) {
         braintreeInstance.teardown();
       }
     };
-  }, [showDropIn, braintreeInstance]);
+  }, [braintreeInstance]);
 
   const onPaymentCompleted = () => {
     console.log("payment completed");
-    toast({ title: "success!" });
+    toast({
+      title: "Processing order...",
+    });
+    setIsProcessingOrder(true);
+    console.log(orderAddress, orderPaymentMethod);
   };
 
   return (
@@ -57,13 +73,13 @@ export default function BraintreeDropIn({
                 if (error) {
                   console.error(error);
                 } else {
-                  const paymentMethodNonce = payload.nonce;
+                  // const paymentMethodNonce = payload.nonce;
                   console.log("payment method nonce", payload.nonce);
 
                   // TODO: use the paymentMethodNonce to
                   //  call you server and complete the payment here
 
-                  alert(`Payment completed with nonce=${paymentMethodNonce}`);
+                  // alert(`Payment completed with nonce=${paymentMethodNonce}`);
 
                   onPaymentCompleted();
                 }
