@@ -11,7 +11,7 @@ import {
 import * as SelectPrimitive from "@radix-ui/react-select";
 import nav from "@/lib/nav";
 import { Button } from "./ui/button";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import axiosClient from "@/lib/axios";
 import { removeUser } from "@/redux/slices/userSlice";
@@ -19,9 +19,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useState } from "react";
 import { resetQuery } from "@/redux/slices/productQuerySlice";
 import Search from "./Search";
+import { changeTab } from "@/redux/slices/personalInformationTabSlice";
 
 const Navbar = () => {
   const user = useAppSelector((state) => state.user.value);
+  const [, setLocation] = useLocation();
   const name = user?.name.split(" ");
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -100,7 +102,13 @@ const Navbar = () => {
       <div className="flex justify-end items-center md:space-x-5 space-x-2">
         <Search />
         <div className="hidden md:flex">
-          <Button variant={"ghost"}>
+          <Button
+            onClick={() => {
+              dispatch(changeTab("MY-WISHLIST"));
+              setLocation("/profile");
+            }}
+            variant={"ghost"}
+          >
             <Icons.nav.favorites />
           </Button>
           <Select>
@@ -132,10 +140,13 @@ const Navbar = () => {
             </SelectTrigger>
             <SelectContent>{!user ? loginButton : authenticated}</SelectContent>
           </Select>
-          <Button variant={"ghost"}>
-            <Link to="/cart">
-              <Icons.nav.checkout />
-            </Link>
+          <Button
+            onClick={() => {
+              setLocation("/cart");
+            }}
+            variant={"ghost"}
+          >
+            <Icons.nav.checkout />
           </Button>
         </div>
         {/* MOBILE VIEW */}
