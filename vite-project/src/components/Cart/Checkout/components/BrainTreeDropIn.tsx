@@ -5,8 +5,10 @@ import { useEffect, useState } from "react";
 
 export default function BraintreeDropIn({
   showDropIn,
+  isProcessingOrder,
 }: {
   showDropIn: boolean;
+  isProcessingOrder: boolean;
 }) {
   const [braintreeInstance, setBraintreeInstance] = useState<
     dropin.Dropin | undefined
@@ -48,7 +50,7 @@ export default function BraintreeDropIn({
       {braintreeInstance && (
         <Button
           className="mb-8"
-          disabled={!braintreeInstance}
+          disabled={!braintreeInstance || isProcessingOrder}
           onClick={() => {
             if (braintreeInstance) {
               braintreeInstance.requestPaymentMethod((error, payload) => {

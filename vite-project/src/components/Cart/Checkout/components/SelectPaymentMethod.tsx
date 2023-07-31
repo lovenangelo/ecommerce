@@ -5,12 +5,31 @@ import { useState } from "react";
 type PaymentMethod = "card" | "cod";
 import BraintreeDropIn from "./BrainTreeDropIn";
 import { Button } from "@/components/ui/button";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { updatePaymentMethod } from "@/redux/slices/orderPaymentMethodSlice";
+import { toast } from "@/components/ui/use-toast";
+import { cn } from "@/lib/utils";
 
-const SelectPaymentMethod = () => {
+const SelectPaymentMethod = ({
+  isProcessingOrder,
+  setIsProcessingOrder,
+}: {
+  isProcessingOrder: boolean;
+  setIsProcessingOrder: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("card");
   const dispatch = useAppDispatch();
+  const orderAddress = useAppSelector((state) => state.orderAddress.value);
+  const orderPaymentMethod = useAppSelector(
+    (state) => state.orderPaymentMethodReducer.value
+  );
+  const placeOrderHandler = () => {
+    toast({
+      title: "Processing order...",
+    });
+    setIsProcessingOrder(true);
+    console.log(orderAddress, orderPaymentMethod);
+  };
   return (
     <RadioGroup
       className="my-8"
@@ -22,21 +41,46 @@ const SelectPaymentMethod = () => {
     >
       {" "}
       <div className="flex items-center space-x-2">
-        <RadioGroupItem value="card" id="card" />
-        <Label className="flex items-center" htmlFor="card">
+        <RadioGroupItem disabled={isProcessingOrder} value="card" id="card" />
+        <Label
+          className={cn(
+            "flex items-center",
+            isProcessingOrder && "text-gray-400"
+          )}
+          htmlFor="card"
+        >
           Credit/Debit Card{" "}
           <span className="ml-2">
             <Icons.creditCard />
           </span>
         </Label>
       </div>{" "}
-      {paymentMethod == "card" && <BraintreeDropIn showDropIn={true} />}{" "}
+      {paymentMethod == "card" && (
+        <BraintreeDropIn
+          isProcessingOrder={isProcessingOrder}
+          showDropIn={true}
+        />
+      )}{" "}
       <div className="flex items-center space-x-2">
-        <RadioGroupItem value="cod" id="cod" />
-        <Label htmlFor="cod">Cash On Delivery (COD)</Label>
+        <RadioGroupItem disabled={isProcessingOrder} value="cod" id="cod" />
+        <Label
+          className={cn(
+            "flex items-center",
+            isProcessingOrder && "text-gray-400"
+          )}
+          htmlFor="cod"
+        >
+          Cash On Delivery (COD)
+        </Label>
       </div>
       {paymentMethod == "cod" && (
-        <Button className="w-max mt-8">Place Order</Button>
+        <Button
+          disabled={isProcessingOrder}
+          onClick={placeOrderHandler}
+          className="w-max mt-8"
+        >
+          Place Order
+        </Button>
       )}
     </RadioGroup>
   );

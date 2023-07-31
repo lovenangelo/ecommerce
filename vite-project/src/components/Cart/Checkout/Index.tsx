@@ -25,11 +25,13 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import SelectPaymentMethod from "./components/SelectPaymentMethod";
 import { updateAddress } from "@/redux/slices/orderAddressSlice";
+import { cn } from "@/lib/utils";
 
 const Index = () => {
   const user = useAppSelector((state) => state.user.value);
   const dispatch = useAppDispatch();
   const orderDetails = useAppSelector((state) => state.orderDetails.value);
+  const [isProcessingOrder, setIsProcessingOrder] = useState(false);
   const [addresses, setAddresses] = useState<
     {
       city: string;
@@ -47,7 +49,6 @@ const Index = () => {
   const fetchAddress = async () => {
     return await getAddresses();
   };
-  console.log(useAppSelector((state) => state.orderAddress.value));
 
   const addressList = useQuery(["get-user-saved-addresses"], fetchAddress, {
     retry: 2,
@@ -104,6 +105,7 @@ const Index = () => {
     return (
       <div key={index} className="flex justify-start items-center space-x-2">
         <Checkbox
+          disabled={isProcessingOrder}
           checked={pickedAddress == index}
           onCheckedChange={() => {
             setPickedAddress(index);
@@ -112,7 +114,12 @@ const Index = () => {
             }
           }}
         />
-        <div className="flex p-2 border-2 rounded-lg space-x-1">
+        <div
+          className={cn(
+            "flex p-2 border-2 rounded-lg space-x-1",
+            isProcessingOrder && "text-gray-400"
+          )}
+        >
           <h1>{address.fullname},</h1>
           <p>{address.street_address},</p>
           <p>{address.city},</p>
@@ -126,8 +133,10 @@ const Index = () => {
             setDeleteDialogOpen(open);
           }}
         >
-          <DialogTrigger>
-            <Icons.deleteIcon />
+          <DialogTrigger disabled={isProcessingOrder}>
+            <Icons.deleteIcon
+              className={cn(isProcessingOrder && "text-gray-400")}
+            />
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
@@ -198,7 +207,10 @@ const Index = () => {
               <Icons.chevronDownIcon />
             </CollapsibleTrigger>
             <CollapsibleContent>
-              <SelectPaymentMethod />
+              <SelectPaymentMethod
+                isProcessingOrder={isProcessingOrder}
+                setIsProcessingOrder={setIsProcessingOrder}
+              />
             </CollapsibleContent>
           </Collapsible>
           <hr />
