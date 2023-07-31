@@ -43,8 +43,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
   Route::put('/my-products/{id}', [UserProductController::class, 'update']);
   Route::delete('/my-products/{id}', [UserProductController::class, 'destroy']);
 
-  // Cart
-  Route::resource('cart', CartItemController::class);
+
 
   // Order
   Route::get('/order/address', [OrderAddressController::class, 'index']);
@@ -56,6 +55,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
   Route::get('/wishlist/{product_id}', [WishlistController::class, 'get']);
   Route::delete('/wishlist/{product_id}', [WishlistController::class, 'delete']);
 });
+
+// Cart
+Route::resource('cart', CartItemController::class);
 
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show']);

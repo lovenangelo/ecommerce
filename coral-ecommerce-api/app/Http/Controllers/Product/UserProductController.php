@@ -79,8 +79,14 @@ class UserProductController extends Controller
   {
     try {
       $product = Product::findOrFail($id);
-      $product->image()->delete();
-      $product->delete();
+
+      if ($product) {
+        // Delete the product
+        $product->delete();
+        clock(
+          'product deleted successfully'
+        );
+      }
       return response()->json(['message' => 'Product deleted successfully']);
     } catch (ModelNotFoundException $e) {
       return response()->json(['message' => 'Product not found'], 404);
