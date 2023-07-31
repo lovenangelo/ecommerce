@@ -61,7 +61,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::resource('cart', CartItemController::class);
 
 // Order
-Route::resource('/order', OrdersController::class);
+Route::resource('/orders', OrdersController::class);
 
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
