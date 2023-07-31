@@ -28,6 +28,7 @@ class StoreOrdersRequest extends FormRequest
 
       'order_items' => 'required|array',
       'order_items.*.product_id' => 'required|integer|exists:products,id',
+      'order_items.*.cart_item_id' => 'required|integer|exists:cart_items,id',
       'order_items.*.quantity' => 'required|integer|min:1',
       'order_items.*.price' => 'required|numeric|min:0',
 

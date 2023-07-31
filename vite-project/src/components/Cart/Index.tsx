@@ -46,6 +46,8 @@ const Index = () => {
     retry: 2,
     enabled: true,
     onSuccess(data) {
+      console.log(data.data.data);
+
       setCartItems(data.data.data);
     },
   });
@@ -93,6 +95,7 @@ const Index = () => {
   // The selected cart items to send as order
   const [orders, setOrders] = useState<
     {
+      cart_item_id: string;
       price: number;
       product_id: number;
       quantity: number;
@@ -139,6 +142,7 @@ const Index = () => {
                       src: item.product.image.url,
                       subtitle: item.product.subtitle,
                       title: item.product.name,
+                      cart_item_id: item.id,
                     },
                   ]);
                   setSubTotal(

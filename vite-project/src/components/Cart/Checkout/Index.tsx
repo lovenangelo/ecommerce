@@ -31,6 +31,8 @@ const Index = () => {
   const user = useAppSelector((state) => state.user.value);
   const dispatch = useAppDispatch();
   const orderDetails = useAppSelector((state) => state.orderDetails.value);
+  console.log(useAppSelector((state) => state.orderDetails.value));
+
   const [isProcessingOrder, setIsProcessingOrder] = useState(false);
   const [addresses, setAddresses] = useState<
     {
@@ -55,8 +57,10 @@ const Index = () => {
     enabled: true,
     onSuccess(data) {
       setAddresses(data.data);
-      if (addresses.length !== 0) {
+      if (data.data.length !== 0) {
         dispatch(updateAddress(data.data[pickedAddress]));
+      } else {
+        dispatch(updateAddress(null));
       }
     },
   });

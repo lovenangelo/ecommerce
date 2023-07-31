@@ -11,6 +11,9 @@ import { toast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { placeOrder } from "../checkout-api";
 import { Order } from "../order-type";
+import { useLocation } from "wouter";
+import { resetOrder } from "@/redux/slices/orderDetailsSlice";
+import { updateAddress } from "@/redux/slices/orderAddressSlice";
 
 const SelectPaymentMethod = ({
   isProcessingOrder,
@@ -19,6 +22,8 @@ const SelectPaymentMethod = ({
   isProcessingOrder: boolean;
   setIsProcessingOrder: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_, setLocation] = useLocation();
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("card");
   const dispatch = useAppDispatch();
   const orderAddress = useAppSelector((state) => state.orderAddress.value);
@@ -31,6 +36,12 @@ const SelectPaymentMethod = ({
     setIsProcessingOrder(true);
     console.log(orderAddress, orderDetails, orderPaymentMethod);
     if (orderDetails == null || user == null || orderAddress == null) {
+      toast({
+        variant: "destructive",
+        title: "Cannot proceed",
+        description:
+          "Make sure you selected the correct address and payment method",
+      });
       setIsProcessingOrder(false);
       return;
     }
@@ -50,6 +61,10 @@ const SelectPaymentMethod = ({
       toast({
         title: "Successfull!",
       });
+      dispatch(updatePaymentMethod("card"));
+      dispatch(resetOrder());
+      dispatch(updateAddress(null));
+      setLocation("/profile");
     } catch (error) {
       toast({
         variant: "destructive",

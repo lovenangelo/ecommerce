@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Orders;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrdersRequest;
+use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderAddress;
 use App\Models\OrderItem;
@@ -52,6 +53,10 @@ class OrdersController extends Controller
     }
 
     $order->order_items()->saveMany($orderItems);
+
+    // Delete cart items based on their IDs
+    $cartItemIds = array_column($orderItemsData, 'cart_item_id');
+    CartItem::whereIn('id', $cartItemIds)->delete();
 
     $order->save();
 
