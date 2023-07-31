@@ -16,6 +16,7 @@ return new class extends Migration
       $table->foreignId('user_id')->constrained();
       $table->foreignId('order_address_id')->constrained();
       $table->decimal('total_amount');
+      $table->enum('status', ['processing', 'cancelled', 'completed'])->default('processing');
       $table->timestamps();
     });
   }
