@@ -1,24 +1,18 @@
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { Button } from "../ui/button";
 import { Redirect } from "wouter";
 import { cn } from "@/lib/utils";
 import Icons from "@/lib/icons";
-import { useState } from "react";
 import PersonalInformationForm from "./components/PersonalInformationForm";
 import MyOrders from "./components/MyOrders";
 import MyWishlist from "./components/MyWishlist";
 import MyProducts from "./components/MyProducts";
-
-type ProfileTabs =
-  | "PERSONAL-INFORMATION"
-  | "MY-ORDERS"
-  | "MY-WISHLIST"
-  | "MY-PRODUCTS";
+import { changeTab } from "@/redux/slices/personalInformationTabSlice";
 
 const Index = () => {
+  const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.value);
-
-  const [tab, setTab] = useState<ProfileTabs>("PERSONAL-INFORMATION");
+  const tab = useAppSelector((state) => state.personalInfoTab.value);
 
   if (!user) {
     return <Redirect to="/" />;
@@ -37,7 +31,7 @@ const Index = () => {
               "w-full justify-between rounded-none",
               "active:border-l-2"
             )}
-            onClick={() => setTab("PERSONAL-INFORMATION")}
+            onClick={() => dispatch(changeTab("PERSONAL-INFORMATION"))}
           >
             <p>Personal Information</p>
             <Icons.chevronRight />
@@ -48,7 +42,7 @@ const Index = () => {
               "w-full justify-between rounded-none",
               "active:border-l-2"
             )}
-            onClick={() => setTab("MY-ORDERS")}
+            onClick={() => dispatch(changeTab("MY-ORDERS"))}
           >
             <p>My Orders</p>
             <Icons.chevronRight />
@@ -59,7 +53,7 @@ const Index = () => {
               "w-full justify-between rounded-none",
               "active:border-l-2"
             )}
-            onClick={() => setTab("MY-WISHLIST")}
+            onClick={() => dispatch(changeTab("MY-WISHLIST"))}
           >
             <p>My Wishlist</p>
             <Icons.chevronRight />
@@ -70,8 +64,9 @@ const Index = () => {
               "w-full justify-between rounded-none",
               "active:border-l-2"
             )}
-            onClick={() => setTab("MY-PRODUCTS")}
+            onClick={() => dispatch(changeTab("MY-PRODUCTS"))}
           >
+            {" "}
             <p>My Products</p>
             <Icons.chevronRight />
           </Button>

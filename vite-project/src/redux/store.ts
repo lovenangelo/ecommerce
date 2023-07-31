@@ -4,6 +4,7 @@ import productQueryReducer from "./slices/productQuerySlice";
 import orderDetailsReducer from "./slices/orderDetailsSlice";
 import orderAddressReducer from "./slices/orderAddressSlice";
 import orderPaymentMethodReducer from "./slices/orderPaymentMethodSlice";
+import personalInformationTabReducer from "./slices/personalInformationTabSlice";
 import { persistStore, persistReducer } from "redux-persist";
 import thunk from "redux-thunk";
 import sessionStorage from "redux-persist/es/storage/session";
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   orderDetails: orderDetailsReducer,
   orderAddress: orderAddressReducer,
   orderPaymentMethodReducer: orderPaymentMethodReducer,
+  personalInfoTab: personalInformationTabReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

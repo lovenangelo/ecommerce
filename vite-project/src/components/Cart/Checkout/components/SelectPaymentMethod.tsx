@@ -14,6 +14,7 @@ import { Order } from "../order-type";
 import { useLocation } from "wouter";
 import { resetOrder } from "@/redux/slices/orderDetailsSlice";
 import { updateAddress } from "@/redux/slices/orderAddressSlice";
+import { changeTab } from "@/redux/slices/personalInformationTabSlice";
 
 const SelectPaymentMethod = ({
   isProcessingOrder,
@@ -62,6 +63,7 @@ const SelectPaymentMethod = ({
         title: "Successfull!",
       });
       dispatch(updatePaymentMethod("card"));
+      dispatch(changeTab("MY-ORDERS"));
       dispatch(resetOrder());
       dispatch(updateAddress(null));
       setLocation("/profile");
