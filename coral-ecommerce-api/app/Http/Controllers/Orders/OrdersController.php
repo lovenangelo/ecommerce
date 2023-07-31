@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrdersRequest;
 use App\Models\CartItem;
 use App\Models\Order;
-use App\Models\OrderAddress;
 use App\Models\OrderItem;
 
 class OrdersController extends Controller
@@ -16,7 +15,13 @@ class OrdersController extends Controller
    */
   public function index()
   {
-    //
+    $userId = auth()->user()->id;
+
+    $orders = Order::where('user_id', $userId)
+      ->select('created_at as date', 'total_amount as price', 'id as order_id', 'status')
+      ->get();
+
+    return response()->json($orders);
   }
 
   /**
