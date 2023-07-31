@@ -40,7 +40,7 @@ const MyOrders = () => {
 
   const processingTableRows = processingOrdersList.map((order, index) => (
     <TableRow key={index}>
-      <TableCell className="font-medium">INV00{order.order_id}</TableCell>
+      <TableCell className="font-medium">ORD00{order.order_id}</TableCell>
       <TableCell>{order.date}</TableCell>
       <TableCell>{order.price}</TableCell>
       <TableCell className="text-right">{order.status}</TableCell>
@@ -49,7 +49,7 @@ const MyOrders = () => {
 
   const table = (
     <Table>
-      <TableCaption>A list of your recent invoices.</TableCaption>
+      <TableCaption>A list of your recent orders.</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead className="w-[100px]">Order ID</TableHead>
@@ -79,7 +79,7 @@ const MyOrders = () => {
         </TabsList>
         <TabsContent value="processing">
           <Table>
-            <TableCaption>A list of your recent invoices.</TableCaption>
+            <TableCaption>A list of your recent orders.</TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[100px]">Order ID</TableHead>

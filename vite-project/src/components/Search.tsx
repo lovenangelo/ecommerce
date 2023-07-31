@@ -112,7 +112,7 @@ export default function Search() {
           onBlur={() => {
             setTimeout(() => {
               setShowDiv(false);
-            }, 100);
+            }, 300);
           }}
           value={searchInput}
           onChange={(event) => {
