@@ -5,7 +5,8 @@ import { useState } from "react";
 import RegistrationForm from "./RegistrationForm";
 import { Redirect } from "wouter";
 import { useAppSelector } from "@/redux/hooks";
-
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/opacity.css";
 const Authentication = () => {
   const user = useAppSelector((state) => state.user.value);
 
@@ -16,7 +17,8 @@ const Authentication = () => {
   }
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-1 h-screen w-full">
-      <img
+      <LazyLoadImage
+        effect="opacity"
         src={authImage}
         alt="wardrobe"
         className="w-full h-full hidden md:block object-cover"

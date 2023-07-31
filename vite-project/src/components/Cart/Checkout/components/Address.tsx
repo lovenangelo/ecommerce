@@ -40,21 +40,7 @@ const FormSchema = z.object({
 
 const AddressForm = ({ onAddSuccess }: { onAddSuccess: () => void }) => {
   const [addressSaveLoading, setAddressSaveLoading] = useState(false);
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    try {
-      setAddressSaveLoading(true);
-      await createAddress(data);
-      toast({
-        title: "Address saved!",
-      });
-    } catch (error) {
-      toast({
-        title: "Cannot save address",
-      });
-    }
-    onAddSuccess();
-    setAddressSaveLoading(false);
-  }
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -66,6 +52,23 @@ const AddressForm = ({ onAddSuccess }: { onAddSuccess: () => void }) => {
       zip_code: "",
     },
   });
+
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    try {
+      setAddressSaveLoading(true);
+      await createAddress(data);
+      form.reset();
+      toast({
+        title: "Address saved!",
+      });
+    } catch (error) {
+      toast({
+        title: "Cannot save address",
+      });
+    }
+    onAddSuccess();
+    setAddressSaveLoading(false);
+  }
 
   return (
     <Collapsible>
