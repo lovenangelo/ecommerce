@@ -20,6 +20,7 @@ import { useState } from "react";
 import { resetQuery } from "@/redux/slices/productQuerySlice";
 import Search from "./Search";
 import { changeTab } from "@/redux/slices/personalInformationTabSlice";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Navbar = () => {
   const user = useAppSelector((state) => state.user.value);
@@ -40,7 +41,10 @@ const Navbar = () => {
     setIsLoading(false);
   };
   const loginButton = (
-    <Button variant={"ghost"} className={cn("w-full justify-start")}>
+    <Button
+      variant={"ghost"}
+      className={cn("w-full justify-start", user && "hidden")}
+    >
       {" "}
       <Link href="/auth">Login</Link>{" "}
     </Button>
@@ -68,15 +72,15 @@ const Navbar = () => {
 
   return (
     <nav className="container flex justify-between h-20 w-full items-center">
-      <div className="flex items-center">
+      <div className="flex items-center mr-2">
         <Link className="h-max w-max md:h-full md:w-full" href="/">
-          <img
+          <LazyLoadImage
             src={logo}
             alt="logo"
             className="h-max w-max md:mr-8 mr-4 hover:cursor-pointer"
           />
         </Link>
-        <ul className="list-none space-x-5 hidden md:flex">
+        <ul className="list-none space-x-5 hidden lg:flex">
           {nav.links.map((link, index) => (
             <li key={index}>
               <Link
@@ -92,16 +96,16 @@ const Navbar = () => {
             </li>
           ))}
         </ul>
+      </div>
+      <div className="flex justify-end items-center md:space-x-5 space-x-2">
         <Link
           to="/sell"
-          className="h-9 px-4 py-2 ml-8 bg-primary text-primary-foreground shadow hover:bg-primary/90ml-4 bg-[#17494D] inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 "
+          className="hidden lg:inline-flex h-9 px-4 py-2 ml-8 bg-primary text-primary-foreground shadow hover:bg-primary/90ml-4 bg-[#17494D] items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
         >
           Sell
         </Link>
-      </div>
-      <div className="flex justify-end items-center md:space-x-5 space-x-2">
         <Search />
-        <div className="hidden md:flex">
+        <div className="hidden lg:flex">
           <Button
             onClick={() => {
               dispatch(changeTab("MY-WISHLIST"));
@@ -150,7 +154,7 @@ const Navbar = () => {
           </Button>
         </div>
         {/* MOBILE VIEW */}
-        <div className="inline-block md:hidden">
+        <div className="inline-block lg:hidden">
           <Select>
             <SelectTrigger className={cn("border-0")}>
               <SelectPrimitive.Icon asChild>
@@ -164,6 +168,9 @@ const Navbar = () => {
                 </SelectItem>
               ))}
               <SelectSeparator />
+              <Button variant={"ghost"} className={cn("w-full justify-start")}>
+                Sell
+              </Button>
               {loginButton}
             </SelectContent>
           </Select>
