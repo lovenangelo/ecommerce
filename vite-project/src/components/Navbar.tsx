@@ -91,7 +91,7 @@ const Navbar = () => {
             className="h-max w-max md:mr-8 mr-4 hover:cursor-pointer"
           />
         </Link>
-        <ul className="list-none space-x-5 hidden lg:flex">
+        <ul className="list-none space-x-5 hidden xl:flex">
           {nav.links.map((link, index) => (
             <li key={index}>
               <Link
