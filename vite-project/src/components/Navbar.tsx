@@ -187,6 +187,7 @@ const Navbar = () => {
                 Sell
               </Button>
               {loginButton}
+              {user && authenticated}
             </SelectContent>
           </Select>
         </div>

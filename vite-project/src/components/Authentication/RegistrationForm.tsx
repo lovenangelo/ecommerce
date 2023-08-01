@@ -18,6 +18,7 @@ import { useState } from "react";
 import { useAppDispatch } from "@/redux/hooks";
 import { setUser } from "@/redux/slices/userSlice";
 import Icons from "@/lib/icons";
+import axios from "axios";
 const RegistrationForm = () => {
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -69,6 +70,13 @@ const RegistrationForm = () => {
       );
     } catch (error) {
       console.log(error);
+      if (axios.isAxiosError(error)) {
+        console.log(error.response?.data.message);
+        const message: string = error.response?.data.message;
+        form.setError("email", { type: "422", message: message });
+      } else {
+        console.log(error);
+      }
     }
     setIsLoading(false);
   };
