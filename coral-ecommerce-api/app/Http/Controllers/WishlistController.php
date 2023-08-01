@@ -37,4 +37,24 @@ class WishlistController extends Controller
     // Return the user's wishlist data
     return response()->json(['wishlist' => $user->wishlist], 200);
   }
+
+  public function destroy($wishlistItemId)
+  {
+    // Find the wishlist item by its ID
+    clock($wishlistItemId);
+    $wishlistItem = WishlistItem::find($wishlistItemId);
+    if (!$wishlistItem) {
+      return response()->json(['message' => 'Wishlist item not found'], 404);
+    }
+
+    // Check if the authenticated user is the owner of the wishlist containing the item
+    if (request()->user()->id !== $wishlistItem->wishlist->user_id) {
+      return response()->json(['message' => 'Unauthorized'], 403);
+    }
+
+    // Delete the wishlist item
+    $wishlistItem->delete();
+
+    return response()->json(['message' => 'Wishlist item deleted successfully'], 200);
+  }
 }

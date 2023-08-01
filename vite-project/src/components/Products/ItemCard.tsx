@@ -14,7 +14,6 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/opacity.css";
 import { Skeleton } from "../ui/skeleton";
 import { Button } from "../ui/button";
-import productsApi from "@/lib/api/products";
 import {
   Dialog,
   DialogContent,
@@ -25,7 +24,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useState } from "react";
-import { addWishList } from "@/lib/api/wishlist";
+import { addWishListItem } from "@/lib/api/wishlist";
 import { useAppSelector } from "@/redux/hooks";
 
 type Item = {
@@ -64,7 +63,6 @@ const ItemCard = ({
   const handleDelete = async () => {
     try {
       setIsLoading(true);
-      await productsApi.deleteProduct(id);
       if (onDelete) {
         onDelete();
       }
@@ -77,8 +75,7 @@ const ItemCard = ({
   const handleAddToWishlist = async () => {
     console.log("adding to wishlist");
     try {
-      console.log("hoy");
-      await addWishList(user?.id ?? null, id);
+      await addWishListItem(user?.id ?? null, id);
       console.log("good");
     } catch (error) {
       console.log(error);
@@ -104,16 +101,14 @@ const ItemCard = ({
                 onOpenChange={(open) => setDeleteDialogOpen(open)}
               >
                 <DialogTrigger className="w-max h-max p-0 m-0">
-                  <Button variant={"ghost"} className="p-0 m-0 h-4 w-4 ">
-                    <Icons.deleteIcon color="red" />
-                  </Button>
+                  <Icons.deleteIcon height={16} color="red" />
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
                     <DialogTitle>Are you sure absolutely sure?</DialogTitle>
                     <DialogDescription>
                       This action cannot be undone. This will permanently delete
-                      your product and remove its data from our servers.
+                      the item.
                     </DialogDescription>
                     <DialogFooter className="flex justify-end space-x-2">
                       <Button

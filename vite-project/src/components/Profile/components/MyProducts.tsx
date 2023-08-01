@@ -3,12 +3,14 @@ import CardSkeleton from "@/components/Products/Loaders/CardSkeleton";
 import Pagination from "@/components/Products/Pagination";
 import { ProductItem } from "@/components/Products/types/product-item";
 import productsApi from "@/lib/api/products";
+import { useAppSelector } from "@/redux/hooks";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
 const MyProducts = () => {
   const [deletedAProduct, setDeletedAProduct] = useState(false);
   const getUserProducts = () => productsApi.getUserProducts("/api/my-products");
+  const user = useAppSelector((state) => state.user.value);
 
   const products = useQuery(["user-products"], getUserProducts, {
     enabled: true,
@@ -38,8 +40,11 @@ const MyProducts = () => {
           img={`http://localhost:8000/${item.image.url}`}
           deletable={true}
           editable={true}
-          onDelete={() => {
-            setDeletedAProduct(true);
+          onDelete={async () => {
+            if (user) {
+              await productsApi.deleteProduct(user.id);
+              setDeletedAProduct(true);
+            }
           }}
           category={item.category.category}
         />
