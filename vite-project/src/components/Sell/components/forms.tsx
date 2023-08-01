@@ -62,11 +62,11 @@ const SellForm = ({ id }: { id?: string }) => {
   });
 
   useEffect(() => {
-    if (!user)
-      toast({
-        title: "Login to your account",
-        description: "You need to log in to post a product.",
-      });
+    // if (!user)
+    //   toast({
+    //     title: "Login to your account",
+    //     description: "You need to log in to post a product.",
+    //   });
     if (productData) {
       form.reset({
         name: productData?.name ?? "",

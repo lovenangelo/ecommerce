@@ -21,6 +21,7 @@ import { resetQuery } from "@/redux/slices/productQuerySlice";
 import Search from "./Search";
 import { changeTab } from "@/redux/slices/personalInformationTabSlice";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { toast } from "./ui/use-toast";
 
 const Navbar = () => {
   const user = useAppSelector((state) => state.user.value);
@@ -40,6 +41,16 @@ const Navbar = () => {
     }
     setIsLoading(false);
   };
+
+  const handleUnauthorizedSellPageNavigation = () => {
+    toast({
+      variant: "destructive",
+      title: "Login to your account",
+      description: "You need to log in to post a product.",
+    });
+    setLocation("/auth");
+  };
+
   const loginButton = (
     <Button
       variant={"ghost"}
@@ -98,12 +109,12 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="flex justify-end items-center md:space-x-5 space-x-2">
-        <Link
-          to="/sell"
-          className="hidden lg:inline-flex h-9 px-4 py-2 ml-8 bg-primary text-primary-foreground shadow hover:bg-primary/90ml-4 bg-[#17494D] items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+        <Button
+          onClick={handleUnauthorizedSellPageNavigation}
+          className={cn("w-full justify-start hidden lg:inline-flex")}
         >
           Sell
-        </Link>
+        </Button>
         <Search />
         <div className="hidden lg:flex">
           <Button
@@ -168,7 +179,11 @@ const Navbar = () => {
                 </SelectItem>
               ))}
               <SelectSeparator />
-              <Button variant={"ghost"} className={cn("w-full justify-start")}>
+              <Button
+                onClick={handleUnauthorizedSellPageNavigation}
+                variant={"ghost"}
+                className={cn("w-full justify-start")}
+              >
                 Sell
               </Button>
               {loginButton}
