@@ -7,6 +7,7 @@ import { Redirect } from "wouter";
 import { useAppSelector } from "@/redux/hooks";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/opacity.css";
+import { cn } from "@/lib/utils";
 const Authentication = () => {
   const user = useAppSelector((state) => state.user.value);
 
@@ -16,16 +17,24 @@ const Authentication = () => {
     return <Redirect to="/" />;
   }
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-1 h-screen w-full">
-      <LazyLoadImage
-        effect="opacity"
-        src={authImage}
-        alt="wardrobe"
-        className="w-full h-full hidden md:block object-cover"
-      />
-      <div className="flex flex-col justify-center items-center w-full">
-        <div className="px-12 w-full md:w-96 flex flex-col justify-center items-center">
-          <h1 className="font-bold text-3xl">
+    <div className="grid grid-cols-1 grid-rows-4 lg:grid-rows-1 lg:grid-cols-2 w-full md:h-screen lg:h-full">
+      <div className="hidden lg:flex lg:h-screen h-full w-full">
+        <LazyLoadImage
+          effect="opacity"
+          src={authImage}
+          alt="wardrobe"
+          className="w-full h-full object-cover"
+        />
+      </div>
+      <div
+        className={cn(
+          "row-span-3 flex flex-col justify-center items-center w-full",
+          authType == "REGISTER" && "mt-8",
+          authType == "LOGIN" && "mt-16"
+        )}
+      >
+        <div className="px-12 h-full w-full lg:w-96 flex flex-col justify-center items-center">
+          <h1 className="font-bold text-3xl lg:text-3xl sm:text-5xl">
             {authType == "LOGIN" ? "Hi, Welcome Back!" : "Register"}
           </h1>
           {authType == "LOGIN" && <LoginForm />}

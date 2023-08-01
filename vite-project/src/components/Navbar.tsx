@@ -165,7 +165,7 @@ const Navbar = () => {
           </Button>
         </div>
         {/* MOBILE VIEW */}
-        <div className="inline-block lg:hidden">
+        <div className="inline-flex lg:hidden">
           <Select>
             <SelectTrigger className={cn("border-0")}>
               <SelectPrimitive.Icon asChild>

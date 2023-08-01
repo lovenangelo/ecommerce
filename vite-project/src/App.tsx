@@ -17,7 +17,7 @@ import NotFoundPage from "@/components/404/Index";
 const LazyFooter = lazy(() => import("@/components/Home/Footer"));
 function App() {
   return (
-    <>
+    <div className="h-full w-full">
       <Navbar />
       <Switch>
         {/* Authentication */}
@@ -90,7 +90,7 @@ function App() {
           <NotFoundPage />
         </Route>
       </Switch>
-    </>
+    </div>
   );
 }
 
