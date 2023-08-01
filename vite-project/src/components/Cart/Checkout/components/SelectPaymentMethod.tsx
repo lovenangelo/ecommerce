@@ -23,8 +23,7 @@ const SelectPaymentMethod = ({
   isProcessingOrder: boolean;
   setIsProcessingOrder: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, setLocation] = useLocation();
+  const [, setLocation] = useLocation();
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("card");
   const dispatch = useAppDispatch();
   const orderAddress = useAppSelector((state) => state.orderAddress.value);

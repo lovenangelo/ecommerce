@@ -1,10 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import dropin from "braintree-web-drop-in";
 import { useEffect, useState } from "react";
 import { Order } from "../order-type";
 import { placeOrder } from "../checkout-api";
+import { updatePaymentMethod } from "@/redux/slices/orderPaymentMethodSlice";
+import { changeTab } from "@/redux/slices/personalInformationTabSlice";
+import { resetOrder } from "@/redux/slices/orderDetailsSlice";
+import { updateAddress } from "@/redux/slices/orderAddressSlice";
+import { useLocation } from "wouter";
 
 export default function BraintreeDropIn({
   showDropIn,
@@ -15,6 +20,7 @@ export default function BraintreeDropIn({
   isProcessingOrder: boolean;
   setIsProcessingOrder: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  const [, setLocation] = useLocation();
   const [braintreeInstance, setBraintreeInstance] = useState<
     dropin.Dropin | undefined
   >(undefined);
@@ -24,7 +30,7 @@ export default function BraintreeDropIn({
   );
   const orderDetails = useAppSelector((state) => state.orderDetails.value);
   const user = useAppSelector((state) => state.user.value);
-
+  const dispatch = useAppDispatch();
   useEffect(() => {
     if (showDropIn && braintreeInstance === undefined) {
       console.log("running", braintreeInstance);
@@ -58,6 +64,11 @@ export default function BraintreeDropIn({
     setIsProcessingOrder(true);
     console.log(orderAddress, orderDetails, orderPaymentMethod);
     if (orderDetails == null || user == null || orderAddress == null) {
+      toast({
+        variant: "destructive",
+        title: "Cannot process order",
+        description: "Please make sure you have selected an address.",
+      });
       setIsProcessingOrder(false);
       return;
     }
@@ -77,6 +88,11 @@ export default function BraintreeDropIn({
       toast({
         title: "Successfull!",
       });
+      dispatch(updatePaymentMethod("card"));
+      dispatch(changeTab("MY-ORDERS"));
+      dispatch(resetOrder());
+      dispatch(updateAddress(null));
+      setLocation("/profile");
     } catch (error) {
       toast({
         variant: "destructive",
@@ -84,12 +100,6 @@ export default function BraintreeDropIn({
       });
     }
     setIsProcessingOrder(false);
-    console.log("payment completed");
-    toast({
-      title: "Processing order...",
-    });
-    setIsProcessingOrder(true);
-    console.log(orderAddress, orderPaymentMethod);
   };
 
   return (
