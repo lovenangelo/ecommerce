@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@dummy-module": ["src/modules/dummy-module"],
+      "@dummy-module/*": ["src/modules/dummy-module/*"]
+    }
+  }
+}

@@ -24,8 +24,6 @@ import {
   EditIcon,
 } from "lucide-react";
 
-import googleIcon from "@/assets/images/svg/icons8-google.svg";
-
 const Icons = {
   nav: {
     favorites: HeartIcon,
@@ -53,7 +51,6 @@ const Icons = {
     twitter: TwitterIcon,
     youtube: YoutubeIcon,
     github: GithubIcon,
-    google: googleIcon,
   },
 };
 

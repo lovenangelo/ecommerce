@@ -1,6 +1,5 @@
-import Icons from "@/lib/icons";
+import Icons from "../lib/icons";
 import { Input } from "./ui/input";
-import { cn } from "@/lib/utils";
 import { useState } from "react";
 import debounce from "lodash.debounce";
 import { useQuery } from "react-query";
@@ -8,6 +7,7 @@ import getSearchResults, { getNextData } from "@/lib/api/search";
 import { Button } from "./ui/button";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link } from "wouter";
+import { cn } from "../lib/utils";
 export default function Search() {
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
