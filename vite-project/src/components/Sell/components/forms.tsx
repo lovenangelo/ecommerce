@@ -62,11 +62,6 @@ const SellForm = ({ id }: { id?: string }) => {
   });
 
   useEffect(() => {
-    // if (!user)
-    //   toast({
-    //     title: "Login to your account",
-    //     description: "You need to log in to post a product.",
-    //   });
     if (productData) {
       form.reset({
         name: productData?.name ?? "",
@@ -182,11 +177,11 @@ const SellForm = ({ id }: { id?: string }) => {
   return (
     <Form {...form}>
       <form
-        className="bg-white p-8 rounded space-y-4 grid grid-cols-3 gap-8 auto-rows"
+        className="bg-white p-4 lg:p-8 rounded space-y-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8 auto-rows"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <div className="space-y-4 col-span-3">
-          {!id && <h1 className="font-bold text-2xl">Add a new product</h1>}
+        <div className="md:col-span-2 space-y-4 lg:col-span-3">
+          {!id && <h1 className="font-bold lg:text-2xl">Add a new product</h1>}
           {id && <h1 className="font-bold text-2xl">Edit Product</h1>}
           <hr />
         </div>
@@ -269,7 +264,6 @@ const SellForm = ({ id }: { id?: string }) => {
             )}
           />
         </div>
-
         <div className="space-y-5">
           <FormField
             control={form.control}
@@ -517,10 +511,10 @@ const SellForm = ({ id }: { id?: string }) => {
             </div>
           </div>
         </div>
-        <hr className="col-span-3" />
-        <div className="col-span-3 flex w-full justify-center">
+        <hr className="md:col-span-2 lg:col-span-3" />
+        <div className="md:col-span-2 lg:col-span-3 flex w-full justify-center">
           <Button
-            className="w-48 mt-8 align-middle flex"
+            className=" w-48 lg:mt-8 align-middle flex"
             onClick={() => {
               setSubmitted(true);
             }}
