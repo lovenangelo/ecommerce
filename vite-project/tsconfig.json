@@ -24,7 +24,7 @@
     "types": ["@types/jest"]
   },
 
-  "include": ["src"],
+  "include": ["src", "__tests__/Search.test.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }],
   "extends": "./tsconfig.paths.json"
 }

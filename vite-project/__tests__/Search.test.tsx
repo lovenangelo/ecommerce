@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import Search from "./Search";
+import Search from "../src/components/Search";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import "@testing-library/jest-dom";
@@ -30,13 +30,11 @@ test("handles no data results", async () => {
     })
   );
 
-  const user = userEvent.setup();
-
   render(<Search />);
 
   const searchInputElement = screen.getByRole("textbox");
 
-  await user.type(searchInputElement, "xxxxx");
+  await userEvent.type(searchInputElement, "xxxxx");
 
   await screen.findByRole("heading");
 
