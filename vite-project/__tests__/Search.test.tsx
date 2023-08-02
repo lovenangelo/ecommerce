@@ -14,6 +14,7 @@ beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
+/* The code is testing the behavior of the `Search` component when there are no search results. */
 test("handles no data results", async () => {
   server.use(
     rest.get("http://localhost:8000/api/search", (_, res, ctx) => {
