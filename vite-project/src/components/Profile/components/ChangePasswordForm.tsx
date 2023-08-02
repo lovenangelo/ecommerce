@@ -34,7 +34,7 @@ const ChangePasswordForm = ({
         control={form.control}
         name="current_password"
         render={({ field }) => (
-          <FormItem className="w-60 col-span-1 ">
+          <FormItem className="w-full md:w-60 col-span-1 ">
             <FormLabel>Current Password</FormLabel>
             <FormControl>
               <Input type="password" disabled={isLoading} {...field} />

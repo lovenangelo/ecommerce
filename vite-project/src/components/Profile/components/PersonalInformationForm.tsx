@@ -80,15 +80,15 @@ const PersonalInformationForm = () => {
   });
   return (
     <>
-      <h1 className="font-bold">Personal Information</h1>
+      <h1 className="font-bold hidden md:block">Personal Information</h1>
       <hr />
       <div className="flex items-center space-x-4">
-        <Avatar className="mt-4 w-20 h-20">
+        <Avatar className="mt-4 w-28 h-28 md:w-20 md:h-20">
           <AvatarImage
             className="object-cover"
             src={user?.avatar ? `http://localhost:8000/${user.avatar}` : "/"}
           />
-          <AvatarFallback className="font-semibold text-2xl">
+          <AvatarFallback className="font-semibold text-4xl md:text-2xl">
             {user ? user.name?.[0][0].toUpperCase() : ""}
           </AvatarFallback>
         </Avatar>
@@ -100,9 +100,9 @@ const PersonalInformationForm = () => {
         </Dialog>
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="w-1/2 mt-8 space-y-4 overflow-y-auto">
-            <div className="flex space-x-4 p-2">
+        <form className="w-full" onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="w-full md:w-1/2 mt-2 md:mt-8 space-y-4 overflow-y-auto">
+            <div className="w-full flex space-x-2 md:space-x-4 p-2">
               <FormField
                 control={form.control}
                 name="name"

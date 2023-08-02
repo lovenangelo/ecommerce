@@ -24,7 +24,7 @@ const Index = () => {
         Personal Information
       </h1>
       <div className="grid grid-cols-4 gap-5 mt-2">
-        <div className="col-span-1 bg-gray-50 py-5 px-2 w-60">
+        <div className="hidden md:block col-span-1 bg-gray-50 py-5 px-2 w-60">
           <Button
             variant={"ghost"}
             className={cn(
@@ -72,7 +72,7 @@ const Index = () => {
           </Button>
         </div>
         {tab == "PERSONAL-INFORMATION" && (
-          <div className="col-span-3 w-full">
+          <div className="col-span-4 md:col-span-3 w-full">
             <PersonalInformationForm />
           </div>
         )}
