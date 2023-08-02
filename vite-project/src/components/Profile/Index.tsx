@@ -14,6 +14,12 @@ const Index = () => {
   const user = useAppSelector((state) => state.user.value);
   const tab = useAppSelector((state) => state.personalInfoTab.value);
 
+  const ChevronRight = (
+    <div className="hidden lg:block">
+      <Icons.chevronRight />
+    </div>
+  );
+
   if (!user) {
     return <Redirect to="/" />;
   }
@@ -34,7 +40,7 @@ const Index = () => {
             onClick={() => dispatch(changeTab("PERSONAL-INFORMATION"))}
           >
             <p>Personal Information</p>
-            <Icons.chevronRight />
+            {ChevronRight}
           </Button>
           <Button
             variant={"ghost"}
@@ -45,7 +51,7 @@ const Index = () => {
             onClick={() => dispatch(changeTab("MY-ORDERS"))}
           >
             <p>My Orders</p>
-            <Icons.chevronRight />
+            {ChevronRight}
           </Button>
           <Button
             variant={"ghost"}
@@ -56,7 +62,7 @@ const Index = () => {
             onClick={() => dispatch(changeTab("MY-WISHLIST"))}
           >
             <p>My Wishlist</p>
-            <Icons.chevronRight />
+            {ChevronRight}
           </Button>
           <Button
             variant={"ghost"}
@@ -68,7 +74,7 @@ const Index = () => {
           >
             {" "}
             <p>My Products</p>
-            <Icons.chevronRight />
+            {ChevronRight}
           </Button>
         </div>
         {tab == "PERSONAL-INFORMATION" && (
