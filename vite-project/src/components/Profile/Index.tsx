@@ -8,11 +8,19 @@ import MyOrders from "./components/MyOrders";
 import MyWishlist from "./components/MyWishlist";
 import MyProducts from "./components/MyProducts";
 import { changeTab } from "@/redux/slices/personalInformationTabSlice";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const Index = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.value);
   const tab = useAppSelector((state) => state.personalInfoTab.value);
+  console.log(tab);
 
   const ChevronRight = (
     <div className="hidden lg:block">
@@ -26,9 +34,37 @@ const Index = () => {
 
   return (
     <div className="container py-4 min-h-screen">
-      <h1 className="text-2xl font-bold text-[#17494D]">
-        Personal Information
-      </h1>
+      <div className="flex space-x-4 justify-between items-center">
+        <h1 className="text-sm lg:text-2xl font-bold text-[#17494D]">
+          PROFILE
+        </h1>
+        <Select
+          value={tab}
+          defaultValue={tab}
+          onValueChange={(
+            value:
+              | "PERSONAL-INFORMATION"
+              | "MY-ORDERS"
+              | "MY-WISHLIST"
+              | "MY-PRODUCTS"
+          ) => {
+            dispatch(changeTab(value));
+          }}
+        >
+          <SelectTrigger className="w-[180px] flex sm:hidden">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="PERSONAL-INFORMATION">
+              Personal Information
+            </SelectItem>
+            <SelectItem value="MY-ORDERS">My Orders</SelectItem>{" "}
+            <SelectItem value="MY-WISHLIST">My Wishlist</SelectItem>
+            <SelectItem value="MY-PRODUCTS">My Products</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
       <div className="grid grid-cols-4 gap-5 mt-2">
         <div className="hidden md:block col-span-1 bg-gray-50 py-5 px-2 w-60">
           <Button
