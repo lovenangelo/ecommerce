@@ -27,7 +27,7 @@ const ChangePasswordForm = ({
   return (
     <div className=" space-y-4 p-2">
       <div>
-        <h1 className="font-bold">Change Password</h1>
+        <h1 className="font-bold mb-2">Change Password</h1>
         <hr />
       </div>
       <FormField

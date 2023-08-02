@@ -70,31 +70,29 @@ const MyOrders = () => {
   );
 
   return (
-    <div>
-      <Tabs defaultValue="processing" className="w-3/4">
-        <TabsList className={cn("space-x-2")}>
-          <TabsTrigger value="processing">Processing</TabsTrigger>
-          <TabsTrigger value="completed">Completed</TabsTrigger>
-          <TabsTrigger value="cancelled">Cancelled</TabsTrigger>
-        </TabsList>
-        <TabsContent value="processing">
-          <Table>
-            <TableCaption>A list of your recent orders.</TableCaption>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[100px]">Order ID</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Price</TableHead>
-                <TableHead className="text-right">Status</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>{processingTableRows}</TableBody>
-          </Table>
-        </TabsContent>
-        <TabsContent value="completed">{table}</TabsContent>
-        <TabsContent value="cancelled">{table}</TabsContent>
-      </Tabs>
-    </div>
+    <Tabs defaultValue="processing" className="w-3/4">
+      <TabsList className={cn("space-x-2")}>
+        <TabsTrigger value="processing">Processing</TabsTrigger>
+        <TabsTrigger value="completed">Completed</TabsTrigger>
+        <TabsTrigger value="cancelled">Cancelled</TabsTrigger>
+      </TabsList>
+      <TabsContent value="processing">
+        <Table>
+          <TableCaption>A list of your recent orders.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[100px]">Order ID</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead>Price</TableHead>
+              <TableHead className="text-right">Status</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>{processingTableRows}</TableBody>
+        </Table>
+      </TabsContent>
+      <TabsContent value="completed">{table}</TabsContent>
+      <TabsContent value="cancelled">{table}</TabsContent>
+    </Tabs>
   );
 };
 

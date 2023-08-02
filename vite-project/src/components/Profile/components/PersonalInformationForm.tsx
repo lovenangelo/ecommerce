@@ -79,8 +79,6 @@ const PersonalInformationForm = () => {
   });
   return (
     <>
-      <h1 className="font-bold hidden md:block">Personal Information</h1>
-      <hr />
       <div className="flex items-center space-x-4">
         <Avatar className="mt-4 w-28 h-28 lg:w-20 lg:h-20">
           <AvatarImage
