@@ -4,6 +4,9 @@ import { rest } from "msw";
 import { setupServer } from "msw/node";
 import "@testing-library/jest-dom";
 
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 const server = setupServer();
 import userEvent from "@testing-library/user-event";
 
@@ -12,25 +15,23 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 test("handles no data results", async () => {
-  // ARRANGE
   server.use(
-    rest.get("/api/search", (req, res, ctx) => {
-      console.log(req);
-
-      const empty = {
-        data: {
+    rest.get("http://localhost:8000/api/search", (_, res, ctx) => {
+      return res(
+        ctx.json({
           data: {
-            data: {
-              data: [],
-            },
+            data: [],
           },
-        },
-      };
-      return res(ctx.json(empty));
+        })
+      );
     })
   );
 
-  render(<Search />);
+  render(
+    <QueryClientProvider client={queryClient}>
+      <Search />
+    </QueryClientProvider>
+  );
 
   const searchInputElement = screen.getByRole("textbox");
 

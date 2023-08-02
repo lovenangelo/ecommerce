@@ -8,6 +8,17 @@ import { Button } from "./ui/button";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link } from "wouter";
 import { cn } from "../lib/utils";
+
+type SearchResult = {
+  image: {
+    url: string;
+  };
+  name: string;
+  subtitle: string;
+  category: string;
+  id: number;
+};
+
 export default function Search() {
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
@@ -27,44 +38,49 @@ export default function Search() {
     enabled: search.length !== 0,
     retry: 2,
     onSuccess(data) {
-      const searchOptions: JSX.Element[] = data?.data.data.data.map(
-        (result: {
-          image: {
-            url: string;
-          };
-          name: string;
-          subtitle: string;
-          category: string;
-          id: number;
-        }) => {
-          return (
-            <Link
-              key={result.id}
-              to={`/products/${result.category}/${result.id}`}
-            >
-              <Button
-                onClick={() => console.log("clicked")}
-                variant={"ghost"}
-                className="border-b-2 h-24 flex items-center w-full justify-between p-4"
+      const searchResultsData: SearchResult[] | null = data?.data.data.data;
+      console.log(searchResultsData);
+
+      if (searchResultsData !== null && searchResultsData.length !== 0) {
+        const searchOptions: JSX.Element[] = searchResultsData.map(
+          (result: {
+            image: {
+              url: string;
+            };
+            name: string;
+            subtitle: string;
+            category: string;
+            id: number;
+          }) => {
+            return (
+              <Link
+                key={result.id}
+                to={`/products/${result.category}/${result.id}`}
               >
-                <div className="w-1/4 h-full">
-                  <LazyLoadImage
-                    className="w-full h-full object-cover rounded-md"
-                    src={`http://localhost:8000/${result.image.url}`}
-                    alt=""
-                  />
-                </div>
-                <div className=" text-right">
-                  <h1 className="font-bold text-lg">{result.name}</h1>
-                  <p className="w-48 truncate">{result.subtitle}</p>
-                </div>
-              </Button>
-            </Link>
-          );
-        }
-      );
-      setNextPageUrl(data?.data.data.next_page_url);
-      setSearchResultsList(searchOptions);
+                <Button
+                  onClick={() => console.log("clicked")}
+                  variant={"ghost"}
+                  className="border-b-2 h-24 flex items-center w-full justify-between p-4"
+                >
+                  <div className="w-1/4 h-full">
+                    <LazyLoadImage
+                      className="w-full h-full object-cover rounded-md"
+                      src={`http://localhost:8000/${result.image.url}`}
+                      alt=""
+                    />
+                  </div>
+                  <div className=" text-right">
+                    <h1 className="font-bold text-lg">{result.name}</h1>
+                    <p className="w-48 truncate">{result.subtitle}</p>
+                  </div>
+                </Button>
+              </Link>
+            );
+          }
+        );
+        setNextPageUrl(data?.data.data.next_page_url);
+        setSearchResultsList(searchOptions);
+      }
     },
   });
 
