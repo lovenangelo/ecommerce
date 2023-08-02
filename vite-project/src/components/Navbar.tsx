@@ -43,12 +43,15 @@ const Navbar = () => {
   };
 
   const handleUnauthorizedSellPageNavigation = () => {
-    toast({
-      variant: "destructive",
-      title: "Login to your account",
-      description: "You need to log in to post a product.",
-    });
-    setLocation("/auth");
+    if (!user) {
+      toast({
+        variant: "destructive",
+        title: "Login to your account",
+        description: "You need to log in to post a product.",
+      });
+      setLocation("/auth");
+    }
+    setLocation("/sell");
   };
 
   const loginButton = (
@@ -91,10 +94,11 @@ const Navbar = () => {
             className="h-max w-max md:mr-8 mr-4 hover:cursor-pointer"
           />
         </Link>
-        <ul className="list-none space-x-5 hidden xl:flex">
+        <ul className="list-none space-x-4 hidden lg:flex">
           {nav.links.map((link, index) => (
             <li key={index}>
               <Link
+                className="text-sm"
                 onClick={() => {
                   console.log("hello nav");
 
