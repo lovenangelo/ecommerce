@@ -39,7 +39,6 @@ export default function Search() {
     retry: 2,
     onSuccess(data) {
       const searchResultsData: SearchResult[] | null = data?.data.data.data;
-      console.log(searchResultsData);
 
       if (searchResultsData !== null && searchResultsData.length !== 0) {
         const searchOptions: JSX.Element[] = searchResultsData.map(
@@ -99,12 +98,15 @@ export default function Search() {
         id: number;
       }) => {
         return (
-          <Link key={result.id} to={`/item/${result.id}`}>
+          <Link
+            key={searchResultsList.length + 1}
+            to={`/item/${result.id}`}
+            data-testid={"search-result-item"}
+          >
             <div className="w-1/4 h-full">
               <LazyLoadImage
                 className="w-full h-full object-cover rounded-md"
                 src={`http://localhost:8000/${result.image.url}`}
-                alt=""
               />
             </div>
             <div className=" text-right">
