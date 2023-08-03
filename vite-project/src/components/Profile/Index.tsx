@@ -66,7 +66,7 @@ const Index = () => {
       </div>
 
       <div className="grid grid-cols-4 gap-5 mt-2">
-        <div className="hidden md:block col-span-1 bg-gray-50 py-5 px-2 w-60">
+        <div className="hidden md:flex md:flex-col col-span-1 bg-gray-50 py-5 px-2 w-full">
           <Button
             variant={"ghost"}
             className={cn(
@@ -75,7 +75,7 @@ const Index = () => {
             )}
             onClick={() => dispatch(changeTab("PERSONAL-INFORMATION"))}
           >
-            <p>Personal Information</p>
+            <p className="whitespace-nowrap">Personal Information</p>
             {ChevronRight}
           </Button>
           <Button
