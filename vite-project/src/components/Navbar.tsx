@@ -29,7 +29,22 @@ const Navbar = () => {
   const name = user?.name.split(" ");
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  const [selectValue, setSelectValue] = useState("");
+  const links = nav.links.map((link, index) => (
+    <li key={index}>
+      <Link
+        className="text-sm"
+        onClick={() => {
+          console.log("hello nav");
 
+          dispatch(resetQuery());
+        }}
+        href={`/products/${link.name.toLowerCase()}`}
+      >
+        {link.name}
+      </Link>
+    </li>
+  ));
   const signoutHandler = async () => {
     dispatch(removeUser());
     try {
@@ -94,23 +109,7 @@ const Navbar = () => {
             className="h-max w-max md:mr-8 mr-4 hover:cursor-pointer"
           />
         </Link>
-        <ul className="list-none space-x-4 hidden lg:flex">
-          {nav.links.map((link, index) => (
-            <li key={index}>
-              <Link
-                className="text-sm"
-                onClick={() => {
-                  console.log("hello nav");
-
-                  dispatch(resetQuery());
-                }}
-                href={`/products/${link.name.toLowerCase()}`}
-              >
-                {link.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <ul className="list-none space-x-4 hidden lg:flex">{links}</ul>
       </div>
       <div className="flex justify-end items-center md:space-x-5 space-x-2">
         <Button
@@ -171,10 +170,14 @@ const Navbar = () => {
         {/* MOBILE VIEW */}
         <div className="inline-flex lg:hidden">
           <Select
+            value={selectValue}
             onValueChange={(value) => {
-              console.log("hello nav");
+              setSelectValue(value);
               dispatch(resetQuery());
               setLocation(`/products${value}`);
+            }}
+            onOpenChange={(open) => {
+              if (!open) setSelectValue("/");
             }}
           >
             <SelectTrigger className={cn("border-0")}>
