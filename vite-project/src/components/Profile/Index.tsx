@@ -114,17 +114,17 @@ const Index = () => {
           </Button>
         </div>
         {tab == "PERSONAL-INFORMATION" && (
-          <div className="col-span-4 md:col-span-3 w-full">
+          <div className="col-span-4 md:col-span-3 w-full my-4">
             <PersonalInformationForm />
           </div>
         )}
         {tab == "MY-ORDERS" && (
-          <div className="col-span-3 w-full">
+          <div className="col-span-4 md:col-span-3 w-full my-4">
             <MyOrders />
           </div>
         )}
         {tab == "MY-WISHLIST" && (
-          <div className="col-span-3 w-full">
+          <div className="col-span-4 md:col-span-3 w-full my-4">
             <MyWishlist />
           </div>
         )}

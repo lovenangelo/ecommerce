@@ -50,15 +50,15 @@ const MyOrders = () => {
   const table = (
     <Table>
       <TableCaption>A list of your recent orders.</TableCaption>
-      <TableHeader>
+      <TableHeader className="text-xs sm:text-sm">
         <TableRow>
-          <TableHead className="w-[100px]">Order ID</TableHead>
+          <TableHead>Order ID</TableHead>
           <TableHead>Date</TableHead>
           <TableHead>Price</TableHead>
           <TableHead className="text-right">Status</TableHead>
         </TableRow>
       </TableHeader>
-      <TableBody>
+      <TableBody className="text-xs sm:text-sm">
         <TableRow>
           <TableCell className="font-medium">INV001</TableCell>
           <TableCell>Paid</TableCell>
@@ -70,7 +70,7 @@ const MyOrders = () => {
   );
 
   return (
-    <Tabs defaultValue="processing" className="w-3/4">
+    <Tabs defaultValue="processing" className="w-full lg:w-3/4">
       <TabsList className={cn("space-x-2")}>
         <TabsTrigger value="processing">Processing</TabsTrigger>
         <TabsTrigger value="completed">Completed</TabsTrigger>
@@ -79,15 +79,17 @@ const MyOrders = () => {
       <TabsContent value="processing">
         <Table>
           <TableCaption>A list of your recent orders.</TableCaption>
-          <TableHeader>
+          <TableHeader className="text-xs sm:text-sm">
             <TableRow>
-              <TableHead className="w-[100px]">Order ID</TableHead>
+              <TableHead>Order ID</TableHead>
               <TableHead>Date</TableHead>
               <TableHead>Price</TableHead>
               <TableHead className="text-right">Status</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>{processingTableRows}</TableBody>
+          <TableBody className="text-xs sm:text-sm">
+            {processingTableRows}
+          </TableBody>
         </Table>
       </TabsContent>
       <TabsContent value="completed">{table}</TabsContent>
