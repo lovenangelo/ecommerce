@@ -160,7 +160,10 @@ const ItemCard = ({
           <div className="font-semibold">
             ${price} <s className="text-sm">${price * 2}</s>{" "}
             <span className="text-red-500 font-bold">{promo}</span>
-            <Ratings starCount={ratings?.stars ?? 2} reviewCount={24} />
+            <Ratings
+              starCount={ratings?.stars ?? 5}
+              reviewCount={Math.floor(Math.random() * 500) + 1}
+            />
           </div>
         </div>
         <button onClick={handleAddToWishlist}>

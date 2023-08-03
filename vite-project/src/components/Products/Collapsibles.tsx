@@ -68,7 +68,7 @@ const Collapsibles = ({
   ) => {
     return data.map((item, index) => {
       return (
-        <div className="items-top flex space-x-2" key={index}>
+        <div className="flex items-top space-x-2" key={index}>
           <Checkbox
             checked={state.includes(item.id)}
             onCheckedChange={(checked) => {
@@ -101,8 +101,8 @@ const Collapsibles = ({
   );
 
   return (
-    <>
-      {/* Size */}
+    <div className="hidden md:block space-y-4">
+      <h1 className="text-xl font-bold mb-4">Filters</h1>
       <Collapsible>
         <div className="flex items-center justify-between pr-8">
           <p className="font-semibold text-xl">Size</p>
@@ -172,7 +172,7 @@ const Collapsibles = ({
           />
         </CollapsibleContent>
       </Collapsible>
-    </>
+    </div>
   );
 };
 

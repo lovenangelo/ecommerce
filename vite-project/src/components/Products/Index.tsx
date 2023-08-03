@@ -86,7 +86,7 @@ const Index = ({ category }: { category: string }) => {
       <div className="container mt-8 min-h-screen">
         <div className="grid grid-cols-4">
           <div className="col-span-1 space-y-2 pr-4">
-            <h1 className="text-4xl font-bold mb-8">
+            <h1 className="sm:text-2xl lg:text-4xl font-bold mb-4 sm:mb-8">
               {category.toUpperCase()}
             </h1>
             <Collapsibles
@@ -95,20 +95,22 @@ const Index = ({ category }: { category: string }) => {
               setSizesFilterValue={setSizesFilter}
             />
           </div>
-          <div className="col-span-3 grid grid-flow-row grid-cols-3 gap-5">
-            <div className="col-span-3 flex items-center justify-between">
-              <p className="font-bold">
+          <div className="col-span-4 sm:col-span-3 grid grid-flow-row grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-5 w-full space-y-2 sm:space-y-0">
+            <div className="col-span-3 flex items-center justify-between w-full space-x-4">
+              <p className="font-bold text-xs sm:text-sm w-1/4">
                 Showing {handbags.data?.data.current_page}-
                 {handbags.data?.data.last_page} of {handbags.data?.data.total}{" "}
                 items
               </p>
-              <div className="flex items-center space-x-4">
-                <p className="font-semibold">Sort By</p>
+              <div className="flex items-center justify-end space-y-2 space-x-4 sm:items-center w-3/4">
+                <p className="font-semibold text-left text-xs sm:text-sm">
+                  Sort By
+                </p>
                 <Select
                   defaultValue={sort}
                   onValueChange={(value) => setSort(value)}
                 >
-                  <SelectTrigger className="w-[180px]">
+                  <SelectTrigger className="text-xs sm:text-sm w-32 sm:w-[180px]">
                     <SelectValue placeholder="featured" />
                   </SelectTrigger>
                   <SelectContent>
