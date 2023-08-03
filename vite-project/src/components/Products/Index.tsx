@@ -64,7 +64,7 @@ const Index = ({ category }: { category: string }) => {
 
   const items = handbags.data?.data.data.map(
     (item: ProductItem, index: number) => (
-      <div key={index}>
+      <div className="md:col-span-2 lg:col-span-1" key={index}>
         <ItemCard
           id={item.id}
           category={category}
@@ -83,64 +83,57 @@ const Index = ({ category }: { category: string }) => {
   return (
     <Layout>
       {category == "handbags" && <HeroPromo />}
-      <div className="container mt-8 min-h-screen">
-        <div className="grid grid-cols-4">
-          <div className="col-span-1 space-y-2 pr-4">
-            <h1 className="sm:text-2xl lg:text-4xl font-bold mb-4 sm:mb-8">
-              {category.toUpperCase()}
-            </h1>
-            <Collapsibles
-              setPriceFilterValue={setPrice}
-              setColorsFilterValue={setColorsFilter}
-              setSizesFilterValue={setSizesFilter}
-            />
-          </div>
-          <div className="col-span-4 sm:col-span-3 grid grid-flow-row grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-5 w-full space-y-2 sm:space-y-0">
-            <div className="col-span-3 flex items-center justify-between w-full space-x-4">
-              <p className="font-bold text-xs sm:text-sm w-1/4">
-                Showing {handbags.data?.data.current_page}-
-                {handbags.data?.data.last_page} of {handbags.data?.data.total}{" "}
-                items
-              </p>
-              <div className="flex items-center justify-end space-y-2 space-x-4 sm:items-center w-3/4">
-                <p className="font-semibold text-left text-xs sm:text-sm">
-                  Sort By
-                </p>
-                <Select
-                  defaultValue={sort}
-                  onValueChange={(value) => setSort(value)}
-                >
-                  <SelectTrigger className="text-xs sm:text-sm w-32 sm:w-[180px]">
-                    <SelectValue placeholder="featured" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="price.desc">
-                      Price: High to Low
-                    </SelectItem>
-                    <SelectItem value="price.asc">
-                      Price: Low to High{" "}
-                    </SelectItem>
-                    <SelectItem value="featured.asc">Featured</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            {handbags.isLoading ? (
-              <CardSkeleton />
-            ) : items.length !== 0 ? (
+      {/* Sets grid */}
+      <div className="container md:mt-8 grid row-auto grid-cols-4">
+        <div className="col-span-1 space-y-2 pr-4">
+          <h1 className="mt-8 md:mt-0 sm:text-2xl lg:text-4xl font-bold mb-4 md:mb-8">
+            {category.toUpperCase()}
+          </h1>
+          <Collapsibles
+            setPriceFilterValue={setPrice}
+            setColorsFilterValue={setColorsFilter}
+            setSizesFilterValue={setSizesFilter}
+          />
+        </div>
+        <div className="col-span-4 sm:col-span-3 grid grid-flow-row grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-5 w-full space-y-2 sm:space-y-0">
+          <div className="col-span-3 flex items-center justify-between w-full space-x-4">
+            <p className="font-bold text-xs sm:text-sm w-1/4 sm:w-full">
+              Showing {handbags.data?.data.current_page}-
+              {handbags.data?.data.last_page} of {handbags.data?.data.total}{" "}
               items
-            ) : (
-              <div className="flex w-full justify-center col-span-4">
-                <h1>No results</h1>
-              </div>
-            )}
-            <div className="col-span-3 w-full">
-              <Pagination
-                nextPageUrl={handbags.data?.data.next_page_url}
-                prevPageUrl={handbags.data?.data.prev_page_url}
-                links={handbags.data?.data.links}
-              />
+            </p>
+            <div className="flex items-center justify-end space-y-2 space-x-2 sm:items-center w-3/4">
+              <p className="font-bold text-left text-xs sm:text-sm">Sort By</p>
+              <Select
+                defaultValue={sort}
+                onValueChange={(value) => setSort(value)}
+              >
+                <SelectTrigger className="text-xs sm:text-sm w-32 sm:w-[180px]">
+                  <SelectValue placeholder="featured" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="price.desc">Price: High to Low</SelectItem>
+                  <SelectItem value="price.asc">Price: Low to High </SelectItem>
+                  <SelectItem value="featured.asc">Featured</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
+          </div>
+          {handbags.isLoading ? (
+            <CardSkeleton />
+          ) : items.length !== 0 ? (
+            items
+          ) : (
+            <div className="flex w-full justify-center col-span-4">
+              <h1>No results</h1>
+            </div>
+          )}
+          <div className="col-span-3 w-full">
+            <Pagination
+              nextPageUrl={handbags.data?.data.next_page_url}
+              prevPageUrl={handbags.data?.data.prev_page_url}
+              links={handbags.data?.data.links}
+            />
           </div>
         </div>
       </div>
