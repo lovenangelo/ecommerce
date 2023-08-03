@@ -71,8 +71,8 @@ const SingleProduct = ({ id }: { id: string }) => {
   if (fetchLoading) return <SingleProductSkeleton />;
   return (
     <div className="container">
-      <div className="grid grid-cols-2 rows-auto w-full h-full">
-        <div className="h-full w-full p-8 rounded-md">
+      <div className="grid grid-cols-1 md:grid-cols-2 rows-auto w-full h-full">
+        <div className="h-full w-full sm:p-8 rounded-md">
           <LazyLoadImage
             height={"100%"}
             width={"100%"}
@@ -82,42 +82,29 @@ const SingleProduct = ({ id }: { id: string }) => {
             className=" object-cover h-full w-full rounded-md"
           />
         </div>
-
-        <div className="p-5 space-y-8 h-max">
-          <div className="space-y-2">
+        <div className="sm:mt-2 mt-4 sm:p-5 sm:space-y-8 h-max">
+          <div className="sm:space-y-2">
             <h1 className="text-2xl font-bold">{data?.name}</h1>
             <p>{data?.subtitle}</p>
           </div>
           <div className="grid grid-cols-2 h-max row-auto gap-4">
-            <div className="space-y-4">
-              <Ratings starCount={4} reviewCount={24} />
+            <div className="space-y-4 col-span-2 sm:col-span-1">
+              <Ratings starCount={5} reviewCount={24} />
               <div className="flex items-end space-x-4">
-                <h2 className="text-4xl font-bold">${data?.price}</h2>
-                {/* {data?.promo && (
-              <>
-                <s className="text-4xl text-[#B6B6B6] font-bold stroke">
-                  $78.66
-                </s>
-                <h2 className="text-red-500">50% OFF</h2>
-              </>
-            )} */}
+                <h2 className="text-2xl sm:text-4xl font-bold">
+                  ${data?.price}
+                </h2>
               </div>
             </div>{" "}
-            <div className="space-y-22 text-sm space-y-2 text-[#626262]">
+            <div className="sm:space-y-22 text-sm space-y-2 text-[#626262]">
               <p>Stocks: {data?.quantity}</p>
               <p>Color: {data?.color}</p>
-              <div className="flex space-x-1">
-                {/* <p>Available sizes: </p> {!!data?.size.s && <span>Small,</span>}
-                {!!data?.size.m && <span> Medium,</span>}
-                {!!data?.size.l && <span> Large</span>} */}
-              </div>
             </div>
           </div>
-
-          <hr />
-          <div className="flex items-center space-x-4">
+          <hr className="my-4 sm:my-0" />
+          <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
             <div className="space-y-2">
-              <h3 className="font-bold">Delivery Details</h3>
+              <h3 className="md:text-2xl font-bold">Delivery Details</h3>
               <p className="text-[#626262]">
                 Check estimated delivery date/pickup option.
               </p>
@@ -130,7 +117,7 @@ const SingleProduct = ({ id }: { id: string }) => {
             </div>
             <Coupon />
           </div>
-          <div className="flex space-x-2">
+          <div className="flex space-x-2 items-center my-4">
             <p className="font-bold">Quantity:</p>
             <div className="border-2 flex space-x-2 justify-center items-center ">
               <Button
@@ -148,8 +135,12 @@ const SingleProduct = ({ id }: { id: string }) => {
               </Button>
             </div>
           </div>
-          <div className="flex items-center space-x-2">
-            <Button disabled={isLoading} onClick={addToCartHandler}>
+          <div className="flex my-4 items-center space-x-2">
+            <Button
+              className="w-full sm:w-max"
+              disabled={isLoading}
+              onClick={addToCartHandler}
+            >
               Add to cart
               {isLoading && (
                 <span className="ml-2">
@@ -157,19 +148,23 @@ const SingleProduct = ({ id }: { id: string }) => {
                 </span>
               )}
             </Button>{" "}
-            <Button disabled={isLoading} variant={"outline"}>
+            <Button
+              className="text-xs whitespace-nowrap"
+              disabled={isLoading}
+              variant={"outline"}
+            >
               Add To Wishlist
             </Button>
           </div>
           <hr />
-          <Tabs defaultValue="product-description" className="w-full my-8">
+          <div></div>
+          <Tabs
+            defaultValue="product-description"
+            className="w-full my-4 sm:my-8"
+          >
             <TabsList>
-              <TabsTrigger value="product-description">
-                Product Description
-              </TabsTrigger>
-              <TabsTrigger value="related-products">
-                Related Products
-              </TabsTrigger>
+              <TabsTrigger value="product-description">Description</TabsTrigger>
+              <TabsTrigger value="related-products">Related</TabsTrigger>
               <TabsTrigger value="ratings-and-reviews">
                 Ratings and Reviews
               </TabsTrigger>
