@@ -39,18 +39,12 @@ export default function Search() {
     retry: 2,
     onSuccess(data) {
       const searchResultsData: SearchResult[] | null = data?.data.data.data;
-
+      if (searchResultsList.length < 5 && searchResultsData?.length == 0) {
+        setSearchResultsList([]);
+      }
       if (searchResultsData !== null && searchResultsData.length !== 0) {
         const searchOptions: JSX.Element[] = searchResultsData.map(
-          (result: {
-            image: {
-              url: string;
-            };
-            name: string;
-            subtitle: string;
-            category: string;
-            id: number;
-          }) => {
+          (result: SearchResult) => {
             return (
               <Link
                 key={result.id}
