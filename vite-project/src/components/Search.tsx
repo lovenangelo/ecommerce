@@ -55,14 +55,16 @@ export default function Search() {
                   variant={"ghost"}
                   className="border-b-2 h-24 flex items-center w-full justify-between p-4"
                 >
-                  <div className="w-1/4 h-full">
+                  <div className="sm:w-1/4 h-full">
                     <LazyLoadImage
+                      height={"100%"}
+                      width={"100%"}
                       className="w-full h-full object-cover rounded-md"
                       src={`http://localhost:8000/${result.image.url}`}
                       alt=""
                     />
                   </div>
-                  <div className=" text-right">
+                  <div className="text-left sm:text-right">
                     <h1 className="font-bold text-lg">{result.name}</h1>
                     <p className="w-48 truncate">{result.subtitle}</p>
                   </div>
@@ -97,16 +99,25 @@ export default function Search() {
             to={`/item/${result.id}`}
             data-testid={"search-result-item"}
           >
-            <div className="w-1/4 h-full">
-              <LazyLoadImage
-                className="w-full h-full object-cover rounded-md"
-                src={`http://localhost:8000/${result.image.url}`}
-              />
-            </div>
-            <div className=" text-right">
-              <h1 className="font-bold text-lg">{result.name}</h1>
-              <p className="w-48 truncate">{result.subtitle}</p>
-            </div>
+            <Button
+              onClick={() => console.log("clicked")}
+              variant={"ghost"}
+              className="border-b-2 h-24 flex items-center w-full justify-between p-4"
+            >
+              <div className="sm:w-1/4 h-full">
+                <LazyLoadImage
+                  height={"100%"}
+                  width={"100%"}
+                  className="w-full h-full object-cover rounded-md"
+                  src={`http://localhost:8000/${result.image.url}`}
+                  alt=""
+                />
+              </div>
+              <div className="text-left sm:text-right">
+                <h1 className="font-bold text-lg">{result.name}</h1>
+                <p className="w-48 truncate">{result.subtitle}</p>
+              </div>
+            </Button>
           </Link>
         );
       }
@@ -118,7 +129,7 @@ export default function Search() {
 
   return (
     <div className="h-max w-max relative flex flex-col ml-8">
-      <div className="flex items-center border shadow-sm px-2 rounded bg-[#F1F1F1] sm:w-96 w-32">
+      <div className="flex items-center border shadow-sm px-2 rounded bg-[#F1F1F1] sm:w-96 w-full">
         <Icons.search height={20} width={20} className="h-12" />
         <Input
           onBlur={() => {
