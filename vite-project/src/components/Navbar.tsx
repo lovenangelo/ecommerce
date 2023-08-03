@@ -170,7 +170,13 @@ const Navbar = () => {
         </div>
         {/* MOBILE VIEW */}
         <div className="inline-flex lg:hidden">
-          <Select>
+          <Select
+            onValueChange={(value) => {
+              console.log("hello nav");
+              dispatch(resetQuery());
+              setLocation(`/products${value}`);
+            }}
+          >
             <SelectTrigger className={cn("border-0")}>
               <SelectPrimitive.Icon asChild>
                 <Icons.nav.menu />
@@ -178,7 +184,7 @@ const Navbar = () => {
             </SelectTrigger>
             <SelectContent>
               {nav.links.map((link, index) => (
-                <SelectItem key={index} value="">
+                <SelectItem key={index} value={link.href}>
                   {link.name}
                 </SelectItem>
               ))}
@@ -186,7 +192,7 @@ const Navbar = () => {
               <Button
                 onClick={handleUnauthorizedSellPageNavigation}
                 variant={"ghost"}
-                className={cn("w-full justify-start")}
+                className={cn("w-1/4 justify-start")}
               >
                 Sell
               </Button>
