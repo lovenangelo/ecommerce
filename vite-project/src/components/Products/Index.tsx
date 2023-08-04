@@ -16,6 +16,7 @@ import CardSkeleton from "./Loaders/CardSkeleton";
 import { ProductItem } from "./types/product-item";
 import { useAppSelector } from "@/redux/hooks";
 import HeroPromo from "./HeroPromo";
+import { cn } from "@/lib/utils";
 const Index = ({ category }: { category: string }) => {
   const [currentCategory, setCurrentCategory] = useState(category);
   const [price, setPrice] = useState<number[]>([20]);
@@ -40,6 +41,7 @@ const Index = ({ category }: { category: string }) => {
   });
 
   const refetch = handbags.refetch;
+  console.log(handbags.data?.data);
 
   useEffect(() => {
     if (currentCategory !== category) {
@@ -59,8 +61,6 @@ const Index = ({ category }: { category: string }) => {
     sort,
     productQuery,
   ]);
-
-  console.log(handbags.data?.data.data);
 
   const items = handbags.data?.data.data.map(
     (item: ProductItem, index: number) => (
@@ -86,7 +86,7 @@ const Index = ({ category }: { category: string }) => {
       {/* Sets grid */}
       <div className="container md:mt-8 grid row-auto grid-cols-4">
         <div className="col-span-1 space-y-2 pr-4">
-          <h1 className="mt-8 md:mt-0 sm:text-2xl lg:text-4xl font-bold mb-4 md:mb-8">
+          <h1 className="mt-8 md:mt-0 sm:text-2xl lg:text-4xl font-bold mb-4 md:mb-8 text-[#1B4B66]">
             {category.toUpperCase()}
           </h1>
           <Collapsibles
@@ -102,7 +102,7 @@ const Index = ({ category }: { category: string }) => {
               {handbags.data?.data.last_page} of {handbags.data?.data.total}{" "}
               items
             </p>
-            <div className="flex items-center justify-end space-y-2 space-x-2 sm:items-center w-3/4">
+            <div className="flex items-center justify-end space-x-2 h-full w-3/4">
               <p className="font-bold text-left text-xs sm:text-sm">Sort By</p>
               <Select
                 defaultValue={sort}
@@ -124,11 +124,16 @@ const Index = ({ category }: { category: string }) => {
           ) : items.length !== 0 ? (
             items
           ) : (
-            <div className="flex w-full justify-center col-span-4">
+            <div className="flex w-full justify-center col-span-4 h-24 items-center justify-center">
               <h1>No results</h1>
             </div>
           )}
-          <div className="col-span-3 w-full">
+          <div
+            className={cn(
+              "col-span-3 w-full",
+              handbags.data?.data.data.length <= 8 && "hidden"
+            )}
+          >
             <Pagination
               nextPageUrl={handbags.data?.data.next_page_url}
               prevPageUrl={handbags.data?.data.prev_page_url}

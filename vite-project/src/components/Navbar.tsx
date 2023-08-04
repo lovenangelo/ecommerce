@@ -106,7 +106,7 @@ const Navbar = () => {
           <LazyLoadImage
             src={logo}
             alt="logo"
-            className="h-max w-max md:mr-8 mr-4 hover:cursor-pointer"
+            className=" h-max w-max md:mr-8 mr-4 hover:cursor-pointer"
           />
         </Link>
         <ul className="list-none space-x-4 hidden lg:flex">{links}</ul>
@@ -195,9 +195,16 @@ const Navbar = () => {
               <Button
                 onClick={handleUnauthorizedSellPageNavigation}
                 variant={"ghost"}
-                className={cn("w-1/4 justify-start")}
+                className={cn("w-full justify-start")}
               >
                 Sell
+              </Button>
+              <Button
+                onClick={() => setLocation("/cart")}
+                variant={"ghost"}
+                className={cn("w-full justify-start")}
+              >
+                Cart
               </Button>
               {loginButton}
               {user && authenticated}

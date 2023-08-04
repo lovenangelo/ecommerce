@@ -241,7 +241,7 @@ const Index = () => {
       {cart.isLoading ? (
         <SkeletonLoading />
       ) : (
-        <div className=" grid grid-cols-3 mt-4 gap-8">
+        <div className=" grid grid-cols-1 sm:grid-cols-3 mt-4 gap-2 sm:gap-8">
           <div className="col-span-2 w-full row-auto rounded-lg border bg-gray-100">
             <Table>
               <TableHeader>
@@ -263,7 +263,7 @@ const Index = () => {
               </TableBody>
             </Table>
           </div>
-          <div className="col-span-1 h-max bg-gray-100 rounded-lg p-5 border">
+          <div className="col-span-1 w-full h-max bg-gray-100 rounded-lg p-5 border">
             <h1 className="mb-4 font-bold text-lg">Order Summary</h1>
             <div className="grid grid-cols-2 row-auto gap-2">
               <p>Sub Total</p>
@@ -299,10 +299,17 @@ const Index = () => {
                 }}
                 to="/checkout"
               >
-                <Button disabled={orders.length == 0}>Place Order</Button>
+                <Button
+                  disabled={orders.length == 0}
+                  className=" whitespace-nowrap"
+                >
+                  Place Order
+                </Button>
               </Link>
               <Link to="/products/handbags">
-                <Button variant={"outline"}>Continue Shopping</Button>
+                <Button variant={"outline"} className=" whitespace-nowrap">
+                  Continue Shopping
+                </Button>
               </Link>
             </div>
           </div>
