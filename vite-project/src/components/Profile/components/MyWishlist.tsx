@@ -60,7 +60,7 @@ const MyWishlist = () => {
   ));
 
   return (
-    <div className="col-span-3 grid grid-flow-row grid-cols-3 gap-5">
+    <div className="col-span-4 sm:col-span-3 grid grid-flow-row grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-5 w-full space-y-2 sm:space-y-0">
       <div className="col-span-3 flex items-center justify-between">
         <p className="font-bold">
           Showing {wishlistQuery.data?.data.current_page}-

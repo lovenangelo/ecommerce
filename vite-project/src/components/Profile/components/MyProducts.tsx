@@ -29,7 +29,7 @@ const MyProducts = () => {
 
   const items = products.data?.data.data.map(
     (item: ProductItem, index: number) => (
-      <div key={index}>
+      <div className="md:col-span-2 lg:col-span-1" key={index}>
         <ItemCard
           id={item.id}
           title={item.name}
@@ -52,8 +52,8 @@ const MyProducts = () => {
     )
   );
   return (
-    <div className="col-span-3 grid grid-flow-row grid-cols-3 gap-5">
-      <div className="col-span-3 flex items-center justify-between">
+    <div className="col-span-4 sm:col-span-3 grid grid-flow-row grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-5 w-full space-y-2 sm:space-y-0">
+      <div className="col-span-3 flex items-center justify-between w-full space-x-4">
         <p className="font-bold">
           Showing {products.data?.data.current_page}-
           {products.data?.data.last_page} of {products.data?.data.total} items

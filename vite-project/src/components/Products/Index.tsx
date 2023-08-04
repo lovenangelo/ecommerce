@@ -122,9 +122,9 @@ const Index = ({ category }: { category: string }) => {
           {handbags.isLoading ? (
             <CardSkeleton />
           ) : items.length !== 0 ? (
-            items
+            <div className="flex flex-col space-y-4">{items}</div>
           ) : (
-            <div className="flex w-full justify-center col-span-4 h-24 items-center justify-center">
+            <div className="flex w-full col-span-4 h-24 items-center justify-center">
               <h1>No results</h1>
             </div>
           )}

@@ -26,6 +26,7 @@ import {
 import { useState } from "react";
 import { addWishListItem } from "@/lib/api/wishlist";
 import { useAppSelector } from "@/redux/hooks";
+import { toast } from "../ui/use-toast";
 
 type Item = {
   id: number;
@@ -77,13 +78,16 @@ const ItemCard = ({
     try {
       await addWishListItem(user?.id ?? null, id);
       console.log("good");
+      toast({
+        title: "Added item to your wishlist",
+      });
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <Card className="grid grid-cols-1 rows-auto h-[416px] w-fullr">
+    <Card className="grid grid-cols-1 rows-auto h-[416px]">
       <CardHeader className={cn("h-24 w-full ")}>
         <div className="flex justify-between items-start">
           <CardTitle>{title}</CardTitle>
@@ -160,10 +164,7 @@ const ItemCard = ({
           <div className="font-semibold">
             ${price} <s className="text-sm">${price * 2}</s>{" "}
             <span className="text-red-500 font-bold">{promo}</span>
-            <Ratings
-              starCount={ratings?.stars ?? 5}
-              reviewCount={Math.floor(Math.random() * 500) + 1}
-            />
+            <Ratings starCount={ratings?.stars ?? 5} reviewCount={60} />
           </div>
         </div>
         <button onClick={handleAddToWishlist}>
