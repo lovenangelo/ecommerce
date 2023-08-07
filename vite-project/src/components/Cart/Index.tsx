@@ -29,7 +29,7 @@ import { Checkbox } from "../ui/checkbox";
 import debounce from "lodash.debounce";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { updateOrder } from "@/redux/slices/orderDetailsSlice";
-import { removeItem, updateItems } from "@/redux/slices/cartSlice";
+import { removeItem } from "@/redux/slices/cartSlice";
 const Index = () => {
   const dispatch = useAppDispatch();
   const [subTotal, setSubTotal] = useState(0);
