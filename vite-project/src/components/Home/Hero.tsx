@@ -4,6 +4,7 @@ import images from "@/lib/images";
 import { cn } from "@/lib/utils";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/opacity.css";
+import { Link } from "wouter";
 const Hero = () => {
   return (
     <section className="container h-96 w-full">
@@ -13,10 +14,12 @@ const Hero = () => {
             Shop in style!
           </h1>
           <p className="text-[#17494D]">Classy and trendy collections.</p>
-          <Button className={cn("bg-[#1B4B66] space-x-2")}>
-            <icons.arrowRight />
-            <span>See more</span>
-          </Button>
+          <Link to="/products/handbags">
+            <Button className={cn("bg-[#1B4B66] space-x-2")}>
+              <icons.arrowRight />
+              <span>See more</span>
+            </Button>
+          </Link>
         </div>
       </div>
       <LazyLoadImage

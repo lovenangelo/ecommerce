@@ -1,13 +1,14 @@
 import images from "@/lib/images";
+import { Link } from "wouter";
 
 const Brands = () => {
   const logos = images.brands.map((brand, index) => {
     return (
-      <a href="/" key={index}>
-        <div className="flex justify-center items-center rounded-md bg-[#F4F4F4] h-24 w-24 p-5">
+      <Link to="/products/apparels" key={index}>
+        <div className="hover:cursor-pointer flex justify-center items-center rounded-md bg-[#F4F4F4] h-24 w-24 p-5">
           <img src={brand} alt={brand} />
         </div>
-      </a>
+      </Link>
     );
   });
   return (
@@ -17,32 +18,41 @@ const Brands = () => {
         {logos}
       </div>
       <div className="grid grid-cols-2 auto-rows-auto gap-5 relative">
-        <div className="flex col-span-2 justify-start items-center">
+        <Link
+          to="/products/skincare"
+          className="flex col-span-2 justify-start items-center"
+        >
           <img
             src={images.makeupBg}
             className="w-full rounded-md"
             alt="makeup background"
           />
+
           <div className="absolute ml-5 text-[#97451F] space-y-2 md:space-y-4">
             <h1 className="text:md md:text-2xl">LIFESTYLE</h1>
             <h2 className="text-xl md:text-5xl font-semibold w-3/4">
               Makeup Accessories from Top Brands
             </h2>
           </div>
-        </div>
-        <div className="flex justify-end items-center">
+        </Link>
+        <Link to="/products/skincare" className="flex justify-end items-center">
           <img
             src={images.creamBg}
             className="rounded-md w-full h-full"
             alt="cream background"
           />
           <div className="absolute text-[#A53F64]">
-            <h2 className="text-md md:text-5xl  mr-2 md:mr-5 font-semibold">
-              Skincare Essentials
-            </h2>
+            <Link to="/products/skincare">
+              <h2 className="text-md md:text-5xl  mr-2 md:mr-5 font-semibold">
+                Skincare Essentials
+              </h2>
+            </Link>
           </div>
-        </div>
-        <div className="flex items-center justify-end relative">
+        </Link>
+        <Link
+          to="/products/skincare"
+          className="flex items-center justify-end relative hover:cursor-pointer"
+        >
           <img
             src={images.skincareBg}
             className="rounded-md w-full h-full"
@@ -53,7 +63,7 @@ const Brands = () => {
               Facepacks & Peels
             </h1>
           </div>
-        </div>
+        </Link>
       </div>
     </section>
   );

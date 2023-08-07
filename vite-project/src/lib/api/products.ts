@@ -64,6 +64,10 @@ const updateProduct = async (id: string, data: ProductsType) => {
   });
 };
 
+const getNewArrivals = async () => {
+  return await axiosClient.get("/api/public/products/new-arrivals");
+};
+
 const productsApi = {
   addNewProduct,
   getUserProducts,
@@ -71,6 +75,7 @@ const productsApi = {
   updateProduct,
   getProducts,
   getProductItem,
+  getNewArrivals,
 };
 
 export default productsApi;

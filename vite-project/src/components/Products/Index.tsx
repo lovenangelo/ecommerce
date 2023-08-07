@@ -84,7 +84,7 @@ const Index = ({ category }: { category: string }) => {
     <Layout>
       {category == "handbags" && <HeroPromo />}
       {/* Sets grid */}
-      <div className="container md:mt-8 grid row-auto grid-cols-4">
+      <div className="container md:mt-8 grid row-auto grid-cols-4 pb-8">
         <div className="col-span-1 space-y-2 pr-4">
           <h1 className="mt-8 md:mt-0 sm:text-2xl lg:text-4xl font-bold mb-4 md:mb-8 text-[#1B4B66]">
             {category.toUpperCase()}
@@ -122,7 +122,7 @@ const Index = ({ category }: { category: string }) => {
           {handbags.isLoading ? (
             <CardSkeleton />
           ) : items.length !== 0 ? (
-            <div className="flex flex-col space-y-4">{items}</div>
+            <div className="flex flex-col">{items}</div>
           ) : (
             <div className="flex w-full col-span-4 h-24 items-center justify-center">
               <h1>No results</h1>

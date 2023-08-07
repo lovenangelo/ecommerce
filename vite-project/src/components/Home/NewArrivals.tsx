@@ -1,36 +1,36 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import productsApi from "@/lib/api/products";
 import icons from "@/lib/icons";
-import images from "@/lib/images";
-import { cn } from "@/lib/utils";
+import { useQuery } from "react-query";
+import { Skeleton } from "../ui/skeleton";
+import { ProductItem } from "../Products/types/product-item";
+import ItemCard from "../Products/ItemCard";
 const NewArrivals = () => {
-  const products = images.bags.map((img, index) => {
-    return (
-      <Card className="grid grid-cols-1 rows-auto h-full w-full" key={index}>
-        <CardHeader className={cn("h-24 w-full ")}>
-          <CardTitle>{img.title}</CardTitle>
-          <CardDescription className={cn("truncate")}>
-            {img.description}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className={cn("h-max")}>
-          <img src={img.src} alt="bag" />
-        </CardContent>
-        <CardFooter className={cn("flex justify-between items-center")}>
-          <p>$500</p>
-          <button>
-            <icons.nav.favorites />
-          </button>
-        </CardFooter>
-      </Card>
-    );
-  });
+  const axiosGetNewArrivals = async () => await productsApi.getNewArrivals();
+  const newArrivals = useQuery("fetch-new-arrivals", axiosGetNewArrivals);
+
+  if (newArrivals.isLoading) {
+    return <Skeleton className="h-24" />;
+  }
+  console.log(newArrivals);
+
+  const products = newArrivals.data?.data.map(
+    (item: ProductItem, index: number) => {
+      return (
+        <ItemCard
+          key={index}
+          id={item.id}
+          category={"newArrivals"}
+          title={item.name}
+          description={item.description}
+          ratings={null}
+          price={item.price}
+          promo={"20% OFF"}
+          img={`http://localhost:8000/${item.image.url}`}
+          editable={false}
+        />
+      );
+    }
+  );
 
   return (
     <section className="container w-full mt-8 lg:mt-12 grid grid-cols-1 rows-auto md:grid-cols-6 lg:grid-row-2 lg:min-h-screen">
@@ -42,7 +42,7 @@ const NewArrivals = () => {
       </div>
       <div className="col-span-4 bg-primary h-2 w-full mt-12 hidden md:block" />
       <div className="col-span-6">
-        <div className="grid grid-cols-2 rows-auto md:grid-cols-4 rows-auto gap-4 max-w-full mt-12 lg:mt-4">
+        <div className="grid grid-cols-1 rows-auto md:grid-cols-4 rows-auto gap-4 max-w-full mt-12 lg:mt-4">
           {products}
         </div>
       </div>
