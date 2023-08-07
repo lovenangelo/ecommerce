@@ -59,14 +59,22 @@ const LoginForm = () => {
     } catch (error) {
       console.log(error);
       if (axios.isAxiosError(error)) {
-        console.log(error.response?.data.message);
         const message: string = error.response?.data.message;
-        form.setError("email", { type: "422", message: message });
+        if (error.response?.status == 500) {
+          form.setError("email", {
+            type: "500",
+            message:
+              "Unable to process your login request, please try again later",
+          });
+        }
+        if (error.response?.status == 422) {
+          form.setError("email", { type: "422", message: message });
+        }
       } else {
         console.log(error);
       }
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   return (
