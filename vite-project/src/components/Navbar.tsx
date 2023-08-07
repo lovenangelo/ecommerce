@@ -70,24 +70,27 @@ const Navbar = () => {
   };
 
   const loginButton = (
-    <Button
-      variant={"ghost"}
-      className={cn("w-full justify-start", user && "hidden")}
-    >
-      {" "}
-      <Link href="/auth">Login</Link>{" "}
-    </Button>
+    <Link href="/auth">
+      <Button
+        variant={"ghost"}
+        className={cn("w-full justify-start", user && "hidden")}
+      >
+        Login
+      </Button>
+    </Link>
   );
 
   const authenticated = (
     <>
-      <Button
-        disabled={isLoading}
-        variant={"ghost"}
-        className={cn("w-full justify-start")}
-      >
-        <Link href="/profile">Profile</Link>
-      </Button>
+      <Link href="/profile">
+        <Button
+          disabled={isLoading}
+          variant={"ghost"}
+          className={cn("w-full justify-start")}
+        >
+          Profile
+        </Button>
+      </Link>
       <Button
         disabled={isLoading}
         variant={"ghost"}
