@@ -31,6 +31,7 @@ const Index = () => {
   const user = useAppSelector((state) => state.user.value);
   const dispatch = useAppDispatch();
   const orderDetails = useAppSelector((state) => state.orderDetails.value);
+  const orderAddress = useAppSelector((state) => state.orderAddress.value);
 
   const [isProcessingOrder, setIsProcessingOrder] = useState(false);
   const [addresses, setAddresses] = useState<
@@ -205,7 +206,13 @@ const Index = () => {
           )}
           <hr />
           <Collapsible>
-            <CollapsibleTrigger className="font-bold flex">
+            <CollapsibleTrigger
+              disabled={orderAddress == null}
+              className={cn(
+                "font-bold flex",
+                orderAddress == null && "text-gray-300"
+              )}
+            >
               <p>Select Payment Method</p>
               <Icons.chevronDownIcon />
             </CollapsibleTrigger>
