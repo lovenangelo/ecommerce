@@ -329,6 +329,7 @@ const SellForm = ({ id }: { id?: string }) => {
                 <FormLabel>Price</FormLabel>
                 <FormControl>
                   <Input
+                    min={0}
                     disabled={isLoading}
                     type="number"
                     id="product-price"
@@ -347,6 +348,7 @@ const SellForm = ({ id }: { id?: string }) => {
                 <FormLabel>Quantity</FormLabel>
                 <FormControl>
                   <Input
+                    min={0}
                     disabled={isLoading}
                     type="number"
                     id="product-price"
