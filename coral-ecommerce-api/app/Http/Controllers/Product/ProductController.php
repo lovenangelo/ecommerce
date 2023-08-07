@@ -109,4 +109,10 @@ class ProductController extends Controller
       return response()->json(['message' => 'Product could not be found', 404]);
     }
   }
+
+  public function newArrivals()
+  {
+    $newArrivals = Product::with('image')->limit(4)->get();
+    return $newArrivals;
+  }
 }

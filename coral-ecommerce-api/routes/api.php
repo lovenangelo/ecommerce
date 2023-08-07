@@ -66,3 +66,4 @@ Route::resource('/orders', OrdersController::class);
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
 Route::get('/search', [ProductSearchController::class, 'search']);
+Route::get('/public/products/new-arrivals', [ProductController::class, 'newArrivals']);
