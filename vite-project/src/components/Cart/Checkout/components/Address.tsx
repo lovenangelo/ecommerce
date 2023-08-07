@@ -20,12 +20,23 @@ import {
 import { toast } from "@/components/ui/use-toast";
 import { createAddress } from "../checkout-api";
 import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { updateAddress } from "@/redux/slices/orderAddressSlice";
 
 const phoneRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
 );
 
 const zipCodeRegex = new RegExp(/^\d{4}$/);
+type Addresses = {
+  city: string;
+  fullname: string;
+  id: number;
+  mobile_number: string;
+  state: string;
+  street_address: string;
+  zip_code: string;
+}[];
 
 const FormSchema = z.object({
   fullname: z.string().min(2, {
@@ -38,9 +49,16 @@ const FormSchema = z.object({
   state: z.string().nonempty("Don't leave this field empty"),
 });
 
-const AddressForm = ({ onAddSuccess }: { onAddSuccess: () => void }) => {
+const AddressForm = ({
+  onAddSuccess,
+  setAddresses,
+}: {
+  onAddSuccess: () => void;
+  setAddresses?: React.Dispatch<React.SetStateAction<Addresses>>;
+}) => {
+  const dispatch = useAppDispatch();
   const [addressSaveLoading, setAddressSaveLoading] = useState(false);
-
+  const user = useAppSelector((state) => state.user.value);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -54,19 +72,26 @@ const AddressForm = ({ onAddSuccess }: { onAddSuccess: () => void }) => {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    try {
-      setAddressSaveLoading(true);
-      await createAddress(data);
-      form.reset();
-      toast({
-        title: "Address saved!",
-      });
-    } catch (error) {
-      toast({
-        title: "Cannot save address",
-      });
+    setAddressSaveLoading(true);
+    if (user !== null) {
+      try {
+        await createAddress(data);
+
+        toast({
+          title: "Address saved!",
+        });
+      } catch (error) {
+        toast({
+          title: "Cannot save address",
+        });
+      }
+      onAddSuccess();
     }
-    onAddSuccess();
+    if (user == null && setAddresses) {
+      setAddresses((prev) => [...prev, { ...data, id: 1 }]);
+      dispatch(updateAddress({ ...data, id: 1 }));
+      form.reset();
+    }
     setAddressSaveLoading(false);
   }
 
@@ -80,7 +105,7 @@ const AddressForm = ({ onAddSuccess }: { onAddSuccess: () => void }) => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="grid gap-4 grid-cols-2 rows-auto my-8"
+            className="grid grid-cols-1 sm:gap-4 sm:grid-cols-2 rows-auto my-8"
           >
             <FormField
               control={form.control}

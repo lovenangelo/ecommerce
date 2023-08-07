@@ -6,7 +6,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { useEffect, useState } from "react";
-import { Link, Redirect } from "wouter";
+import { Link } from "wouter";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import AddressForm from "./components/Address";
 import { useQuery } from "react-query";
@@ -31,7 +31,6 @@ const Index = () => {
   const user = useAppSelector((state) => state.user.value);
   const dispatch = useAppDispatch();
   const orderDetails = useAppSelector((state) => state.orderDetails.value);
-  console.log(useAppSelector((state) => state.orderDetails.value));
 
   const [isProcessingOrder, setIsProcessingOrder] = useState(false);
   const [addresses, setAddresses] = useState<
@@ -52,18 +51,22 @@ const Index = () => {
     return await getAddresses();
   };
 
-  const addressList = useQuery(["get-user-saved-addresses"], fetchAddress, {
-    retry: 2,
-    enabled: true,
-    onSuccess(data) {
-      setAddresses(data.data);
-      if (data.data.length !== 0) {
-        dispatch(updateAddress(data.data[pickedAddress]));
-      } else {
-        dispatch(updateAddress(null));
-      }
-    },
-  });
+  const addressList = useQuery(
+    ["get-user-saved-addresses", user],
+    fetchAddress,
+    {
+      retry: 2,
+      enabled: user !== null,
+      onSuccess(data) {
+        setAddresses(data.data);
+        if (data.data.length !== 0) {
+          dispatch(updateAddress(data.data[pickedAddress]));
+        } else {
+          dispatch(updateAddress(null));
+        }
+      },
+    }
+  );
 
   const refetch = addressList.refetch;
 
@@ -90,10 +93,6 @@ const Index = () => {
     setIsLoading(false);
     setDeleteDialogOpen(false);
   };
-
-  if (user == null) {
-    return <Redirect to="/auth" />;
-  }
 
   const items = orderDetails?.items.map((item, index) => (
     <CartItem
@@ -180,10 +179,9 @@ const Index = () => {
 
   return (
     <div className="container">
-      <div className="grid grid-cols-3 mt-8 gap-8 ">
+      <div className="grid sm:grid-cols-3 mt-8 gap-8 ">
         <div className="col-span-2 space-y-8 ">
           <h1 className="font-bold text-xl">Checkout</h1>
-
           {queryIsLoading ? (
             <div className="space-y-2">
               <Skeleton className="h-12 w-full" />
@@ -202,6 +200,7 @@ const Index = () => {
               onAddSuccess={() => {
                 refetch();
               }}
+              setAddresses={setAddresses}
             />
           )}
           <hr />

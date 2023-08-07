@@ -1,5 +1,5 @@
 export type Order = {
-  user_id: number;
+  user_id?: number;
   payment_method: string;
   total_amount: number;
   order_items: {

@@ -27,15 +27,12 @@ const SelectPaymentMethod = ({
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("card");
   const dispatch = useAppDispatch();
   const orderAddress = useAppSelector((state) => state.orderAddress.value);
-  const orderPaymentMethod = useAppSelector(
-    (state) => state.orderPaymentMethodReducer.value
-  );
   const orderDetails = useAppSelector((state) => state.orderDetails.value);
   const user = useAppSelector((state) => state.user.value);
   const placeOrderHandler = async () => {
+    console.log(orderAddress, orderDetails);
     setIsProcessingOrder(true);
-    console.log(orderAddress, orderDetails, orderPaymentMethod);
-    if (orderDetails == null || user == null || orderAddress == null) {
+    if (orderDetails == null || orderAddress == null) {
       toast({
         variant: "destructive",
         title: "Cannot proceed",
@@ -45,7 +42,6 @@ const SelectPaymentMethod = ({
       setIsProcessingOrder(false);
       return;
     }
-    console.log("passed");
     const order: Order = {
       user_id: user?.id,
       payment_method: paymentMethod,
@@ -58,6 +54,7 @@ const SelectPaymentMethod = ({
         title: "Processing order...",
       });
       await placeOrder(order);
+
       toast({
         title: "Successfull!",
       });
@@ -71,6 +68,7 @@ const SelectPaymentMethod = ({
         variant: "destructive",
         title: "Failed to place order",
       });
+      console.log(error);
     }
     setIsProcessingOrder(false);
   };
@@ -106,18 +104,20 @@ const SelectPaymentMethod = ({
           setIsProcessingOrder={setIsProcessingOrder}
         />
       )}{" "}
-      <div className="flex items-center space-x-2">
-        <RadioGroupItem disabled={isProcessingOrder} value="cod" id="cod" />
-        <Label
-          className={cn(
-            "flex items-center",
-            isProcessingOrder && "text-gray-400"
-          )}
-          htmlFor="cod"
-        >
-          Cash On Delivery (COD)
-        </Label>
-      </div>
+      {user !== null && (
+        <div className="flex items-center space-x-2">
+          <RadioGroupItem disabled={isProcessingOrder} value="cod" id="cod" />
+          <Label
+            className={cn(
+              "flex items-center",
+              isProcessingOrder && "text-gray-400"
+            )}
+            htmlFor="cod"
+          >
+            Cash On Delivery (COD)
+          </Label>
+        </div>
+      )}
       {paymentMethod == "cod" && (
         <Button
           disabled={isProcessingOrder}

@@ -62,7 +62,7 @@ export default function BraintreeDropIn({
   const onPaymentCompleted = async () => {
     setIsProcessingOrder(true);
     console.log(orderAddress, orderDetails, orderPaymentMethod);
-    if (orderDetails == null || user == null || orderAddress == null) {
+    if (orderDetails == null || orderAddress == null) {
       toast({
         variant: "destructive",
         title: "Cannot process order",

@@ -21,7 +21,8 @@ export const deleteAddress = async (id: number) => {
 };
 
 export const placeOrder = async (order: Order) => {
-  return await axiosClient.post("/api/orders", order);
+  const res = await axiosClient.post("/api/orders", order);
+  console.log(res);
 };
 
 export const getOrders = async () => {
