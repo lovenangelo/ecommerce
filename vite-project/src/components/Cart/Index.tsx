@@ -168,26 +168,28 @@ const Index = () => {
                 }
               }}
             />
-            <div className="flex row-span-3 w-24">
-              <Link
-                className="h-full"
-                to={`/products/${item.product.category}/${item.product.id}`}
-              >
-                {" "}
-                <LazyLoadImage
-                  width={"100%"}
-                  height={"100%"}
-                  src={`http://localhost:8000/${item.product.image.url}`}
-                  effect="opacity"
-                  alt="product image"
-                />
-              </Link>
-            </div>
-            <div className="space-y-2">
-              <h1 className="font-bold text-xl">{item.product.name}</h1>
-              <p className="h-24 font-normal text-ellipsis w-full">
-                {item.product.subtitle}
-              </p>
+            <div className="flex flex-col sm:flex-row space-x-4">
+              <div className="flex row-span-3 sm:w-24">
+                <Link
+                  className="h-full"
+                  to={`/products/${item.product.category}/${item.product.id}`}
+                >
+                  {" "}
+                  <LazyLoadImage
+                    width={"100%"}
+                    height={"100%"}
+                    src={`http://localhost:8000/${item.product.image.url}`}
+                    effect="opacity"
+                    alt="product image"
+                  />
+                </Link>
+              </div>
+              <div className="sm:space-y-2">
+                <h1 className="font-bold sm:text-xl">{item.product.name}</h1>
+                <p className="font-normal text-ellipsis sm:w-full">
+                  {item.product.subtitle}
+                </p>
+              </div>
             </div>
           </div>
         </TableCell>
@@ -211,10 +213,10 @@ const Index = () => {
               handleQuantityChange(index, newQuantity);
               quantityUpdateDebounce(item.id, item.quantity);
             }}
-            className="w-24"
+            className="w-16 sm:w-24"
           />
         </TableCell>
-        <TableCell className="align-top font-semibold">
+        <TableCell className="align-top font-semibold hidden sm:block">
           ${item.product.price * item.quantity}
         </TableCell>
         <TableCell className="flex p-2 justify-end">
@@ -250,13 +252,15 @@ const Index = () => {
       ) : (
         <div className=" grid grid-cols-1 sm:grid-cols-3 mt-4 gap-2 sm:gap-8">
           <div className="col-span-2 w-full row-auto rounded-lg border bg-gray-100">
-            <Table>
+            <Table className="w-full">
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[200px]">Product Name</TableHead>
+                  <TableHead className="w-max">Product Name</TableHead>
                   <TableHead>Price</TableHead>
                   <TableHead>Qty</TableHead>
-                  <TableHead>Subtotal</TableHead>
+                  <TableHead className="hidden sm:table-cell">
+                    Subtotal
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
