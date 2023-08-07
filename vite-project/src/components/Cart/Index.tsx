@@ -197,10 +197,16 @@ const Index = () => {
             disabled={quantityInputDisable[index]}
             type="number"
             defaultValue={item.quantity}
+            value={item.quantity}
             min={1}
             onChange={(event) => {
               const value = event.target.value;
-              const newQuantity = parseInt(value);
+              console.log(value);
+              const qty = parseInt(value == "" ? "1" : value);
+              let newQuantity = qty;
+              if (qty < 1) {
+                newQuantity = 1;
+              }
               item.quantity = newQuantity;
               handleQuantityChange(index, newQuantity);
               quantityUpdateDebounce(item.id, item.quantity);
@@ -213,6 +219,7 @@ const Index = () => {
         </TableCell>
         <TableCell className="flex p-2 justify-end">
           <Button
+            disabled={quantityInputDisable[index]}
             onClick={() => {
               removeCartItemHandler(item.id);
               setOrders(
