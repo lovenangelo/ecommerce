@@ -41,9 +41,8 @@ export default function BraintreeDropIn({
               authorization: "sandbox_hcctjjt8_b4knnxr55k9tmrds",
               container: "#braintree-drop-in-div",
             },
-            (error, instance) => {
-              if (error) console.error(error);
-              else setBraintreeInstance(instance);
+            (_error, instance) => {
+              setBraintreeInstance(instance);
             }
           );
       };
