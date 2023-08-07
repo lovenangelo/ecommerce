@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../store";
 
 interface OrderPaymentMethod {
   value: "cod" | "card";
@@ -21,7 +20,5 @@ export const orderPaymentSlice = createSlice({
 });
 
 export const { updatePaymentMethod } = orderPaymentSlice.actions;
-
-export const selectCount = (state: RootState) => state.user.value;
 
 export default orderPaymentSlice.reducer;

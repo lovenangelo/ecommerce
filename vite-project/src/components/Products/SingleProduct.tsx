@@ -12,22 +12,9 @@ import "react-lazy-load-image-component/src/effects/opacity.css";
 import { useState } from "react";
 import { addCartItem } from "../Cart/api/cartApi";
 import { toast } from "../ui/use-toast";
-type Product = {
-  brand: string;
-  category: string;
-  color: string;
-  description: string;
-  payment_options: string;
-  price: number;
-  quantity: number;
-  subtitle: string;
-  size: string;
-  image: {
-    url: string;
-  };
-  id: number;
-  name: string;
-};
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { updateItems } from "@/redux/slices/cartSlice";
+import { Product } from "./types/product-item";
 
 const SingleProduct = ({ id }: { id: string }) => {
   const [quantity, setQuantity] = useState(1);
@@ -37,7 +24,9 @@ const SingleProduct = ({ id }: { id: string }) => {
     const product: Product = res?.data;
     return product;
   };
-
+  const user = useAppSelector((state) => state.user.value);
+  const cartItems = useAppSelector((state) => state.userlessCartItems.value);
+  const dispatch = useAppDispatch();
   const { isLoading: fetchLoading, data } = useQuery(
     ["get-product-item", id],
     getProductItem,
@@ -53,18 +42,26 @@ const SingleProduct = ({ id }: { id: string }) => {
     }
   );
 
-  console.log(data);
-
   const addToCartHandler = async () => {
-    if (data)
+    setIsLoading(true);
+    if (data && user) {
       try {
-        setIsLoading(true);
         await addCartItem(data?.id, quantity);
         toast({ title: "Successfully added new item to your cart" });
       } catch (error) {
         console.log(error);
         toast({ title: "Failed to add item to your cart" });
       }
+    } else {
+      if (data)
+        dispatch(
+          updateItems([
+            ...cartItems,
+            { product: data, quantity: quantity, id: data.id.toString() },
+          ])
+        );
+      toast({ title: "Added new item to your cart" });
+    }
     setIsLoading(false);
   };
 

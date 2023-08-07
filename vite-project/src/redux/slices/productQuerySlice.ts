@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../store";
 
 interface ProductQuery {
   value: string;
@@ -24,7 +23,5 @@ export const productQuerySlice = createSlice({
 });
 
 export const { changeQuery, resetQuery } = productQuerySlice.actions;
-
-export const selectCount = (state: RootState) => state.user.value;
 
 export default productQuerySlice.reducer;

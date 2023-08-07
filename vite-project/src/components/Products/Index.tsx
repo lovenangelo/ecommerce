@@ -95,7 +95,7 @@ const Index = ({ category }: { category: string }) => {
             setSizesFilterValue={setSizesFilter}
           />
         </div>
-        <div className="col-span-4 sm:col-span-3 grid grid-flow-row grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-5 w-full space-y-2 sm:space-y-0">
+        <div className="col-span-4 sm:col-span-3 grid grid-flow-row grid-cols-1 rows-auto sm:grid-cols-3 gap-2 sm:gap-5 w-full space-y-2 sm:space-y-0">
           <div className="col-span-3 flex items-center justify-between w-full space-x-4">
             <p className="font-bold text-xs sm:text-sm w-1/4 sm:w-full">
               Showing {handbags.data?.data.current_page}-
@@ -122,7 +122,7 @@ const Index = ({ category }: { category: string }) => {
           {handbags.isLoading ? (
             <CardSkeleton />
           ) : items.length !== 0 ? (
-            <div className="flex flex-col">{items}</div>
+            items
           ) : (
             <div className="flex w-full col-span-4 h-24 items-center justify-center">
               <h1>No results</h1>

@@ -20,39 +20,48 @@ import { Link } from "wouter";
 import { useQuery } from "react-query";
 import { deleteCartItem, getCartItems, updateCartItem } from "./api/cartApi";
 import SkeletonLoading from "./Loaders/SkeletonLoading";
-import { ProductItem } from "../Products/types/product-item";
+import { Product } from "../Products/types/product-item";
 import { toast } from "../ui/use-toast";
 import { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Checkbox } from "../ui/checkbox";
 import debounce from "lodash.debounce";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { updateOrder } from "@/redux/slices/orderDetailsSlice";
+import { removeItem, updateItems } from "@/redux/slices/cartSlice";
 const Index = () => {
   const dispatch = useAppDispatch();
   const [subTotal, setSubTotal] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
-
+  const user = useAppSelector((state) => state.user.value);
+  const userlessCartItems = useAppSelector(
+    (state) => state.userlessCartItems.value
+  );
   // The state of cart items from fetch
   const [cartItems, setCartItems] = useState<
-    { product: ProductItem; quantity: number; id: string }[] | []
+    { product: Product; quantity: number; id: string }[] | []
   >([]);
 
   const fetchCartItems = async () => {
     return getCartItems();
   };
-  const cart = useQuery(["get-cart"], fetchCartItems, {
-    retry: 2,
-    enabled: true,
-    onSuccess(data) {
-      console.log(data.data.data);
 
+  const cart = useQuery(["get-cart", user], fetchCartItems, {
+    retry: 2,
+    enabled: user !== null,
+    onSuccess(data) {
       setCartItems(data.data.data);
     },
   });
 
   const remove = cart.remove;
+
+  useEffect(() => {
+    if (user == null) {
+      setCartItems(userlessCartItems);
+    }
+  }, [user, userlessCartItems]);
 
   useEffect(() => {
     return () => {
@@ -62,20 +71,44 @@ const Index = () => {
 
   // API DELETE Req cart item
   const removeCartItemHandler = async (id: string) => {
-    try {
-      await deleteCartItem(id);
-
-      toast({
-        title: "Succesfully removed item from your cart",
-      });
-      cart.refetch();
-    } catch (error) {
-      console.log(error);
-      toast({
-        title: "Failed to delete item",
-      });
+    if (user !== null) {
+      try {
+        await deleteCartItem(id);
+        toast({
+          title: "Succesfully removed item from your cart",
+        });
+        cart.refetch();
+      } catch (error) {
+        console.log(error);
+        toast({
+          title: "Failed to delete item",
+        });
+      }
+    } else {
+      dispatch(removeItem(id));
     }
   };
+
+  function handleDeleteButton(item: {
+    product: Product;
+    quantity: number;
+    id: string;
+  }) {
+    return () => {
+      removeCartItemHandler(item.id);
+      setOrders(
+        orders.filter((order) => {
+          return order.product_id !== item.product.id;
+        })
+      );
+      setSubTotal((prev) =>
+        prev ? prev - item.product.price * item.quantity : prev
+      );
+      setGrandTotal((prev) =>
+        prev ? prev - item.product.price * item.quantity : prev
+      );
+    };
+  }
 
   // API PUT req
   const updateCartItemHandler = async (id: string, quantity: number) => {
@@ -119,6 +152,7 @@ const Index = () => {
       }
       return item;
     });
+
     setCartItems(updatedData ?? []);
   };
 
@@ -209,9 +243,9 @@ const Index = () => {
               if (qty < 1) {
                 newQuantity = 1;
               }
-              item.quantity = newQuantity;
+              if (user !== null) item.quantity = newQuantity;
               handleQuantityChange(index, newQuantity);
-              quantityUpdateDebounce(item.id, item.quantity);
+              if (user !== null) quantityUpdateDebounce(item.id, item.quantity);
             }}
             className="w-16 sm:w-24"
           />
@@ -222,18 +256,7 @@ const Index = () => {
         <TableCell className="flex p-2 justify-end">
           <Button
             disabled={quantityInputDisable[index]}
-            onClick={() => {
-              removeCartItemHandler(item.id);
-              setOrders(
-                orders.filter((order) => {
-                  return order.product_id !== item.product.id;
-                })
-              );
-              setSubTotal((prev) => prev - item.product.price * item.quantity);
-              setGrandTotal(
-                (prev) => prev - item.product.price * item.quantity
-              );
-            }}
+            onClick={handleDeleteButton(item)}
             variant="ghost"
             className="text-red-700 w-12"
           >

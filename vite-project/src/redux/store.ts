@@ -8,11 +8,11 @@ import personalInformationTabReducer from "./slices/personalInformationTabSlice"
 import { persistStore, persistReducer } from "redux-persist";
 import thunk from "redux-thunk";
 import sessionStorage from "redux-persist/es/storage/session";
-
+import cartItemsReducer from "./slices/cartSlice";
 const persistConfig = {
   key: "root",
   storage: sessionStorage,
-  whitelist: ["user", "orderDetails"],
+  whitelist: ["user", "orderDetails", "userlessCartItems"],
 };
 
 const rootReducer = combineReducers({
@@ -22,6 +22,7 @@ const rootReducer = combineReducers({
   orderAddress: orderAddressReducer,
   orderPaymentMethodReducer: orderPaymentMethodReducer,
   personalInfoTab: personalInformationTabReducer,
+  userlessCartItems: cartItemsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
