@@ -105,11 +105,11 @@ const Navbar = () => {
   return (
     <nav className="container flex justify-between h-20 w-full items-center">
       <div className="flex items-center mr-2">
-        <Link className="h-max w-max md:h-full md:w-full" href="/">
+        <Link className="h-24 w-max md:h-full md:w-full" href="/">
           <LazyLoadImage
             src={logo}
             alt="logo"
-            className=" h-max w-max md:mr-8 mr-4 hover:cursor-pointer"
+            className="h-full w-max md:mr-8 mr-4 hover:cursor-pointer"
           />
         </Link>
         <ul className="list-none space-x-4 hidden lg:flex">{links}</ul>

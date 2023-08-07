@@ -71,8 +71,8 @@ const SingleProduct = ({ id }: { id: string }) => {
   if (fetchLoading) return <SingleProductSkeleton />;
   return (
     <div className="container">
-      <div className="grid grid-cols-1 md:grid-cols-2 rows-auto w-full h-full">
-        <div className="h-full w-full sm:p-8 rounded-md">
+      <div className="grid grid-cols-1 md:grid-cols-2 rows-auto w-full h-full ">
+        <div className="h-full sm:h-[calc(100vh-80px)] w-full sm:p-8 rounded-md">
           <LazyLoadImage
             height={"100%"}
             width={"100%"}
@@ -156,29 +156,60 @@ const SingleProduct = ({ id }: { id: string }) => {
               Add To Wishlist
             </Button>
           </div>
-          <hr />
-          <div></div>
+        </div>{" "}
+        <hr className="sm:col-span-2" />
+        <div className="h-48 hidden sm:block sm:px-8">
           <Tabs
             defaultValue="product-description"
-            className="w-full my-4 sm:my-8"
+            className="w-full my-4 sm:my-8 h-36 sm:h-full"
           >
-            <TabsList>
+            <TabsList className="h-max">
               <TabsTrigger value="product-description">Description</TabsTrigger>
+            </TabsList>
+            <TabsContent
+              className="h-full overflow-auto"
+              value="product-description"
+            >
+              {data?.description}
+            </TabsContent>
+          </Tabs>
+        </div>
+        <div className="h-48 sm:px-8">
+          <Tabs
+            defaultValue="related-products"
+            className="w-full my-4 sm:my-8 h-36 sm:h-full"
+          >
+            <TabsList className="h-max">
+              <TabsTrigger
+                className="block sm:hidden"
+                value="product-description"
+              >
+                Description
+              </TabsTrigger>
               <TabsTrigger value="related-products">Related</TabsTrigger>
               <TabsTrigger value="ratings-and-reviews">
                 Ratings and Reviews
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="product-description">
+            <TabsContent
+              className="h-full overflow-auto sm:hidden"
+              value="product-description"
+            >
               {data?.description}
             </TabsContent>
-            <TabsContent value="related-products">
+            <TabsContent
+              className="h-full overflove-auto"
+              value="related-products"
+            >
               Dolor augue mattis duis semper gravida enim eu imperdiet sit. Et
               pharetra platea pretium nec feugiat tincidunt quam leo tristique.
               Nulla enim consectetur sit et tempus, faucibus leo ac cras. Purus
               ut non eu mus volutpat.
             </TabsContent>
-            <TabsContent value="ratings-and-reviews">
+            <TabsContent
+              className="h-full overflow-auto"
+              value="ratings-and-reviews"
+            >
               Eget est vel sagittis amet sit eu eu ullamcorper tellus. Leo
               mauris, faucibus vulputate adipiscing elementum tristique dictumst
               augue pellentesque. Justo, sed nunc, pretium turpis scelerisque.
