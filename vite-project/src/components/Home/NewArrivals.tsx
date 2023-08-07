@@ -1,17 +1,12 @@
 import productsApi from "@/lib/api/products";
 import icons from "@/lib/icons";
 import { useQuery } from "react-query";
-import { Skeleton } from "../ui/skeleton";
 import { ProductItem } from "../Products/types/product-item";
 import ItemCard from "../Products/ItemCard";
+import CardSkeleton from "../Products/Loaders/CardSkeleton";
 const NewArrivals = () => {
   const axiosGetNewArrivals = async () => await productsApi.getNewArrivals();
   const newArrivals = useQuery("fetch-new-arrivals", axiosGetNewArrivals);
-
-  if (newArrivals.isLoading) {
-    return <Skeleton className="h-24" />;
-  }
-  console.log(newArrivals);
 
   const products = newArrivals.data?.data.map(
     (item: ProductItem, index: number) => {
@@ -43,7 +38,7 @@ const NewArrivals = () => {
       <div className="col-span-4 bg-primary h-2 w-full mt-12 hidden md:block" />
       <div className="col-span-6">
         <div className="grid grid-cols-1 rows-auto md:grid-cols-4 rows-auto gap-4 max-w-full mt-12 lg:mt-4">
-          {products}
+          {newArrivals.isLoading ? <CardSkeleton number={4} /> : products}
         </div>
       </div>
     </section>
