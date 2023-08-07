@@ -48,8 +48,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
   // Order
   Route::get('/order/address', [OrderAddressController::class, 'index']);
-  Route::post('/order/address', [OrderAddressController::class, 'store']);
   Route::delete('/order/address/{id}', [OrderAddressController::class, 'destroy']);
+  Route::post('/order/address', [OrderAddressController::class, 'store']);
 
   // Wishlist
   Route::post('/users/{id}/wishlist', [WishlistController::class, 'store']);

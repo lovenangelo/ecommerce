@@ -13,7 +13,8 @@ return new class extends Migration
   {
     Schema::create('orders', function (Blueprint $table) {
       $table->id();
-      $table->foreignId('user_id')->constrained();
+      $table->string('transaction_number')->unique();
+      $table->foreignId('user_id')->nullable()->constrained();
       $table->foreignId('order_address_id')->constrained();
       $table->decimal('total_amount');
       $table->enum('status', ['processing', 'cancelled', 'completed'])->default('processing');
