@@ -16,7 +16,7 @@ const initialState: OrderDetails = {
 };
 
 export const orderDetailsSlice = createSlice({
-  name: "productQuery",
+  name: "orderDetails",
   initialState,
   reducers: {
     updateOrder: (

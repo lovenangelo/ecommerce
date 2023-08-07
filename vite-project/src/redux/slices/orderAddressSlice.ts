@@ -21,7 +21,7 @@ const initialState: OrderAddress = {
 };
 
 export const orderDetailsSlice = createSlice({
-  name: "productQuery",
+  name: "orderAddress",
   initialState,
   reducers: {
     updateAddress: (state, action: PayloadAction<Address | null>) => {
