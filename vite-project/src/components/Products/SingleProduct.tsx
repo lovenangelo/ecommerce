@@ -145,13 +145,15 @@ const SingleProduct = ({ id }: { id: string }) => {
                 </span>
               )}
             </Button>{" "}
-            <Button
-              className="text-xs whitespace-nowrap"
-              disabled={isLoading}
-              variant={"outline"}
-            >
-              Add To Wishlist
-            </Button>
+            {user && (
+              <Button
+                className="text-xs whitespace-nowrap"
+                disabled={isLoading}
+                variant={"outline"}
+              >
+                Add To Wishlist
+              </Button>
+            )}
           </div>
         </div>{" "}
         <hr className="sm:col-span-2" />

@@ -70,9 +70,28 @@ const Navbar = () => {
         title: "Login to your account",
         description: "You need to log in to post a product.",
       });
-      setLocation("/auth");
+      if (location !== "/auth") {
+        setLocation("/auth");
+      }
     }
     setLocation("/sell");
+  };
+
+  const handleUnauthorizedWishlistPageNavigation = () => {
+    if (!user) {
+      if (location !== "/auth") {
+        setLocation("/auth");
+      }
+      toast({
+        variant: "destructive",
+        title: "Login to your account",
+        description: "You need to log in to save a wishlist",
+      });
+      console.log(location);
+    } else {
+      dispatch(changeTab("MY-WISHLIST"));
+      setLocation("/profile");
+    }
   };
 
   const loginButton = (
@@ -112,7 +131,9 @@ const Navbar = () => {
     <nav
       className={cn(
         "container flex justify-between h-20 w-full items-center border-b mb-4",
-        location == "/auth" || (location == "/sell" && "mb-0")
+        location == "/auth" && "mb-0",
+        location == "/sell" && "mb-0",
+        location.startsWith("/products") && "mb-0"
       )}
     >
       <div className="flex items-center mr-2">
@@ -135,10 +156,7 @@ const Navbar = () => {
         <Search />
         <div className="hidden lg:flex">
           <Button
-            onClick={() => {
-              dispatch(changeTab("MY-WISHLIST"));
-              setLocation("/profile");
-            }}
+            onClick={handleUnauthorizedWishlistPageNavigation}
             variant={"ghost"}
           >
             <Icons.nav.favorites />

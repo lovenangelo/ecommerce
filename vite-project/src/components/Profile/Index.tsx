@@ -33,7 +33,7 @@ const Index = () => {
   }
 
   return (
-    <div className="container py-4 min-h-screen border-t-2">
+    <div className="container py-4 min-h-screen">
       <div className="flex space-x-4 justify-between items-center">
         <h1 className="text-sm lg:text-2xl font-bold text-[#17494D]">
           PROFILE
@@ -64,7 +64,6 @@ const Index = () => {
           </SelectContent>
         </Select>
       </div>
-
       <div className="grid grid-cols-4 gap-5 mt-2">
         <div className="hidden md:flex md:flex-col col-span-1 bg-gray-50 py-5 px-2 w-full">
           <Button

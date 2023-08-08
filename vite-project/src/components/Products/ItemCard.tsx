@@ -167,9 +167,11 @@ const ItemCard = ({
             <Ratings starCount={ratings?.stars ?? 5} reviewCount={60} />
           </div>
         </div>
-        <button onClick={handleAddToWishlist}>
-          <Icons.nav.favorites color="black" className="hover:fill-red-300" />
-        </button>
+        {user && (
+          <button onClick={handleAddToWishlist}>
+            <Icons.nav.favorites color="black" className="hover:fill-red-300" />
+          </button>
+        )}
       </CardFooter>
     </Card>
   );
