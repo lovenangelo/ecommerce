@@ -29,7 +29,7 @@ const HandPickedCollections = () => {
     );
   });
   return (
-    <section className="py-5 md:py-12 bg-[#1B4B66] space-y-4 overflow-hidden flex flex-col justify-center container mt-12">
+    <section className="py-5 md:py-12 bg-[#1B4B66] space-y-4 overflow-hidden flex flex-col justify-center container mt-8">
       <h1 className="font-semibold text-2xl text-primary-foreground">
         Handpicked Collections
       </h1>
