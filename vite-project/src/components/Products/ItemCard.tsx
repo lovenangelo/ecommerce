@@ -87,7 +87,7 @@ const ItemCard = ({
   };
 
   return (
-    <Card className="grid grid-cols-1 rows-auto h-[416px]">
+    <Card className="transition ease-in-out delay-100 ring-[#17494D] hover:ring-2 hover:-translate-y-1 hover:shadow-lg duration-300 grid grid-cols-1 rows-auto h-[416px]">
       <CardHeader className={cn("h-24 w-full ")}>
         <div className="flex justify-between items-start">
           <CardTitle>{title}</CardTitle>

@@ -5,7 +5,7 @@ const Brands = () => {
   const logos = images.brands.map((brand, index) => {
     return (
       <Link to="/products/apparels" key={index}>
-        <div className="hover:cursor-pointer flex justify-center items-center rounded-md bg-[#F4F4F4] h-24 w-24 p-5">
+        <div className="transition ease-in delay-75 duration-200 ring-[#17494D] hover:ring-2  hover:cursor-pointer flex justify-center items-center rounded-md bg-[#F4F4F4] h-24 w-24 p-5">
           <img src={brand} alt={brand} />
         </div>
       </Link>
@@ -24,7 +24,7 @@ const Brands = () => {
         >
           <img
             src={images.makeupBg}
-            className="w-full rounded-md"
+            className="w-full rounded-md transition ease-in delay-75 duration-200 ring-[#17494D] hover:ring-2"
             alt="makeup background"
           />
 
@@ -38,7 +38,7 @@ const Brands = () => {
         <Link to="/products/skincare" className="flex justify-end items-center">
           <img
             src={images.creamBg}
-            className="rounded-md w-full h-full"
+            className="transition ease-in delay-75 duration-200 ring-[#17494D] hover:ring-2 rounded-md w-full h-full"
             alt="cream background"
           />
           <div className="absolute text-[#A53F64]">
@@ -55,7 +55,7 @@ const Brands = () => {
         >
           <img
             src={images.skincareBg}
-            className="rounded-md w-full h-full"
+            className="rounded-md w-full h-full transition ease-in delay-75 duration-200 ring-[#17494D] hover:ring-2"
             alt="skin care background"
           />
           <div className="absolute">

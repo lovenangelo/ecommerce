@@ -28,11 +28,13 @@ const NewArrivals = () => {
   );
 
   return (
-    <section className="container w-full mt-8 lg:mt-4 grid grid-cols-1 rows-auto md:grid-cols-6 lg:grid-row-2 lg:min-h-screen">
+    <section className="container w-full mt-8 lg:mt-10 grid grid-cols-1 rows-auto md:grid-cols-6 lg:grid-row-2 lg:min-h-screen">
       <div className="justify-start items-start col-span-2 h-max">
         <div className="flex items-center justify-start lg:h-max">
-          <icons.arrowDown className="h-36 w-36 md:h-24 md:w-24" />
-          <h1 className="font-bold text-5xl">New Arrivals</h1>
+          <icons.arrowDown className="animate-bounce h-32 w-32 md:h-24 md:w-24" />
+          <h1 className="transition-opacity font-bold text-5xl">
+            New Arrivals
+          </h1>
         </div>
       </div>
       <div className="col-span-4 bg-primary h-2 w-full mt-12 hidden md:block" />
