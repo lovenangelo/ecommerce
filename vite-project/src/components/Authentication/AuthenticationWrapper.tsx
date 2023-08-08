@@ -1,5 +1,4 @@
 import { Button } from "../ui/button";
-import authImage from "@/assets/images/bg/auth-bg.jpg";
 import LoginForm from "./LoginForm";
 import { useState } from "react";
 import RegistrationForm from "./RegistrationForm";
@@ -8,6 +7,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/opacity.css";
 import { cn } from "@/lib/utils";
+import images from "@/lib/images";
 const Authentication = () => {
   const user = useAppSelector((state) => state.user.value);
 
@@ -21,7 +21,7 @@ const Authentication = () => {
       <div className="hidden lg:flex lg:h-screen h-full w-full">
         <LazyLoadImage
           effect="opacity"
-          src={authImage}
+          src={images.authImage}
           alt="wardrobe"
           className="w-full h-full object-cover"
         />
