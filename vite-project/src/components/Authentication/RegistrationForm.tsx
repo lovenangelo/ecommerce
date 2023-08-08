@@ -66,6 +66,7 @@ const RegistrationForm = () => {
           email: res.data.email,
           avatar: res.data.avatar,
           id: res.data.id,
+          remember_me: false,
         })
       );
     } catch (error) {
@@ -83,7 +84,10 @@ const RegistrationForm = () => {
 
   return (
     <Form {...form}>
-      <form className="w-full space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        className="w-full sm:space-y-2 space-y-4"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
         <FormField
           control={form.control}
           name="name"

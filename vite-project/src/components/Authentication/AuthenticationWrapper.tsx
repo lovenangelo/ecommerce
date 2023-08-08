@@ -18,7 +18,7 @@ const Authentication = () => {
   }
   return (
     <div className="grid grid-cols-1 grid-rows-4 lg:grid-rows-1 lg:grid-cols-2 w-full md:h-screen lg:h-full">
-      <div className="hidden lg:flex lg:h-screen h-full w-full">
+      <div className="hidden lg:flex h-full sm:h-[calc(100vh-80px)] w-full">
         <LazyLoadImage
           effect="opacity"
           src={images.authImage}
@@ -29,8 +29,8 @@ const Authentication = () => {
       <div
         className={cn(
           "row-span-3 flex flex-col justify-center items-center w-full",
-          authType == "REGISTER" && "mt-8",
-          authType == "LOGIN" && "mt-16"
+          authType == "REGISTER" && "mt-8 sm:mt-4",
+          authType == "LOGIN" && "mt-16 sm:mt-0"
         )}
       >
         <div className="px-12 h-full w-full lg:w-96 flex flex-col justify-center items-center">

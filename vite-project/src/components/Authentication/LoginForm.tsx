@@ -54,6 +54,7 @@ const LoginForm = () => {
           email: res.data.email,
           avatar: res.data.avatar,
           id: res.data.id,
+          remember_me: data.keep_me_signed_in,
         })
       );
     } catch (error) {

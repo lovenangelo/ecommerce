@@ -6,6 +6,7 @@ type User = {
   name: string;
   email: string;
   avatar: string | null;
+  remember_me: boolean;
 } | null;
 
 // Define a type for the slice state

@@ -50,9 +50,9 @@ const Navbar = () => {
     dispatch(removeUser());
     try {
       setIsLoading(true);
+      await persistor.purge();
       await axiosClient.get("/sanctum/csrf-cookie");
       await axiosClient.post("/logout");
-      persistor.purge();
     } catch (error) {
       console.log(error);
     }

@@ -7,11 +7,11 @@ import orderPaymentMethodReducer from "./slices/orderPaymentMethodSlice";
 import personalInformationTabReducer from "./slices/personalInformationTabSlice";
 import { persistStore, persistReducer } from "redux-persist";
 import thunk from "redux-thunk";
-import storageSession from "redux-persist/lib/storage/session";
+import storage from "redux-persist/lib/storage";
 import cartItemsReducer from "./slices/cartSlice";
 const persistConfig = {
   key: "root",
-  storage: storageSession,
+  storage,
   whitelist: ["user", "orderDetails", "userlessCartItems"],
 };
 

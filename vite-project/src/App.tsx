@@ -13,10 +13,27 @@ import Checkout from "@/components/Cart/Checkout/Index";
 import Sell from "@/components/Sell/Index";
 import { Suspense, lazy } from "react";
 import NotFoundPage from "@/components/404/Index";
-
+import { useBeforeunload } from "react-beforeunload";
+import { useAppDispatch, useAppSelector } from "./redux/hooks";
+import { removeUser } from "./redux/slices/userSlice";
+import { persistor } from "./redux/store";
+import axiosClient from "./lib/axios";
 const LazyFooter = lazy(() => import("@/components/Home/Footer"));
 
 function App() {
+  const user = useAppSelector((state) => state.user.value);
+  const dispatch = useAppDispatch();
+  const handleAuthState = async () => {
+    if (user && !user.remember_me) {
+      dispatch(removeUser());
+      await persistor.purge();
+      await axiosClient.get("/sanctum/csrf-cookie");
+      await axiosClient.post("/logout");
+    }
+  };
+
+  useBeforeunload(handleAuthState);
+
   return (
     <div className="h-full w-full">
       <Navbar />
