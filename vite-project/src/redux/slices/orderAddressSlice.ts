@@ -26,9 +26,12 @@ export const orderDetailsSlice = createSlice({
     updateAddress: (state, action: PayloadAction<Address | null>) => {
       state.value = action.payload;
     },
+    resetOrderAddress: (state) => {
+      state.value = null;
+    },
   },
 });
 
-export const { updateAddress } = orderDetailsSlice.actions;
+export const { updateAddress, resetOrderAddress } = orderDetailsSlice.actions;
 
 export default orderDetailsSlice.reducer;

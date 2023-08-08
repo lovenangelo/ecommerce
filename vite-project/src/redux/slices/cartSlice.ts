@@ -28,12 +28,12 @@ export const cartSlice = createSlice({
     updateItems: (state, action: PayloadAction<CartItem[] | []>) => {
       state.value = action.payload;
     },
-    reset: (state) => {
+    resetCartItemList: (state) => {
       state.value = [];
     },
   },
 });
 
-export const { removeItem, updateItems, reset } = cartSlice.actions;
+export const { removeItem, updateItems, resetCartItemList } = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -22,6 +22,9 @@ import Search from "./Search";
 import { changeTab } from "@/redux/slices/personalInformationTabSlice";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { toast } from "./ui/use-toast";
+import { resetCartItemList } from "@/redux/slices/cartSlice";
+import { resetOrderAddress } from "@/redux/slices/orderAddressSlice";
+import { resetOrderDetails } from "@/redux/slices/orderDetailsSlice";
 
 const Navbar = () => {
   const user = useAppSelector((state) => state.user.value);
@@ -51,6 +54,9 @@ const Navbar = () => {
       setIsLoading(true);
       await axiosClient.get("/sanctum/csrf-cookie");
       await axiosClient.post("/logout");
+      dispatch(resetCartItemList());
+      dispatch(resetOrderAddress());
+      dispatch(resetOrderDetails());
     } catch (error) {
       console.log(error);
     }

@@ -28,12 +28,12 @@ export const orderDetailsSlice = createSlice({
     ) => {
       state.value = action.payload;
     },
-    resetOrder: (state) => {
+    resetOrderDetails: (state) => {
       state.value = null;
     },
   },
 });
 
-export const { updateOrder, resetOrder } = orderDetailsSlice.actions;
+export const { updateOrder, resetOrderDetails } = orderDetailsSlice.actions;
 
 export default orderDetailsSlice.reducer;

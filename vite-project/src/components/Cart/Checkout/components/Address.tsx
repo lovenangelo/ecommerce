@@ -90,8 +90,8 @@ const AddressForm = ({
     if (user == null && setAddresses) {
       setAddresses((prev) => [...prev, { ...data, id: 1 }]);
       dispatch(updateAddress({ ...data, id: 1 }));
-      form.reset();
     }
+    form.reset();
     setAddressSaveLoading(false);
   }
 

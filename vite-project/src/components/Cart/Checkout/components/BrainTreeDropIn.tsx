@@ -7,7 +7,7 @@ import { Order } from "../order-type";
 import { placeOrder } from "../checkout-api";
 import { updatePaymentMethod } from "@/redux/slices/orderPaymentMethodSlice";
 import { changeTab } from "@/redux/slices/personalInformationTabSlice";
-import { resetOrder } from "@/redux/slices/orderDetailsSlice";
+import { resetOrderDetails } from "@/redux/slices/orderDetailsSlice";
 import { updateAddress } from "@/redux/slices/orderAddressSlice";
 import { useLocation } from "wouter";
 
@@ -89,7 +89,7 @@ export default function BraintreeDropIn({
       });
       dispatch(updatePaymentMethod("card"));
       dispatch(changeTab("MY-ORDERS"));
-      dispatch(resetOrder());
+      dispatch(resetOrderDetails());
       dispatch(updateAddress(null));
       setLocation("/profile");
     } catch (error) {
