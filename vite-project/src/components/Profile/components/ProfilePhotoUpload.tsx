@@ -8,7 +8,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import axiosClient from "@/lib/axios";
 import { useAppDispatch } from "@/redux/hooks";
 import { removeUser, updateAvatar } from "@/redux/slices/userSlice";
-
+import imageCompression from "browser-image-compression";
+const options = {
+  maxSizeMB: 1,
+  maxWidthOrHeight: 1920,
+  useWebWorker: true,
+};
 export default function PhotoUploadDialog() {
   const dispatch = useAppDispatch();
 
@@ -16,9 +21,18 @@ export default function PhotoUploadDialog() {
   const [isLoading, setIsLoading] = useState(false);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files && event.target.files[0];
-    setSelectedFile(file || null);
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const imageFile = event.target.files && event.target.files[0];
+    if (imageFile !== null) {
+      try {
+        const compressedFile = await imageCompression(imageFile, options);
+        setSelectedFile(compressedFile);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
@@ -30,10 +44,17 @@ export default function PhotoUploadDialog() {
     setIsDraggingOver(false);
   };
 
-  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    const file = event.dataTransfer.files && event.dataTransfer.files[0];
-    if (selectedFile !== null) setSelectedFile(file || null);
+    const imageFile = event.dataTransfer.files && event.dataTransfer.files[0];
+    if (imageFile !== null) {
+      try {
+        const compressedFile = await imageCompression(imageFile, options);
+        setSelectedFile(compressedFile);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   const handleUpload = async () => {
