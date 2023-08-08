@@ -111,11 +111,8 @@ const SingleProduct = ({ id }: { id: string }) => {
               <p className="text-[#626262]">
                 Check estimated delivery date/pickup option.
               </p>
-              {/* <p>Payment options: {data?.delivery_options}</p> */}
               <div className="flex space-x-1">
-                <p>Payment options: </p>{" "}
-                {/* {!!data?.payment_options.card && <span>Card,</span>}
-                {!!data?.payment_options.cod && <span> Cash On Delivery,</span>} */}
+                <p>Payment options: </p> <span>{data?.payment_options}</span>
               </div>
             </div>
             <Coupon />
@@ -124,7 +121,9 @@ const SingleProduct = ({ id }: { id: string }) => {
             <p className="font-bold">Quantity:</p>
             <div className="border-2 flex space-x-2 justify-center items-center ">
               <Button
-                onClick={() => setQuantity((prev) => (prev -= 1))}
+                onClick={() =>
+                  setQuantity((prev) => (prev > 1 ? (prev -= 1) : 1))
+                }
                 variant={"ghost"}
               >
                 <Icons.minusIcon className="h-4 w-4" />
