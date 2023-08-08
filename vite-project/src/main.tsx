@@ -7,7 +7,7 @@ import { store, persistor } from "./redux/store.ts";
 import { PersistGate } from "redux-persist/integration/react";
 import { Toaster } from "./components/ui/toaster";
 import { QueryClient, QueryClientProvider } from "react-query";
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>

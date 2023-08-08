@@ -22,9 +22,7 @@ import Search from "./Search";
 import { changeTab } from "@/redux/slices/personalInformationTabSlice";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { toast } from "./ui/use-toast";
-import { resetCartItemList } from "@/redux/slices/cartSlice";
-import { resetOrderAddress } from "@/redux/slices/orderAddressSlice";
-import { resetOrderDetails } from "@/redux/slices/orderDetailsSlice";
+import { persistor } from "@/redux/store";
 
 const Navbar = () => {
   const user = useAppSelector((state) => state.user.value);
@@ -54,9 +52,7 @@ const Navbar = () => {
       setIsLoading(true);
       await axiosClient.get("/sanctum/csrf-cookie");
       await axiosClient.post("/logout");
-      dispatch(resetCartItemList());
-      dispatch(resetOrderAddress());
-      dispatch(resetOrderDetails());
+      persistor.purge();
     } catch (error) {
       console.log(error);
     }
@@ -131,9 +127,10 @@ const Navbar = () => {
     <nav
       className={cn(
         "container flex justify-between h-20 w-full items-center border-b mb-4",
+        location == "/" && "border-0",
         location == "/auth" && "mb-0",
         location == "/sell" && "mb-0",
-        location.startsWith("/my-products/edit") && "mb-0",
+        location.startsWith("/my-prodiucts/edit") && "mb-0",
         location.startsWith("/products") && "mb-0"
       )}
     >

@@ -6,7 +6,7 @@ import { Link } from "wouter";
 const HandPickedCollections = () => {
   const collections = images.collections.map((collection, index) => {
     return (
-      <Link to="/products/watches">
+      <Link key={index} to="/products/watches">
         <Card
           className="h-70 w-70 overflow-hidden hover:cursor-pointer"
           key={index}
