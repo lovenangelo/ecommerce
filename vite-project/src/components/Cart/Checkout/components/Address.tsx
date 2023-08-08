@@ -96,16 +96,16 @@ const AddressForm = ({
   }
 
   return (
-    <Collapsible>
+    <Collapsible className="w-full">
       <CollapsibleTrigger className="font-bold flex">
         <p>Add New Address</p>
         <Icons.chevronDownIcon />
       </CollapsibleTrigger>
-      <CollapsibleContent>
+      <CollapsibleContent className="w-full">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="grid grid-cols-1 sm:gap-4 sm:grid-cols-2 rows-auto my-8"
+            className="grid grid-cols-1 sm:gap-4 sm:grid-cols-2 rows-auto my-2 sm:my-8 w-full space-y-2 sm:space-y-0"
           >
             <FormField
               control={form.control}
@@ -114,7 +114,12 @@ const AddressForm = ({
                 <FormItem>
                   <FormLabel>Fullname</FormLabel>
                   <FormControl>
-                    <Input {...field} type="text" placeholder="Enter Name" />
+                    <Input
+                      className="w-full"
+                      {...field}
+                      type="text"
+                      placeholder="Enter Name"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -210,7 +215,7 @@ const AddressForm = ({
                 </FormItem>
               )}
             />
-            <div className="w-full col-span-4 justify-end flex">
+            <div className="w-full sm:col-span-4 justify-end flex">
               <Button className="w-max justify-end flex" type="submit">
                 Save
                 {addressSaveLoading && (

@@ -107,7 +107,10 @@ const Index = () => {
 
   const addressOptions = addresses.map((address, index) => {
     return (
-      <div key={index} className="flex justify-start items-center space-x-2">
+      <div
+        key={index}
+        className="flex justify-start items-center space-x-2 w-full"
+      >
         <Checkbox
           disabled={isProcessingOrder}
           checked={pickedAddress == index}
@@ -120,7 +123,7 @@ const Index = () => {
         />
         <div
           className={cn(
-            "flex p-2 border-2 rounded-lg space-x-1",
+            "flex flex-wrap p-2 border-2 rounded-lg sm:space-x-1",
             isProcessingOrder && "text-gray-400"
           )}
         >
@@ -181,7 +184,7 @@ const Index = () => {
   return (
     <div className="container">
       <div className="grid sm:grid-cols-3 mt-8 gap-8 ">
-        <div className="col-span-2 space-y-8 ">
+        <div className="sm:col-span-2 space-y-8 ">
           <h1 className="font-bold text-xl">Checkout</h1>
           {queryIsLoading ? (
             <div className="space-y-2">
@@ -229,7 +232,7 @@ const Index = () => {
           <h1 className="font-bold">Order Summary</h1>
           <hr className="mt-4" />
           <div className="w-full h-full space-y-4 mt-4 overflow-auto grid-cols-1 grid-rows-2">
-            <div className="overflow-auto grid grid-cols-1 row-auto h-64 w-full gap-4 p-4">
+            <div className="overflow-auto flex flex-col flex-wrap row-auto w-full gap-4 p-4">
               {items}
             </div>
             <div className="col-span-1 h-max bg-gray-100 p-5">
