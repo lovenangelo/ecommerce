@@ -41,18 +41,12 @@ const Index = ({ category }: { category: string }) => {
   });
 
   const refetch = handbags.refetch;
-  const removeQuery = handbags.remove;
+
   useEffect(() => {
     if (currentCategory !== category) {
       setCurrentCategory(category);
     }
   }, [category, currentCategory]);
-
-  useEffect(() => {
-    return () => {
-      removeQuery();
-    };
-  }, [removeQuery]);
 
   useEffect(() => {
     refetch();

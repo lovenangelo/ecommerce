@@ -28,8 +28,6 @@ const MyWishlist = () => {
 
   const refetch = wishlistQuery.refetch;
 
-  const removeQuery = wishlistQuery.remove;
-
   useEffect(() => {
     if (removedAnItem) {
       refetch();
@@ -38,11 +36,6 @@ const MyWishlist = () => {
     setRemovedAnItem(false);
   }, [removedAnItem, refetch]);
 
-  useEffect(() => {
-    return () => {
-      removeQuery();
-    };
-  }, [removeQuery]);
   const items = wishlist.map((item: WishlistItem, index: number) => (
     <div key={index}>
       <ItemCard

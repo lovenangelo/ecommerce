@@ -5,7 +5,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "wouter";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import AddressForm from "./components/Address";
@@ -71,14 +71,7 @@ const Index = () => {
 
   const refetch = addressList.refetch;
 
-  const removeQuery = addressList.remove;
   const queryIsLoading = addressList.isLoading;
-
-  useEffect(() => {
-    return () => {
-      removeQuery();
-    };
-  }, [removeQuery]);
 
   const handleDeleteAddress = async () => {
     try {

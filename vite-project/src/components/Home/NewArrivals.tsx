@@ -4,17 +4,9 @@ import { useQuery } from "react-query";
 import { ProductItem } from "../Products/types/product-item";
 import ItemCard from "../Products/ItemCard";
 import CardSkeleton from "../Products/Loaders/CardSkeleton";
-import { useEffect } from "react";
 const NewArrivals = () => {
   const axiosGetNewArrivals = async () => await productsApi.getNewArrivals();
   const newArrivals = useQuery("fetch-new-arrivals", axiosGetNewArrivals);
-  const removeQuery = newArrivals.remove;
-
-  useEffect(() => {
-    return () => {
-      removeQuery();
-    };
-  }, [removeQuery]);
 
   const products = newArrivals.data?.data.map(
     (item: ProductItem, index: number) => {
