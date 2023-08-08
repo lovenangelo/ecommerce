@@ -37,8 +37,15 @@ import { useQuery } from "react-query";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import SkeletonLoading from "./skeleton";
 import formSchema, { schemaDefaultValues } from "./schema";
+import imageCompression from "browser-image-compression";
 
-// If id is not null, the user is using form to edit
+const options = {
+  maxSizeMB: 1,
+  maxWidthOrHeight: 1920,
+  useWebWorker: true,
+};
+
+// If id !== null, the user is using form to edit
 const SellForm = ({ id }: { id?: string }) => {
   const user = useAppSelector((state) => state.user.value);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -91,11 +98,18 @@ const SellForm = ({ id }: { id?: string }) => {
     return <Redirect to="/auth" />;
   }
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files && event.target.files[0];
-    console.log(file);
-
-    setSelectedFile(file || null);
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const imageFile = event.target.files && event.target.files[0];
+    if (imageFile !== null) {
+      try {
+        const compressedFile = await imageCompression(imageFile, options);
+        setSelectedFile(compressedFile);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   type FormSchemaType = z.infer<typeof formSchema>;
