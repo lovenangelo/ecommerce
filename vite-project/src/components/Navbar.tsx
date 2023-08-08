@@ -28,7 +28,7 @@ import { resetOrderDetails } from "@/redux/slices/orderDetailsSlice";
 
 const Navbar = () => {
   const user = useAppSelector((state) => state.user.value);
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
   const name = user?.name.split(" ");
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -109,7 +109,12 @@ const Navbar = () => {
   );
 
   return (
-    <nav className="container flex justify-between h-20 w-full items-center border-b mb-4">
+    <nav
+      className={cn(
+        "container flex justify-between h-20 w-full items-center border-b mb-4",
+        location == "/auth" || (location == "/sell" && "mb-0")
+      )}
+    >
       <div className="flex items-center mr-2">
         <Link className="h-24 w-max md:h-full md:w-full" href="/">
           <LazyLoadImage
