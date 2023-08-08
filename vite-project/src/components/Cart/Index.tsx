@@ -120,7 +120,7 @@ const Index = () => {
       (id: string, value: number) => {
         updateCartItemHandler(id, value);
       },
-      1000,
+      2000,
       { leading: false, trailing: true }
     )
   );
@@ -223,6 +223,9 @@ const Index = () => {
                 <p className="font-normal text-ellipsis sm:w-full">
                   {item.product.subtitle}
                 </p>
+                <p className="font-normal text-ellipsis sm:w-full">
+                  Stocks: {item.product.quantity}
+                </p>
               </div>
             </div>
           </div>
@@ -230,6 +233,7 @@ const Index = () => {
         <TableCell className="align-top">${item.product.price}</TableCell>
         <TableCell className="align-top">
           <Input
+            max={item.product.quantity}
             disabled={quantityInputDisable[index]}
             type="number"
             defaultValue={item.quantity}
@@ -237,14 +241,16 @@ const Index = () => {
             min={1}
             onChange={(event) => {
               const value = event.target.value;
-              console.log(value);
               const qty = parseInt(value == "" ? "1" : value);
               let newQuantity = qty;
               if (qty < 1) {
                 newQuantity = 1;
               }
-              if (user !== null) item.quantity = newQuantity;
+              if (qty > item.product.quantity) {
+                newQuantity = item.product.quantity;
+              }
               handleQuantityChange(index, newQuantity);
+              if (user !== null) item.quantity = newQuantity;
               if (user !== null) quantityUpdateDebounce(item.id, item.quantity);
             }}
             className="w-16 sm:w-24"
@@ -268,7 +274,7 @@ const Index = () => {
   });
 
   return (
-    <div className="container border-t-2">
+    <div className="container">
       <h1 className="font-bold text-xl mt-4">My Cart</h1>
       {cart.isLoading ? (
         <SkeletonLoading />
