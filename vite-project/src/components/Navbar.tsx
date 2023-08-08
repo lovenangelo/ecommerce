@@ -103,7 +103,7 @@ const Navbar = () => {
   );
 
   return (
-    <nav className="container flex justify-between h-20 w-full items-center">
+    <nav className="container flex justify-between h-20 w-full items-center border-b mb-4">
       <div className="flex items-center mr-2">
         <Link className="h-24 w-max md:h-full md:w-full" href="/">
           <LazyLoadImage
