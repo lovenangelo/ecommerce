@@ -18,7 +18,7 @@ const MyProducts = () => {
   });
 
   const refetch = products.refetch;
-
+  const removeQuery = products.remove;
   useEffect(() => {
     if (deletedAProduct) {
       refetch();
@@ -26,6 +26,12 @@ const MyProducts = () => {
     // Reset the state
     setDeletedAProduct(false);
   }, [deletedAProduct, refetch]);
+
+  useEffect(() => {
+    return () => {
+      removeQuery();
+    };
+  }, [removeQuery]);
 
   const items = products.data?.data.data.map(
     (item: ProductItem, index: number) => (

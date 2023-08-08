@@ -9,7 +9,7 @@ import SingleProductSkeleton from "./Loaders/SingleProductSkeleton";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import "react-lazy-load-image-component/src/effects/opacity.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { addCartItem } from "../Cart/api/cartApi";
 import { toast } from "../ui/use-toast";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -27,20 +27,26 @@ const SingleProduct = ({ id }: { id: string }) => {
   const user = useAppSelector((state) => state.user.value);
   const cartItems = useAppSelector((state) => state.userlessCartItems.value);
   const dispatch = useAppDispatch();
-  const { isLoading: fetchLoading, data } = useQuery(
-    ["get-product-item", id],
-    getProductItem,
-    {
-      enabled: true,
-      retry: 2,
-      onSuccess: (res) => {
-        console.log(res);
-      },
-      onError: (e) => {
-        console.log(e);
-      },
-    }
-  );
+  const {
+    isLoading: fetchLoading,
+    data,
+    remove,
+  } = useQuery(["get-product-item", id], getProductItem, {
+    enabled: true,
+    retry: 2,
+    onSuccess: (res) => {
+      console.log(res);
+    },
+    onError: (e) => {
+      console.log(e);
+    },
+  });
+
+  useEffect(() => {
+    return () => {
+      remove();
+    };
+  }, [remove]);
 
   const addToCartHandler = async () => {
     setIsLoading(true);

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/table";
 import { useQuery } from "react-query";
 import { getOrders } from "@/components/Cart/Checkout/checkout-api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 type Order = {
@@ -34,6 +34,14 @@ const MyOrders = () => {
       setProcessingOrdersList(data?.data ?? []);
     },
   });
+
+  const removeQuery = ordersData.remove;
+
+  useEffect(() => {
+    return () => {
+      removeQuery();
+    };
+  }, [removeQuery]);
 
   console.log(ordersData);
   if (ordersData.isLoading) return <Skeleton className="h-24 w-full" />;
