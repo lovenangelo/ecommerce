@@ -133,6 +133,7 @@ const Navbar = () => {
         "container flex justify-between h-20 w-full items-center border-b mb-4",
         location == "/auth" && "mb-0",
         location == "/sell" && "mb-0",
+        location.startsWith("/my-products/edit") && "mb-0",
         location.startsWith("/products") && "mb-0"
       )}
     >
