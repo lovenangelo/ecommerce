@@ -33,6 +33,7 @@
     "browser-image-compression": "^2.0.2",
     "class-variance-authority": "^0.6.1",
     "clsx": "^1.2.1",
+    "easyinvoice": "^3.0.23",
     "framer-motion": "^10.15.1",
     "jest-environment-jsdom": "^29.6.2",
     "lodash.debounce": "^4.0.8",

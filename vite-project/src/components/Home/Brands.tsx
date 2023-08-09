@@ -5,7 +5,7 @@ const Brands = () => {
   const logos = images.brands.map((brand, index) => {
     return (
       <Link to="/products/apparels" key={index}>
-        <div className="hover:cursor-pointer flex justify-center items-center rounded-md bg-[#F4F4F4] h-24 w-24 p-5">
+        <div className="transition-colors hover:cursor-pointer flex justify-center items-center rounded-md bg-[#F4F4F4] hover:bg-[#9dc4b8] h-24 w-24 p-5">
           <img src={brand} alt={brand} />
         </div>
       </Link>
@@ -13,7 +13,7 @@ const Brands = () => {
   });
   return (
     <section className="container py-5 space-y-8 md:space-y-12 mt-8">
-      <h1 className="font-bold text-2xl">Shop by Brands</h1>
+      <h1 className="font-bold text-3xl">Shop by Brands</h1>
       <div className="grid grid-cols-3 gap-2 row-auto md:flex md:justify-around">
         {logos}
       </div>

@@ -8,7 +8,7 @@ const HandPickedCollections = () => {
     return (
       <Link key={index} to="/products/watches">
         <Card
-          className="h-70 w-70 overflow-hidden hover:cursor-pointer"
+          className="transition-all hover:-translate-y-1 h-70 w-70 overflow-hidden hover:cursor-pointer"
           key={index}
         >
           <CardContent
@@ -34,9 +34,9 @@ const HandPickedCollections = () => {
       whileInView={{ opacity: 1 }}
       transition={{ delay: 0.5 }}
       viewport={{ once: true }}
-      className="py-5 md:py-12 bg-[#1B4B66] space-y-4 overflow-hidden flex flex-col justify-center container mt-8"
+      className="py-5 md:py-12 bg-[#17494D] space-y-4 overflow-hidden flex flex-col justify-center container mt-8"
     >
-      <h1 className="font-semibold text-2xl text-primary-foreground">
+      <h1 className="font-semibold text-3xl text-primary-foreground">
         Handpicked Collections
       </h1>
       <div className="md:flex justify-between grid grid-cols-2 gap-5">
