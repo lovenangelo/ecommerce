@@ -31,13 +31,15 @@ class OrdersController extends Controller
   {
     $validatedData = $request->validated();
 
-    clock($validatedData);
+    // Generate a unique transaction number
+    $transactionNumber = uniqid('TXN', true);
 
     // Create the OrderAddress
     $orderAddressId = $validatedData['order_address_id'];
 
     // Create the Order
     $order = Order::create([
+      'transaction_number' => $transactionNumber,
       'user_id' => $validatedData['user_id'],
       'payment_method' => $validatedData['payment_method'],
       'total_amount' => $validatedData['total_amount'],
@@ -63,10 +65,12 @@ class OrdersController extends Controller
     $cartItemIds = array_column($orderItemsData, 'cart_item_id');
     CartItem::whereIn('id', $cartItemIds)->delete();
 
+    // Save the order again to ensure the transaction number is stored
     $order->save();
 
     return response()->json(['message' => 'Order created successfully'], 201);
   }
+
 
   /**
    * Display the specified resource.
