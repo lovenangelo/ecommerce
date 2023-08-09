@@ -13,12 +13,14 @@ import { useQuery } from "react-query";
 import { getOrders } from "@/components/Cart/Checkout/checkout-api";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-
+import { Button } from "@/components/ui/button";
+import Invoice from "./Invoice";
 type Order = {
   date: string; // You can use a more specific type for dates if needed (e.g., Date)
   price: number;
   order_id: number;
   status: string;
+  transaction_number: string;
 };
 
 const MyOrders = () => {
@@ -35,7 +37,6 @@ const MyOrders = () => {
     },
   });
 
-  console.log(ordersData);
   if (ordersData.isLoading) return <Skeleton className="h-24 w-full" />;
 
   const processingTableRows = processingOrdersList.map((order, index) => (
@@ -43,6 +44,9 @@ const MyOrders = () => {
       <TableCell className="font-medium">ORD00{order.order_id}</TableCell>
       <TableCell>{order.date}</TableCell>
       <TableCell>{order.price}</TableCell>
+      <TableCell>
+        <Invoice transaction_number={order.transaction_number} />
+      </TableCell>
       <TableCell className="text-right">{order.status}</TableCell>
     </TableRow>
   ));
@@ -55,6 +59,9 @@ const MyOrders = () => {
           <TableHead>Order ID</TableHead>
           <TableHead>Date</TableHead>
           <TableHead>Price</TableHead>
+          <TableHead className="text-left sm:text-right">
+            Transaction No.
+          </TableHead>
           <TableHead className="text-right">Status</TableHead>
         </TableRow>
       </TableHeader>
@@ -63,6 +70,11 @@ const MyOrders = () => {
           <TableCell className="font-medium">INV001</TableCell>
           <TableCell>Paid</TableCell>
           <TableCell>Credit Card</TableCell>
+          <TableCell>
+            <Button variant={"outline"} className="text-xs">
+              TXN64d30d74c23182
+            </Button>
+          </TableCell>
           <TableCell className="text-right">$250.00</TableCell>
         </TableRow>
       </TableBody>
@@ -76,7 +88,7 @@ const MyOrders = () => {
         <TabsTrigger value="completed">Completed</TabsTrigger>
         <TabsTrigger value="cancelled">Cancelled</TabsTrigger>
       </TabsList>
-      <TabsContent value="processing">
+      <TabsContent className="w-full wrap" value="processing">
         <Table>
           <TableCaption>A list of your recent orders.</TableCaption>
           <TableHeader className="text-xs sm:text-sm">
@@ -84,6 +96,7 @@ const MyOrders = () => {
               <TableHead>Order ID</TableHead>
               <TableHead>Date</TableHead>
               <TableHead>Price</TableHead>
+              <TableHead className="sm:text-right">Transaction No.</TableHead>
               <TableHead className="text-right">Status</TableHead>
             </TableRow>
           </TableHeader>

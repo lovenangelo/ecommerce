@@ -18,7 +18,7 @@ class OrdersController extends Controller
     $userId = auth()->user()->id;
 
     $orders = Order::where('user_id', $userId)
-      ->select('created_at as date', 'total_amount as price', 'id as order_id', 'status')
+      ->select('created_at as date', 'total_amount as price', 'id as order_id', 'status', 'transaction_number')
       ->get();
 
     return response()->json($orders);
