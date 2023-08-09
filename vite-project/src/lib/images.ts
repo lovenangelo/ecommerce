@@ -26,18 +26,22 @@ const images = {
     {
       title: "Personal Care",
       image: personalCare,
+      color: "#FCB860",
     },
     {
       title: "Handbags",
       image: handbags,
+      color: "#ECAAAA",
     },
     {
       title: "Wrist Watches",
       image: wristWatches,
+      color: "#B9CBDB",
     },
     {
       title: "Sun Glasses",
       image: sunGlasses,
+      color: "#616063",
     },
   ],
   brands: [biba, zara, hm, dg, prada, chanel],

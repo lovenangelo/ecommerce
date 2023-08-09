@@ -2,7 +2,7 @@ import images from "@/lib/images";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Link } from "wouter";
-
+import { motion } from "framer-motion";
 const HandPickedCollections = () => {
   const collections = images.collections.map((collection, index) => {
     return (
@@ -29,14 +29,20 @@ const HandPickedCollections = () => {
     );
   });
   return (
-    <section className="py-5 md:py-12 bg-[#1B4B66] space-y-4 overflow-hidden flex flex-col justify-center container mt-8">
+    <motion.section
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ delay: 0.5 }}
+      viewport={{ once: true }}
+      className="py-5 md:py-12 bg-[#1B4B66] space-y-4 overflow-hidden flex flex-col justify-center container mt-8"
+    >
       <h1 className="font-semibold text-2xl text-primary-foreground">
         Handpicked Collections
       </h1>
       <div className="md:flex justify-between grid grid-cols-2 gap-5">
         {collections}
       </div>
-    </section>
+    </motion.section>
   );
 };
 

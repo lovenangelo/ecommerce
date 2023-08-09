@@ -5,7 +5,7 @@ const Brands = () => {
   const logos = images.brands.map((brand, index) => {
     return (
       <Link to="/products/apparels" key={index}>
-        <div className="transition ease-in delay-75 duration-200 ring-[#17494D] hover:ring-2  hover:cursor-pointer flex justify-center items-center rounded-md bg-[#F4F4F4] h-24 w-24 p-5">
+        <div className="hover:cursor-pointer flex justify-center items-center rounded-md bg-[#F4F4F4] h-24 w-24 p-5">
           <img src={brand} alt={brand} />
         </div>
       </Link>
@@ -14,17 +14,17 @@ const Brands = () => {
   return (
     <section className="container py-5 space-y-8 md:space-y-12 mt-8">
       <h1 className="font-bold text-2xl">Shop by Brands</h1>
-      <div className="grid grid-cols-3 gap-2 row-auto md:flex md:justify-between">
+      <div className="grid grid-cols-3 gap-2 row-auto md:flex md:justify-around">
         {logos}
       </div>
       <div className="grid grid-cols-2 auto-rows-auto gap-5 relative">
         <Link
           to="/products/skincare"
-          className="flex col-span-2 justify-start items-center"
+          className="flex col-span-2 justify-start items-center rounded-md transition ease-in delay-75 duration-200 ring-[#97451F] hover:ring-2"
         >
           <img
             src={images.makeupBg}
-            className="w-full rounded-md transition ease-in delay-75 duration-200 ring-[#17494D] hover:ring-2"
+            className="w-full rounded-md "
             alt="makeup background"
           />
 
@@ -35,10 +35,13 @@ const Brands = () => {
             </h2>
           </div>
         </Link>
-        <Link to="/products/skincare" className="flex justify-end items-center">
+        <Link
+          to="/products/skincare"
+          className="flex justify-end items-center transition ease-in delay-50 duration-200 ring-[#D692A0] hover:ring-2 rounded-md"
+        >
           <img
             src={images.creamBg}
-            className="transition ease-in delay-75 duration-200 ring-[#17494D] hover:ring-2 rounded-md w-full h-full"
+            className="rounded-md w-full h-full"
             alt="cream background"
           />
           <div className="absolute text-[#A53F64]">
@@ -51,11 +54,11 @@ const Brands = () => {
         </Link>
         <Link
           to="/products/skincare"
-          className="flex items-center justify-end relative hover:cursor-pointer"
+          className="flex justify-end items-center transition ease-in delay-50 duration-200 ring-[#5e7e91] hover:ring-2 rounded-md"
         >
           <img
             src={images.skincareBg}
-            className="rounded-md w-full h-full transition ease-in delay-75 duration-200 ring-[#17494D] hover:ring-2"
+            className="rounded-md w-full h-full"
             alt="skin care background"
           />
           <div className="absolute">

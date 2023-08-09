@@ -34,10 +34,9 @@ const Navbar = () => {
   const links = nav.links.map((link, index) => (
     <li key={index}>
       <Link
-        className="text-sm"
+        className="text-sm hover:text-slate-600"
         onClick={() => {
           console.log("hello nav");
-
           dispatch(resetQuery());
         }}
         href={`/products/${link.name.toLowerCase()}`}

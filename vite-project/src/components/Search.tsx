@@ -128,8 +128,8 @@ export default function Search() {
   };
 
   return (
-    <div className="h-max w-max relative flex flex-col ml-8">
-      <div className="flex items-center border shadow-sm px-2 rounded bg-[#F1F1F1] sm:w-96 w-full">
+    <div className="h-max w-max relative flex flex-col ml-8 ring-[#17494D] ring-0 focus-visible:ring-2">
+      <div className="group flex items-center border shadow-sm px-2 rounded bg-[#F1F1F1] sm:w-96 w-full">
         <Icons.search height={20} width={20} className="h-12" />
         <Input
           onBlur={() => {
