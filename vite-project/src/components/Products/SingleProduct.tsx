@@ -15,6 +15,7 @@ import { toast } from "../ui/use-toast";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { updateItems } from "@/redux/slices/cartSlice";
 import { Product } from "./types/product-item";
+import images from "@/lib/images";
 
 const SingleProduct = ({ id }: { id: string }) => {
   const [quantity, setQuantity] = useState(1);
@@ -74,7 +75,11 @@ const SingleProduct = ({ id }: { id: string }) => {
             height={"100%"}
             width={"100%"}
             effect="opacity"
-            src={`http://localhost:8000/${data?.image.url}`}
+            src={
+              data?.image !== null
+                ? `http://localhost:8000/${data?.image.url}`
+                : images.productItemFallback
+            }
             alt="bag"
             className=" object-cover h-full w-full rounded-md"
           />
