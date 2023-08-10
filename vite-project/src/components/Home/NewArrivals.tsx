@@ -49,7 +49,7 @@ const NewArrivals = () => {
         whileInView={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
         viewport={{ once: true }}
-        className="col-span-4 bg-primary h-2 w-full mt-12 hidden md:block"
+        className="col-span-4 bg-primary h-2 w-full mt-12 hidden sm:block"
       />
       <div className="col-span-6">
         <motion.div
