@@ -7,17 +7,20 @@ const PaginationButton = ({
   className,
   disabled,
   url,
+  setIsLoading,
 }: {
   text: number | string | null;
   className?: string;
   disabled?: boolean;
   url: string | null;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const dispatch = useAppDispatch();
   return (
     <Button
       onClick={() => {
         dispatch(changeQuery(url ?? ""));
+        setIsLoading(true);
       }}
       variant={"outline"}
       disabled={disabled}

@@ -9,16 +9,15 @@ interface PaginationProps {
     active: boolean;
     label: number | string | null;
   }[];
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Pagination: React.FC<PaginationProps> = ({
   nextPageUrl,
   prevPageUrl,
   links,
+  setIsLoading,
 }) => {
-  if (!links) {
-    return <></>;
-  }
   const numberedButtons = links.map((link, index) => {
     if (link.label == "&laquo; Previous") {
       link.url = prevPageUrl;
@@ -34,6 +33,7 @@ const Pagination: React.FC<PaginationProps> = ({
           disabled={link.active}
           url={link.url}
           text={link.label}
+          setIsLoading={setIsLoading}
         />
       </li>
     );
