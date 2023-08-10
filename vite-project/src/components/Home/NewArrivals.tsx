@@ -57,7 +57,7 @@ const NewArrivals = () => {
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
           viewport={{ once: true }}
-          className="grid grid-cols-1 rows-auto md:grid-cols-4 rows-auto gap-4 max-w-full mt-12 lg:mt-4"
+          className="grid grid-cols-1 rows-auto sm:grid-cols-2 lg:grid-cols-4 rows-auto gap-4 max-w-full mt-12 sm:mt-4"
         >
           {newArrivals.isLoading ? <CardSkeleton number={4} /> : products}
         </motion.div>
