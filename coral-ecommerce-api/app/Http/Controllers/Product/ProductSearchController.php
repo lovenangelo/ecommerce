@@ -24,7 +24,7 @@ class ProductSearchController extends Controller
       });
     }
 
-    $products = $query->with('image')->orderByDesc('created_at')
+    $products = $query->with('image')->orderBy('created_at', 'ASC')
       ->orderBy('id')->paginate(5);
 
     return response()->json(['data' => $products]);
