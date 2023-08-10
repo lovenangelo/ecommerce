@@ -14,6 +14,7 @@ import skincareBg from "@/assets/images/bg/skincare-bg.webp";
 import creamBg from "@/assets/images/bg/cream-bg.webp";
 import heroPromo from "@/assets/images/bg/hero-promo.webp";
 import authImage from "@/assets/images/bg/auth-bg.webp";
+import productItemFallback from "@/assets/images/product-item-fallback.jpg";
 
 const images = {
   authImage,
@@ -22,6 +23,7 @@ const images = {
   makeupBg,
   heroBg,
   heroPromo,
+  productItemFallback,
   collections: [
     {
       title: "Personal Care",

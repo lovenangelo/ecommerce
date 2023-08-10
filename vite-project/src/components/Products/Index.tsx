@@ -17,6 +17,7 @@ import { ProductItem } from "./types/product-item";
 import { useAppSelector } from "@/redux/hooks";
 import HeroPromo from "./HeroPromo";
 import { cn } from "@/lib/utils";
+import images from "@/lib/images";
 const Index = ({ category }: { category: string }) => {
   const [currentCategory, setCurrentCategory] = useState(category);
   const [price, setPrice] = useState<number[]>([20]);
@@ -72,7 +73,11 @@ const Index = ({ category }: { category: string }) => {
           ratings={null}
           price={item.price}
           promo={"50% OFF"}
-          img={`http://localhost:8000/${item.image.url}`}
+          img={
+            item.image == null
+              ? images.productItemFallback
+              : `http://localhost:8000/${item.image.url}`
+          }
           editable={false}
         />
       </div>
