@@ -18,11 +18,17 @@ const MyWishlist = () => {
   const user = useAppSelector((state) => state.user.value);
   const getUserProducts = () => getWishlist(user?.id ?? null);
 
+  const [isLoading, setIsLoading] = useState(false);
   const wishlistQuery = useQuery(["user-wishlist"], getUserProducts, {
     enabled: true,
     retry: 2,
     onSuccess(data) {
-      setWishlist(data?.data.wishlist.wishlist_items);
+      console.log(data);
+
+      if (data?.data.wishlist !== null) {
+        setWishlist(data?.data.wishlist.wishlist_items);
+      }
+      setIsLoading(false);
     },
   });
 
@@ -68,7 +74,7 @@ const MyWishlist = () => {
           {wishlistQuery.data?.data.total} items
         </p>
       </div>
-      {wishlistQuery.isLoading ? (
+      {wishlistQuery.isLoading || isLoading ? (
         <CardSkeleton />
       ) : items.length !== 0 ? (
         items
@@ -82,6 +88,7 @@ const MyWishlist = () => {
           nextPageUrl={wishlistQuery.data?.data.next_page_url}
           prevPageUrl={wishlistQuery.data?.data.prev_page_url}
           links={wishlistQuery.data?.data.links}
+          setIsLoading={setIsLoading}
         />
       </div>
     </div>

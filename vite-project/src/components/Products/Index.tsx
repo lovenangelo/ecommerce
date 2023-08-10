@@ -36,9 +36,14 @@ const Index = ({ category }: { category: string }) => {
       sort
     );
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handbags = useQuery(["get-handbags", currentCategory], getHandbags, {
     enabled: true,
     retry: 2,
+    onSuccess: () => {
+      setIsLoading(false);
+    },
   });
 
   const refetch = handbags.refetch;
@@ -123,27 +128,25 @@ const Index = ({ category }: { category: string }) => {
               </Select>
             </div>
           </div>
-          {handbags.isLoading ? (
+          {handbags.isLoading || isLoading ? (
             <CardSkeleton />
           ) : items.length !== 0 ? (
-            items
+            <>
+              {items}{" "}
+              <div className={cn("col-span-3 w-full")}>
+                <Pagination
+                  nextPageUrl={handbags.data?.data.next_page_url}
+                  prevPageUrl={handbags.data?.data.prev_page_url}
+                  links={handbags.data?.data.links}
+                  setIsLoading={setIsLoading}
+                />
+              </div>
+            </>
           ) : (
             <div className="flex w-full col-span-4 h-24 items-center justify-center">
               <h1>No results</h1>
             </div>
           )}
-          <div
-            className={cn(
-              "col-span-3 w-full",
-              handbags.data?.data.data.length <= 8 && "hidden"
-            )}
-          >
-            <Pagination
-              nextPageUrl={handbags.data?.data.next_page_url}
-              prevPageUrl={handbags.data?.data.prev_page_url}
-              links={handbags.data?.data.links}
-            />
-          </div>
         </div>
       </div>
     </Layout>

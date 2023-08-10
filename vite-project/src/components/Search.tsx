@@ -8,6 +8,7 @@ import { Button } from "./ui/button";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link } from "wouter";
 import { cn } from "../lib/utils";
+import images from "@/lib/images";
 
 type SearchResult = {
   image: {
@@ -45,6 +46,8 @@ export default function Search() {
       if (searchResultsData !== null && searchResultsData.length !== 0) {
         const searchOptions: JSX.Element[] = searchResultsData.map(
           (result: SearchResult) => {
+            console.log(result.id);
+
             return (
               <Link
                 key={result.id}
@@ -60,7 +63,11 @@ export default function Search() {
                       height={"100%"}
                       width={"100%"}
                       className="w-full h-full object-cover rounded-md"
-                      src={`http://localhost:8000/${result.image.url}`}
+                      src={
+                        result.image == null
+                          ? images.productItemFallback
+                          : `http://localhost:8000/${result.image.url}`
+                      }
                       alt=""
                     />
                   </div>
@@ -73,6 +80,8 @@ export default function Search() {
             );
           }
         );
+        console.log(data?.data.data.next_page_url);
+
         setNextPageUrl(data?.data.data.next_page_url);
         setSearchResultsList(searchOptions);
       }
@@ -83,20 +92,22 @@ export default function Search() {
     setSeeMoreLoading(true);
     setShowDiv(true);
     const res = await getNextData(nextPageUrl);
-    console.log(res);
     const results: JSX.Element[] = res.data.data.data.map(
       (result: {
-        image: {
-          url: string;
+        image?: {
+          url?: string;
         };
         name: string;
         subtitle: string;
         id: number;
+        category: string;
       }) => {
+        console.log(result.id);
+
         return (
           <Link
-            key={searchResultsList.length + 1}
-            to={`/item/${result.id}`}
+            key={result.id}
+            to={`/products/${result.category}/${result.id}`}
             data-testid={"search-result-item"}
           >
             <Button
@@ -109,7 +120,11 @@ export default function Search() {
                   height={"100%"}
                   width={"100%"}
                   className="w-full h-full object-cover rounded-md"
-                  src={`http://localhost:8000/${result.image.url}`}
+                  src={
+                    result.image == null
+                      ? images.productItemFallback
+                      : `http://localhost:8000/${result.image.url}`
+                  }
                   alt=""
                 />
               </div>
@@ -122,7 +137,7 @@ export default function Search() {
         );
       }
     );
-    setSearchResultsList(searchResultsList.concat(results));
+    setSearchResultsList([...searchResultsList, ...results]);
     setNextPageUrl(res.data.data.data.next_page_url);
     setSeeMoreLoading(false);
   };
@@ -133,9 +148,11 @@ export default function Search() {
         <Icons.search height={20} width={20} className="h-12" />
         <Input
           onBlur={() => {
-            setTimeout(() => {
-              setShowDiv(false);
-            }, 300);
+            if (!showDiv)
+              setTimeout(() => {
+                setShowDiv(false);
+              }, 300);
+            setSearchResultsList([]);
           }}
           value={searchInput}
           onChange={(event) => {
