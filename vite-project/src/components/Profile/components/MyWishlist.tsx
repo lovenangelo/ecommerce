@@ -3,6 +3,7 @@ import CardSkeleton from "@/components/Products/Loaders/CardSkeleton";
 import Pagination from "@/components/Products/Pagination";
 import { ProductItem } from "@/components/Products/types/product-item";
 import { deleteWishlistItem, getWishlist } from "@/lib/api/wishlist";
+import images from "@/lib/images";
 import { useAppSelector } from "@/redux/hooks";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
@@ -51,7 +52,11 @@ const MyWishlist = () => {
         ratings={null}
         price={item.product.price}
         promo={"50% OFF"}
-        img={`http://localhost:8000/${item.product.image.url}`}
+        img={
+          item.product.image == null
+            ? images.productItemFallback
+            : `http://localhost:8000/${item.product.image.url}`
+        }
         deletable={true}
         editable={false}
         onDelete={async () => {
