@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import userReducer from "./slices/userSlice";
 import productQueryReducer from "./slices/productQuerySlice";
 import myProductQueryReducer from "./slices/myProductsQuerySlice";
+import searchQueryReducer from "./slices/searchQuerySlice";
 import orderDetailsReducer from "./slices/orderDetailsSlice";
 import orderAddressReducer from "./slices/orderAddressSlice";
 import orderPaymentMethodReducer from "./slices/orderPaymentMethodSlice";
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   personalInfoTab: personalInformationTabReducer,
   userlessCartItems: cartItemsReducer,
   myProductQuery: myProductQueryReducer,
+  searchQuery: searchQueryReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
