@@ -1,13 +1,10 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import Search from "../src/components/Search";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import "@testing-library/jest-dom";
-
-import { QueryClient, QueryClientProvider } from "react-query";
+import { render } from "../utils/test-utils";
 import userEvent from "@testing-library/user-event";
-
-const queryClient = new QueryClient();
 const server = setupServer();
 
 beforeAll(() => server.listen());
@@ -28,11 +25,7 @@ test("renders no data results", async () => {
     })
   );
 
-  render(
-    <QueryClientProvider client={queryClient}>
-      <Search />
-    </QueryClientProvider>
-  );
+  render(<Search />);
 
   const searchInputElement = screen.getByRole("textbox");
 
@@ -40,7 +33,7 @@ test("renders no data results", async () => {
 
   await screen.findByRole("heading");
 
-  expect(screen.getByRole("heading")).toHaveTextContent(/no results/i);
+  expect(screen.getByRole("heading")).toHaveText(/no results/i);
 });
 
 /* The code is testing the behavior of the `Search` component when there are 5 search results and a
@@ -109,11 +102,7 @@ test("renders 5 search results and shows 'see more' button", async () => {
     })
   );
 
-  render(
-    <QueryClientProvider client={queryClient}>
-      <Search />
-    </QueryClientProvider>
-  );
+  render(<Search />);
 
   const searchInputElement = screen.getByRole("textbox");
 

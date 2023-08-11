@@ -3,8 +3,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@dummy-module": ["src/modules/dummy-module"],
-      "@dummy-module/*": ["src/modules/dummy-module/*"]
+      "test-utils": ["./utils/test-utils"],
+      "^.+\\.webp$": ["jest-transform-stub"]
     }
   }
 }
