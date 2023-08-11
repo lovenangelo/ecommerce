@@ -1,3 +1,4 @@
+import images from "@/lib/images";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/opacity.css";
 
@@ -7,7 +8,7 @@ const CartItem = ({
   subtitle,
   quantity,
 }: {
-  src: string;
+  src: string | null;
   title: string;
   subtitle: string;
   quantity: number;
@@ -17,7 +18,11 @@ const CartItem = ({
       <div className="row-span-3">
         <LazyLoadImage
           effect="opacity"
-          src={`http://localhost:8000/${src}`}
+          src={
+            src == null
+              ? images.productItemFallback
+              : `http://localhost:8000/${src}`
+          }
           alt="product image"
         />
       </div>

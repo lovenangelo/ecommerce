@@ -4,7 +4,7 @@ export type OrderItems =
       price: number;
       product_id: number;
       quantity: number;
-      src: string;
+      src: string | null;
       subtitle: string;
       title: string;
     }[]

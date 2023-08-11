@@ -30,6 +30,7 @@ import debounce from "lodash.debounce";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { updateOrder } from "@/redux/slices/orderDetailsSlice";
 import { removeItem } from "@/redux/slices/cartSlice";
+import images from "@/lib/images";
 const Index = () => {
   const dispatch = useAppDispatch();
   const [subTotal, setSubTotal] = useState(0);
@@ -132,7 +133,7 @@ const Index = () => {
       price: number;
       product_id: number;
       quantity: number;
-      src: string;
+      src: string | null;
       subtitle: string;
       title: string;
     }[]
@@ -173,7 +174,7 @@ const Index = () => {
                       price: item.product.price,
                       quantity: item.quantity,
                       product_id: item.product.id,
-                      src: item.product.image.url,
+                      src: item.product.image?.url,
                       subtitle: item.product.subtitle,
                       title: item.product.name,
                       cart_item_id: item.id,
@@ -212,7 +213,11 @@ const Index = () => {
                   <LazyLoadImage
                     width={"100%"}
                     height={"100%"}
-                    src={`http://localhost:8000/${item.product.image.url}`}
+                    src={
+                      item.product.image == null
+                        ? images.productItemFallback
+                        : `http://localhost:8000/${item.product.image.url}`
+                    }
                     effect="opacity"
                     alt="product image"
                   />
