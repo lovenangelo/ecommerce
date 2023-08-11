@@ -25,6 +25,7 @@ function App() {
   const dispatch = useAppDispatch();
 
   const handleAuthState = async () => {
+    console.log("running beforeunload");
     await axiosClient
       .get("/sanctum/csrf-cookie")
       .then(async () => {

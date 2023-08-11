@@ -5,6 +5,7 @@ import { ProductItem } from "../Products/types/product-item";
 import ItemCard from "../Products/ItemCard";
 import CardSkeleton from "../Products/Loaders/CardSkeleton";
 import { motion } from "framer-motion";
+import images from "@/lib/images";
 const NewArrivals = () => {
   const axiosGetNewArrivals = async () => await productsApi.getNewArrivals();
   const newArrivals = useQuery("fetch-new-arrivals", axiosGetNewArrivals);
@@ -21,7 +22,11 @@ const NewArrivals = () => {
           ratings={null}
           price={item.price}
           promo={"20% OFF"}
-          img={`http://localhost:8000/${item.image.url}`}
+          img={
+            item.image == null
+              ? images.productItemFallback
+              : `http://localhost:8000/${item.image.url}`
+          }
           editable={false}
         />
       );

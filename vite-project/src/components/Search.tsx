@@ -43,7 +43,7 @@ export default function Search() {
   const handleSearch = async () => await getSearchResults(searchQuery, search);
 
   const searchResults = useQuery(["get-search-results", search], handleSearch, {
-    enabled: true,
+    enabled: search.length !== 0,
     retry: 2,
     onSuccess(data) {
       const searchResultsData: SearchResult[] | null = data?.data.data.data;
