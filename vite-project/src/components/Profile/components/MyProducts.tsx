@@ -4,23 +4,29 @@ import Pagination from "@/components/Products/Pagination";
 import { ProductItem } from "@/components/Products/types/product-item";
 import productsApi from "@/lib/api/products";
 import images from "@/lib/images";
+import { cn } from "@/lib/utils";
 import { useAppSelector } from "@/redux/hooks";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
 const MyProducts = () => {
   const [deletedAProduct, setDeletedAProduct] = useState(false);
-  const getUserProducts = () => productsApi.getUserProducts("/api/my-products");
+  const myProductQuery = useAppSelector((state) => state.myProductQuery.value);
+  const getUserProducts = () => productsApi.getUserProducts(myProductQuery);
   const user = useAppSelector((state) => state.user.value);
 
   const [isLoading, setIsLoading] = useState(false);
-  const products = useQuery(["user-products"], getUserProducts, {
-    enabled: true,
-    retry: 2,
-    onSuccess: () => {
-      setIsLoading(false);
-    },
-  });
+  const products = useQuery(
+    ["user-products", myProductQuery],
+    getUserProducts,
+    {
+      enabled: true,
+      retry: 2,
+      onSuccess: () => {
+        setIsLoading(false);
+      },
+    }
+  );
 
   const refetch = products.refetch;
 
@@ -32,7 +38,7 @@ const MyProducts = () => {
     setDeletedAProduct(false);
   }, [deletedAProduct, refetch]);
 
-  console.log(products.data);
+  console.log(products.data?.data);
 
   const items = products.data?.data.data.map(
     (item: ProductItem, index: number) => (
@@ -72,21 +78,21 @@ const MyProducts = () => {
       </div>
       {products.isLoading || isLoading ? (
         <CardSkeleton />
-      ) : items !== null ? (
-        items
+      ) : items.length !== 0 ? (
+        <>
+          {items}{" "}
+          <div className={cn("col-span-3 w-full")}>
+            <Pagination
+              nextPageUrl={products.data?.data.next_page_url}
+              prevPageUrl={products.data?.data.prev_page_url}
+              links={products.data?.data.links}
+              setIsLoading={setIsLoading}
+            />
+          </div>
+        </>
       ) : (
-        <div className="flex w-full justify-center col-span-4">
+        <div className="flex w-full col-span-4 h-24 items-center justify-center">
           <h1>No results</h1>
-        </div>
-      )}
-      {items != null && (
-        <div className="col-span-3 w-full">
-          <Pagination
-            nextPageUrl={products.data?.data.next_page_url}
-            prevPageUrl={products.data?.data.prev_page_url}
-            links={products.data?.data.links}
-            setIsLoading={setIsLoading}
-          />
         </div>
       )}
     </div>

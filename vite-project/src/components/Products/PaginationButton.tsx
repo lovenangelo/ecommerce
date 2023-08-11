@@ -2,6 +2,8 @@ import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { useAppDispatch } from "@/redux/hooks";
 import { changeQuery } from "@/redux/slices/productQuerySlice";
+import { useLocation } from "wouter";
+import { changeMyProductsQuery } from "@/redux/slices/myProductsQuerySlice";
 const PaginationButton = ({
   text,
   className,
@@ -16,10 +18,16 @@ const PaginationButton = ({
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const dispatch = useAppDispatch();
+  const [location] = useLocation();
   return (
     <Button
       onClick={() => {
-        dispatch(changeQuery(url ?? ""));
+        if (location == "/profile") {
+          dispatch(changeMyProductsQuery(url ?? ""));
+        }
+        if (location.startsWith("/products")) {
+          dispatch(changeQuery(url ?? ""));
+        }
         setIsLoading(true);
       }}
       variant={"outline"}
