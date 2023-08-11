@@ -15,17 +15,15 @@ class ProductSearchController extends Controller
 
     // Search
     if ($searchTerm) {
-      $query->where(function ($query) use ($searchTerm) {
+      (function ($query) use ($searchTerm) {
         $query->where('name', 'like', '%' . $searchTerm . '%')
-          ->orWhere('color', 'like', '%' . $searchTerm . '%')
           ->orWhere('category', 'like', '%' . $searchTerm . '%')
-          ->orWhere('brand', 'like', '%' . $searchTerm . '%')
-          ->orWhere('sizes', 'like', '%' . $searchTerm . '%');
+          ->orWhere('color', 'like', '%' . $searchTerm . '%')
+          ->orWhere('brand', 'like', '%' . $searchTerm . '%');
       });
     }
 
-    $products = $query->with('image')->orderBy('created_at', 'ASC')
-      ->orderBy('id')->paginate(5);
+    $products = $query->with('image')->paginate(5);
 
     return response()->json(['data' => $products]);
   }

@@ -24,16 +24,21 @@ export default function Search() {
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
   const [searchResultsList, setSearchResultsList] = useState<JSX.Element[]>([]);
-  const [nextPageUrl, setNextPageUrl] = useState("");
+  const [nextPageUrl, setNextPageUrl] = useState<string>("");
   const [searchDebounce] = useState(() => {
     return debounce((value: string) => {
       setSearch(value);
     }, 300);
   });
-  const [seeMoreLoading, setSeeMoreLoading] = useState(false);
+
   const [showDiv, setShowDiv] = useState(false);
 
-  const handleSearch = async () => await getSearchResults(search);
+  const handleSearch = async () =>
+    await getSearchResults(
+      searchResultsList == null || searchResultsList.length == 0
+        ? search
+        : nextPageUrl
+    );
 
   const searchResults = useQuery(["get-search-results", search], handleSearch, {
     enabled: search.length !== 0,
@@ -83,13 +88,12 @@ export default function Search() {
         console.log(data?.data.data.next_page_url);
 
         setNextPageUrl(data?.data.data.next_page_url);
-        setSearchResultsList(searchOptions);
+        setSearchResultsList([...searchOptions]);
       }
     },
   });
 
   const handleSeeMore = async () => {
-    setSeeMoreLoading(true);
     setShowDiv(true);
     const res = await getNextData(nextPageUrl);
     const results: JSX.Element[] = res.data.data.data.map(
@@ -137,9 +141,31 @@ export default function Search() {
         );
       }
     );
+
     setSearchResultsList([...searchResultsList, ...results]);
-    setNextPageUrl(res.data.data.data.next_page_url);
-    setSeeMoreLoading(false);
+    const next = res.data.data.next_page_url;
+    if (next) {
+      setNextPageUrl(next);
+    } else {
+      setNextPageUrl("");
+    }
+  };
+
+  const handleOnBlur = () => {
+    setTimeout(() => {
+      setShowDiv(false);
+    }, 300);
+
+    setSearchResultsList([]);
+  };
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
+    const bottom =
+      e.currentTarget.scrollHeight - e.currentTarget.scrollTop ===
+      e.currentTarget.clientHeight;
+    if (bottom) {
+      handleSeeMore();
+    }
   };
 
   return (
@@ -147,13 +173,7 @@ export default function Search() {
       <div className="group flex items-center border shadow-sm px-2 rounded bg-[#F1F1F1] sm:w-96 w-full">
         <Icons.search height={20} width={20} className="h-12" />
         <Input
-          onBlur={() => {
-            if (!showDiv)
-              setTimeout(() => {
-                setShowDiv(false);
-              }, 300);
-            setSearchResultsList([]);
-          }}
+          onBlur={handleOnBlur}
           value={searchInput}
           onChange={(event) => {
             setSearchInput(event.target.value);
@@ -172,27 +192,12 @@ export default function Search() {
         <datalist id="search-results">{searchResultsList}</datalist>
       </div>
       {showDiv && (
-        <div className="translate-y-14 max-h-60 absolute w-full bg-primary-foreground z-50 overflow-auto rounded-b-lg">
-          {searchResults.data && (
-            <>
-              {searchResultsList}
-              {nextPageUrl && (
-                <Button
-                  onClick={handleSeeMore}
-                  variant={"ghost"}
-                  className="w-full"
-                >
-                  See more{" "}
-                  {seeMoreLoading && (
-                    <span className="ml-2">
-                      <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                    </span>
-                  )}
-                </Button>
-              )}
-            </>
-          )}
-          {searchResults.data?.data.data.data.length == 0 && (
+        <div
+          onScroll={handleScroll}
+          className="translate-y-14 max-h-60 absolute w-full bg-primary-foreground z-50 overflow-auto rounded-b-lg"
+        >
+          {searchResults.data && <>{searchResultsList}</>}
+          {searchResultsList.length == 0 && (
             <div className="border-b-2 h-12 flex items-center w-full justify-center">
               <h1>No results</h1>
             </div>
