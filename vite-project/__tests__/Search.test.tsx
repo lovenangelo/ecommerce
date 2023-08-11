@@ -14,7 +14,8 @@ afterAll(() => server.close());
 /* The code is testing the behavior of the `Search` component when there are no search results. */
 test("renders no data results", async () => {
   server.use(
-    rest.get("http://localhost:8000/api/search", (_, res, ctx) => {
+    rest.get("http://localhost:8000/api/search", (req, res, ctx) => {
+      req.url.searchParams.get("asdfasdf");
       return res(
         ctx.json({
           data: {
@@ -33,12 +34,11 @@ test("renders no data results", async () => {
 
   await screen.findByRole("heading");
 
-  expect(screen.getByRole("heading")).toHaveText(/no results/i);
+  expect(screen.getByRole("heading")).toHaveTextContent(/no results/i);
 });
 
-/* The code is testing the behavior of the `Search` component when there are 5 search results and a
-"see more" button is displayed. */
-test("renders 5 search results and shows 'see more' button", async () => {
+/* The code is testing the behavior of the `Search` component when there are search results. */
+test("renders 5 items max if there are results", async () => {
   server.use(
     rest.get("http://localhost:8000/api/search", (req, res, ctx) => {
       req.url.searchParams.get("handbags");
@@ -110,8 +110,5 @@ test("renders 5 search results and shows 'see more' button", async () => {
 
   await screen.findAllByRole("button");
 
-  const buttonSeeMoreElement = screen.getByText(/see more/i);
-
-  expect(screen.getAllByRole("button")).toHaveLength(6);
-  expect(buttonSeeMoreElement).toBeInTheDocument();
+  expect(screen.getAllByRole("button")).toHaveLength(5);
 });
