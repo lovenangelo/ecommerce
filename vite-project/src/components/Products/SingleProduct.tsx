@@ -16,6 +16,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { updateItems } from "@/redux/slices/cartSlice";
 import { Product } from "./types/product-item";
 import images from "@/lib/images";
+import { addWishListItem } from "@/lib/api/wishlist";
 
 const SingleProduct = ({ id }: { id: string }) => {
   const [quantity, setQuantity] = useState(1);
@@ -64,6 +65,18 @@ const SingleProduct = ({ id }: { id: string }) => {
       toast({ title: "Added new item to your cart" });
     }
     setIsLoading(false);
+  };
+
+  const handleAddToWishlist = async (id: number) => {
+    console.log("adding to wishlist");
+    try {
+      await addWishListItem(user?.id ?? null, id);
+      toast({
+        title: "Added item to your wishlist",
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   if (fetchLoading) return <SingleProductSkeleton />;
@@ -151,6 +164,7 @@ const SingleProduct = ({ id }: { id: string }) => {
             </Button>{" "}
             {user && (
               <Button
+                onClick={() => handleAddToWishlist(parseInt(id))}
                 className="text-xs whitespace-nowrap"
                 disabled={isLoading}
                 variant={"outline"}
