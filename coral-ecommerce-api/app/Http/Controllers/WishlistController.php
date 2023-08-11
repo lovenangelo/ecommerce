@@ -11,12 +11,24 @@ class WishlistController extends Controller
 {
   public function store(Request $request, $id)
   {
-    $wishlist = Wishlist::create(['user_id' => $id]);
-    $wishlistItem = WishlistItem::create(['wishlist_id' => $wishlist->id, 'product_id' => $request->input('product_id')]);
-    if ($wishlistItem) {
+    $user_id = $id;
+    $product_id = $request->input('product_id');
+
+    $wishlist = Wishlist::where('user_id', $user_id)->first();
+
+    if (!$wishlist) {
+      $wishlist = Wishlist::create(['user_id' => $user_id]);
+    }
+
+    $wishlistItem = WishlistItem::where('wishlist_id', $wishlist->id)
+      ->where('product_id', $product_id)
+      ->first();
+
+    if (!$wishlistItem) {
+      WishlistItem::create(['wishlist_id' => $wishlist->id, 'product_id' => $product_id]);
       return response()->noContent();
     } else {
-      return response()->json(['message' => 'Cannot save the item to your wishlist', 500]);
+      return response()->noContent(); // Item already exists in the wishlist
     }
   }
 
