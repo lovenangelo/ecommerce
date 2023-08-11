@@ -11,36 +11,35 @@ import SingleProduct from "./components/Products/SingleProduct";
 import Cart from "@/components/Cart/Index";
 import Checkout from "@/components/Cart/Checkout/Index";
 import Sell from "@/components/Sell/Index";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import NotFoundPage from "@/components/404/Index";
-import { useBeforeunload } from "react-beforeunload";
-import { useAppDispatch, useAppSelector } from "./redux/hooks";
+import { useAppDispatch } from "./redux/hooks";
 import { removeUser } from "./redux/slices/userSlice";
-import { persistor } from "./redux/store";
 import axiosClient from "./lib/axios";
 const LazyFooter = lazy(() => import("@/components/Home/Footer"));
 
 function App() {
-  const user = useAppSelector((state) => state.user.value);
+  // const user = useAppSelector((state) => state.user.value);
   const dispatch = useAppDispatch();
 
-  const handleAuthState = async () => {
-    console.log("running beforeunload");
-    await axiosClient
-      .get("/sanctum/csrf-cookie")
-      .then(async () => {
-        if (user && !user.remember_me) {
-          dispatch(removeUser());
-          await persistor.purge();
-          await axiosClient.post("/logout");
-        }
-      })
-      .catch(async () => {
-        await axiosClient.post("/logout");
-      });
-  };
+  // const handleAuthState = async () => {
+  //   if (!user?.remember_me) {
+  //     dispatch(removeUser());
+  //   }
+  // };
 
-  useBeforeunload(handleAuthState);
+  useEffect(() => {
+    const checkRememberUser = async () => {
+      try {
+        await axiosClient.get("/sanctum/csrf-cookie");
+      } catch (error) {
+        dispatch(removeUser());
+      }
+    };
+    checkRememberUser();
+  }, [dispatch]);
+
+  // useBeforeunload(handleAuthState);
 
   return (
     <div className="h-full w-full">
