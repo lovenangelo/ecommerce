@@ -86,6 +86,7 @@ export default function Search() {
           }
         );
         setSearchResultsList([...searchResultsList, ...searchOptions]);
+
         dispatch(changeSearchQuery(data?.data.data.next_page_url ?? null));
       }
     },
@@ -141,6 +142,7 @@ export default function Search() {
       {showDiv && (
         <div
           onScroll={handleScroll}
+          data-testId="search-scroll-container"
           className="translate-y-14 max-h-60 absolute w-full bg-primary-foreground z-50 overflow-auto rounded-b-lg"
         >
           {searchResults.data && <>{searchResultsList}</>}
