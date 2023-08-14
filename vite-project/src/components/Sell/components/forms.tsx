@@ -440,97 +440,117 @@ const SellForm = ({ id }: { id?: string }) => {
                   Select the sizes available in your product.
                 </FormDescription>
               </div>
-              <div className="grid grid-cols-2 row-auto">
-                {sellUtils.sizes.map((item, index) => (
-                  <FormField
-                    key={item.id}
-                    control={form.control}
-                    name="sizes"
-                    render={({ field }) => {
-                      return (
-                        <FormItem key={item.id}>
-                          <div className="flex flex-row items-start space-x-3 space-y-0">
-                            <FormControl>
-                              <Checkbox
-                                disabled={isLoading}
-                                checked={field.value?.includes(item.id)}
-                                onCheckedChange={(checked) => {
-                                  return checked
-                                    ? field.onChange([...field.value, item.id])
-                                    : field.onChange(
-                                        field.value?.filter(
-                                          (value) => value !== item.id
-                                        )
-                                      );
-                                }}
-                              />
-                            </FormControl>
-                            <FormLabel className="text-sm font-normal">
-                              {item.label}
-                            </FormLabel>
-                          </div>
 
-                          {index == sellUtils.sizes.length - 1 && (
-                            <FormMessage />
-                          )}
-                        </FormItem>
-                      );
-                    }}
-                  />
-                ))}
-              </div>
+              <FormField
+                control={form.control}
+                name="sizes"
+                render={() => (
+                  <FormItem>
+                    {sellUtils.sizes.map((item, index) => (
+                      <FormField
+                        key={item.id}
+                        control={form.control}
+                        name="sizes"
+                        render={({ field }) => {
+                          return (
+                            <FormItem key={item.id}>
+                              <div className="flex flex-row items-start space-x-3 space-y-0">
+                                <FormControl>
+                                  <Checkbox
+                                    disabled={isLoading}
+                                    checked={field.value?.includes(item.id)}
+                                    onCheckedChange={(checked) => {
+                                      return checked
+                                        ? field.onChange([
+                                            ...field.value,
+                                            item.id,
+                                          ])
+                                        : field.onChange(
+                                            field.value?.filter(
+                                              (value) => value !== item.id
+                                            )
+                                          );
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal ">
+                                  {item.label}
+                                </FormLabel>
+                              </div>
+
+                              {index == sellUtils.sizes.length - 1 && (
+                                <FormMessage className="col-span-2" />
+                              )}
+                            </FormItem>
+                          );
+                        }}
+                      />
+                    ))}
+                  </FormItem>
+                )}
+              />
             </div>
           </div>
           <div className="mt-4">
             <div className="mb-4">
               <FormLabel className="text-base">Payment Options</FormLabel>
             </div>
-            <div className="grid grid-cols-2 row-auto">
-              {sellUtils.deliveryOptions.map((item, index) => (
-                <FormField
-                  key={item.id}
-                  control={form.control}
-                  name="payment_options"
-                  render={({ field }) => {
-                    return (
-                      <>
-                        <FormItem key={item.id}>
-                          <div className="flex flex-row items-start space-x-3 space-y-0">
-                            <FormControl>
-                              <Checkbox
-                                disabled={isLoading}
-                                checked={field.value?.includes(item.id)}
-                                onCheckedChange={(checked) => {
-                                  return checked
-                                    ? field.onChange([...field.value, item.id])
-                                    : field.onChange(
-                                        field.value?.filter(
-                                          (value) => value !== item.id
-                                        )
-                                      );
-                                }}
-                              />
-                            </FormControl>
-                            <FormLabel className="text-sm font-normal">
-                              {item.label}
-                            </FormLabel>
-                          </div>
-                          {index == sellUtils.deliveryOptions.length - 1 && (
-                            <FormMessage />
-                          )}
-                        </FormItem>
-                      </>
-                    );
-                  }}
-                />
-              ))}
-            </div>
+            <FormField
+              control={form.control}
+              name="payment_options"
+              render={() => (
+                <FormItem>
+                  {sellUtils.deliveryOptions.map((item, index) => (
+                    <FormField
+                      key={item.id}
+                      control={form.control}
+                      name="payment_options"
+                      render={({ field }) => {
+                        return (
+                          <>
+                            <FormItem key={item.id}>
+                              <div className="flex flex-row items-start space-x-3 space-y-0">
+                                <FormControl>
+                                  <Checkbox
+                                    disabled={isLoading}
+                                    checked={field.value?.includes(item.id)}
+                                    onCheckedChange={(checked) => {
+                                      return checked
+                                        ? field.onChange([
+                                            ...field.value,
+                                            item.id,
+                                          ])
+                                        : field.onChange(
+                                            field.value?.filter(
+                                              (value) => value !== item.id
+                                            )
+                                          );
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal">
+                                  {item.label}
+                                </FormLabel>
+                              </div>
+                              {index ==
+                                sellUtils.deliveryOptions.length - 1 && (
+                                <FormMessage />
+                              )}
+                            </FormItem>
+                          </>
+                        );
+                      }}
+                    />
+                  ))}
+                </FormItem>
+              )}
+            />
           </div>
         </div>
         <hr className="md:col-span-2 lg:col-span-3" />
         <div className="md:col-span-2 lg:col-span-3 flex w-full justify-center">
           <Button
-            className=" w-48 lg:mt-8 align-middle flex"
+            className="w-48 lg:mt-8 align-middle flex"
             onClick={() => {
               setSubmitted(true);
             }}

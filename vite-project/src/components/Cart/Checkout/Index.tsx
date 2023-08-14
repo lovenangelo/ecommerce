@@ -225,7 +225,7 @@ const Index = () => {
           <h1 className="font-bold">Order Summary</h1>
           <hr className="mt-4" />
           <div className="w-full h-full space-y-4 mt-4 overflow-auto grid-cols-1 grid-rows-2">
-            <div className="overflow-auto flex flex-col flex-wrap row-auto w-full gap-4 p-4">
+            <div className=" overflow-y-auto h-96 flex flex-col row-auto w-full gap-4 p-4">
               {items}
             </div>
             <div className="col-span-1 h-max bg-gray-100 p-5">
